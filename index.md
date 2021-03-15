@@ -64,7 +64,8 @@ val-kb:Farmer rdf:type sio:Role ;
 #### Property Inclusion
 **Axiom**
 
-![formula](https://render.githubusercontent.com/render/math?math=P_1 \sqsubseteq P_2)
+![formula](https://render.githubusercontent.com/render/math?math=P_1%20\sqsubseteq%20P_2)
+
 **Query**
 ```
 CONSTRUCT {
@@ -78,7 +79,7 @@ WHERE {
 ```
 **Explanation**
 
-Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+Any subject and object related by the property _p_ is also related by _superProperty_. Therefore, since _resource_ _p_ _o_, it is implied that _resource_ _superProperty_ _o_.
 
 **Example**
 
@@ -100,7 +101,7 @@ WHERE {
 ```
 **Explanation**
 
-Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+Any subject and object related by the property _p_ is also related by _superProperty_. Therefore, since _resource_ _p_ _o_, it is implied that _resource_ _superProperty_ _o_.
 
 **Example**
 
@@ -159,7 +160,7 @@ WHERE {
 ```
 **Explanation**
 
-Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+Any subject and object related by the property _p_ is also related by _superProperty_. Therefore, since _resource_ _p_ _o_, it is implied that _resource_ _superProperty_ _o_.
 
 **Example**
 
@@ -189,7 +190,6 @@ WHERE {
 
 ```
 ```
-
 ### Code
 
 

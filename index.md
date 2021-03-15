@@ -8,7 +8,21 @@ We describe an approach for building a deductive inference engine by encoding ea
 
 ### Ontology
 
-### SPARQL CONSTRUCT Axions
+### SPARQL CONSTRUCT Axioms
+**Class Equivalence**
+![equation](<img src="http://www.sciweavers.org/tex2img.php?eq=C_1%5Cequiv%20C_2&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="C_1\equiv C_2" width="65" height="18" />)
+```
+CONSTRUCT {
+  ?resource rdf:type ?equivClass .
+}
+WHERE {
+  ?resource rdf:type ?superClass.
+  {?superClass owl:equivalentClass ?equivClass .}
+    UNION
+  {?equivClass owl:equivalentClass ?superClass .}
+}
+```
+_superClass_ is equivalent to _equivClass_, so since _resource_ is a _superClass_, it is also a _equivClass_
 
 ### Code
 

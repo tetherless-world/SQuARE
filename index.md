@@ -1,3 +1,18 @@
+# A Validation Ontology for Evaluating Semantic Reasoning Engines*
+*This work is partially supported by IBM Research through the AI Horizons Network.
+
+### Abstract
+We describe an approach for building a deductive inference engine by encoding each OWL Description Logic (DL) axiom as a SPARQL CONSTRUCT query. While earlier work has proposed SPARQL extensions for various purposes, we find that the complete queries used in SPARQL-based reasoning methods are not publicly available. We were also unable to find a similar approach in the literature in which the OWL DL axioms are represented as SPARQL CONSTRUCT queries. We make openly available the queries, software, and the validation ontology that we use for our methodology. Encoded in this validation ontology are RDF examples for each OWL-DL axiom, allowing for the testing of our reasoning engine at a per axiom basis. We describe our approach in terms of implementation, query formulation, and validation. We evaluate the extent to which we are able to encode DL axioms and discuss the implications of the results. We further discuss future research directions that we are pursuing. The approach described in this paper has benefits related to inference engine customization capabilities and of being able to reason over inconsistent knowledge. This work is motivated by potential applications involving hybrid reasoning, distributed reasoning, and explainability in reasoning by embedding provenance in the form of nanopublications.
+
+## Resources
+
+### Ontology
+
+### SPARQL CONSTRUCT Axions
+
+### Code
+
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/tetherless-world/validation/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.

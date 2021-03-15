@@ -28,8 +28,11 @@ WHERE {
 ```
 
 **Explanation**
+
 Since _class_ is a subclass of _superClass_, any class that is a subclass of _class_ is also a subclass of _superClass_. Therefore, _resource_ is a subclass of _superClass_.
+
 **Example**
+
 ```
 ```
 #### Individual Inclusion
@@ -49,22 +52,21 @@ WHERE {
 }
 ```
 **Explanation**
+
 Any instance of _class_ is also an instance of _superClass_. Therefore, since _resource_ is a _class_, it also is a _superClass_.
+
 **Example**
+
 ```
 val-kb:Farmer rdf:type sio:Role ;
     rdfs:label "farmer" .
-
-\# Confirmed that "val-kb:Farmer rdf:type sio:RealizableEntity ." is returned
-\# Confirmed that "val-kb:Farmer http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/RealizableEntity" is returned by whyis
 ```
 #### Property Inclusion
 **Axiom**
 
 ![formula](https://render.githubusercontent.com/render/math?math=P_1 \sqsubseteq P_2)
-**Query} 
-\begin{tcolorbox}
-\begin{minted}{sparql}
+**Query**
+```
 CONSTRUCT {
   ?resource ?superProperty ?o .
 }
@@ -75,8 +77,11 @@ WHERE {
 }
 ```
 **Explanation**
+
 Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+
 **Example**
+
 ```
 ```
 ##### Object Property Inclusion
@@ -94,8 +99,11 @@ WHERE {
 }
 ```
 **Explanation**
+
 Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+
 **Example**
+
 ```
 sio:Age rdf:type owl:Class ;
     rdfs:label "age" ;
@@ -134,9 +142,6 @@ val-kb:Samantha sio:hasProperty val-kb:AgeOfSamantha .
 
 val-kb:AgeOfSamantha rdf:type sio:Age ;
     rdfs:label "Samantha's age" .
-
-\# Confirmed that "val-kb:Samantha sio:hasAttribute val-kb:AgeOfSamantha ." is returned
-\# Confirmed whyis adds "val-kb:Samantha http://semanticscience.org/resource/hasAttribute val-kb:AgeOfSamantha"
 ```
 ##### Data Property Inclusion
 
@@ -153,17 +158,17 @@ WHERE {
 }
 ```
 **Explanation**
+
 Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+
 **Example**
+
 ```
 valo:hasExactValue rdf:type owl:DatatypeProperty ;
     rdfs:label "has exact value" ;
     rdfs:subPropertyOf sio:hasValue .
 
 val-kb:AgeOfSamantha valo:hasExactValue "25.82"^^xsd:decimal .
-
-\# Confirmed that "val-kb:AgeOfSamantha sio:hasValue 25.82 ." is returned
-\# Confirmed whyis adds "val-kb:AgeOfSamantha http://semanticscience.org/resource/hasValue 25.82"
 ```
 
 #### Object Property Chain Inclusion
@@ -178,10 +183,12 @@ WHERE {
 ```
 **Explanation**
 
-**Example**
-```
-```
 
+
+**Example**
+
+```
+```
 
 ### Code
 

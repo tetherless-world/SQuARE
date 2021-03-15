@@ -9,27 +9,178 @@ We describe an approach for building a deductive inference engine by encoding ea
 ### Ontology
 
 ### SPARQL CONSTRUCT Axioms
-#### Class Equivalence
+### Inclusion 
+#### Class Inclusion
 **Axiom**
-![formula](https://render.githubusercontent.com/render/math?math=C_1\equiv%20C_2)
+
+![formula](https://render.githubusercontent.com/render/math?math=C_1%20\sqsubseteq%20C_2)
 
 **Query**
 
 ```
 CONSTRUCT {
-  ?resource rdf:type ?equivClass .
+  ?resource rdfs:subClassOf ?superClass .
 }
 WHERE {
-  ?resource rdf:type ?superClass.
-  {?superClass owl:equivalentClass ?equivClass .}
-    UNION
-  {?equivClass owl:equivalentClass ?superClass .}
+  ?resource rdfs:subClassOf ?class .
+  ?class rdfs:subClassOf+ ?superClass .
+}
+```
+
+**Explanation**
+Since _class_ is a subclass of _superClass_, any class that is a subclass of _class_ is also a subclass of _superClass_. Therefore, _resource_ is a subclass of _superClass_.
+**Example**
+```
+```
+#### Individual Inclusion
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=a:C)
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type ?superClass .
+}
+WHERE {
+  ?resource rdf:type ?class .
+  ?class rdfs:subClassOf+ ?superClass .
+}
+```
+**Explanation**
+Any instance of _class_ is also an instance of _superClass_. Therefore, since _resource_ is a _class_, it also is a _superClass_.
+**Example**
+```
+val-kb:Farmer rdf:type sio:Role ;
+    rdfs:label "farmer" .
+
+\# Confirmed that "val-kb:Farmer rdf:type sio:RealizableEntity ." is returned
+\# Confirmed that "val-kb:Farmer http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/RealizableEntity" is returned by whyis
+```
+#### Property Inclusion
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=P_1 \sqsubseteq P_2)
+**Query} 
+\begin{tcolorbox}
+\begin{minted}{sparql}
+CONSTRUCT {
+  ?resource ?superProperty ?o .
+}
+WHERE {
+  ?resource ?p ?o .
+  ?p rdf:type owl:Property ;
+    rdfs:subPropertyOf+ ?superProperty .
+}
+```
+**Explanation**
+Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+**Example**
+```
+```
+##### Object Property Inclusion
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource ?superProperty ?o .
+}
+WHERE {
+  ?resource ?p ?o .
+  ?p rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf+ ?superProperty .
+}
+```
+**Explanation**
+Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+**Example**
+```
+sio:Age rdf:type owl:Class ;
+    rdfs:label "age" ;
+    rdfs:subClassOf sio:DimensionalQuantity ;
+    dct:description "Age is the length of time that a person has lived or a thing has existed." .
+
+sio:DimensionlessQuantity rdf:type owl:Class ;
+    rdfs:label "dimensionless quantity" ;
+    rdfs:subClassOf sio:Quantity ,
+        [ rdf:type owl:Class ;
+            owl:complementOf [ rdf:type owl:Restriction ;
+                owl:onProperty sio:hasUnit ;
+                owl:someValuesFrom sio:UnitOfMeasurement ] ];
+    owl:disjointWith sio:DimensionalQuantity ;
+    dct:description "A dimensionless quantity is a quantity that has no associated unit." .
+
+sio:Quantity rdf:type owl:Class ;
+    rdfs:label "quantity" ;
+    owl:equivalentClass 
+        [ rdf:type owl:Class ; 
+            owl:unionOf (sio:DimensionlessQuantity sio:DimensionalQuantity) ] ;
+    rdfs:subClassOf sio:MeasurementValue ;
+    dct:description "A quantity is an informational entity that gives the magnitude of a property." .
+
+sio:MeasurementValue rdf:type owl:Class ;
+    rdfs:label "measurement value" ;
+    rdfs:subClassOf sio:Number ;
+    dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
+
+sio:Number rdf:type owl:Class ;
+    rdfs:label "number" ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    dct:description "A number is a mathematical object used to count, label, and measure." .
+
+val-kb:Samantha sio:hasProperty val-kb:AgeOfSamantha .
+
+val-kb:AgeOfSamantha rdf:type sio:Age ;
+    rdfs:label "Samantha's age" .
+
+\# Confirmed that "val-kb:Samantha sio:hasAttribute val-kb:AgeOfSamantha ." is returned
+\# Confirmed whyis adds "val-kb:Samantha http://semanticscience.org/resource/hasAttribute val-kb:AgeOfSamantha"
+```
+##### Data Property Inclusion
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource ?superProperty ?o .
+}
+WHERE {
+  ?resource ?p ?o .
+  ?p rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf+ ?superProperty .
+}
+```
+**Explanation**
+Any subject and object related by the property _p} is also related by _superProperty}. Therefore, since _resource_ _p} _o}, it is implied that _resource_ _superProperty} _o}.
+**Example**
+```
+valo:hasExactValue rdf:type owl:DatatypeProperty ;
+    rdfs:label "has exact value" ;
+    rdfs:subPropertyOf sio:hasValue .
+
+val-kb:AgeOfSamantha valo:hasExactValue "25.82"^^xsd:decimal .
+
+\# Confirmed that "val-kb:AgeOfSamantha sio:hasValue 25.82 ." is returned
+\# Confirmed whyis adds "val-kb:AgeOfSamantha http://semanticscience.org/resource/hasValue 25.82"
+```
+
+#### Object Property Chain Inclusion
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
 }
 ```
 **Explanation**
 
-_superClass_ is equivalent to _equivClass_, so since _resource_ is a _superClass_, it is also a _equivClass_
-
+**Example**
+```
+```
 
 
 ### Code

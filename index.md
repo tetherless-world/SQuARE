@@ -190,6 +190,2706 @@ WHERE {
 
 ```
 ```
+
+### Equivalence
+#### Class Equivalence
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=C_1\equiv%20C_2)
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type ?equivClass .
+}
+WHERE {
+  ?resource rdf:type ?superClass.
+  {?superClass owl:equivalentClass ?equivClass .}
+    UNION
+  {?equivClass owl:equivalentClass ?superClass .}
+}
+
+```
+**Explanation**
+
+_superClass_ is equivalent to _equivClass}, so since _resource_ is a _superClass_, it is also a _equivClass}.
+
+**Example**
+
+```
+valo:Fake rdf:type owl:Class ;
+    owl:equivalentClass sio:Fictional ;
+    rdfs:label "fake" .
+
+val-kb:Hubert rdf:type valo:Fake ;
+    rdfs:label "Hubert" .
+```
+
+#### Property Equivalence
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=P_1\equiv%20P_2)
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource ?equivProperty ?o .
+}
+WHERE {
+  ?resource ?p ?o .
+  {?p owl:equivalentProperty ?equivProperty .}
+    UNION
+  {?equivProperty owl:equivalentProperty ?p . }
+}
+```
+**Explanation**
+
+The properties _p_ and _equivProperty} are equivalent. Therefore, since _resource_ _p_ _o_, it is implied that _resource_ _equivProperty} _o_.
+
+**Example**
+
+```
+valo:hasValue rdf:type owl:DatatypeProperty ;
+    rdfs:label "has value" ;
+    owl:equivalentProperty sio:hasValue .
+```
+
+### Disjointness
+#### Class Disjointness
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=C_1\neq%20C_2)
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class .
+  ?resource rdf:type ?disjointClass .
+  { ?class owl:disjointWith ?disjointClass . } 
+    UNION
+  { ?disjointClass owl:disjointWith ?class . }
+}
+```
+**Explanation**
+
+Since _class_ is a disjoint with _disjointClass}, any resource that is an instance of _class_ is not an instance of _disjointClass}. Therefore, since _resource_ is an instance of _class_, it can not be an instance of _disjointClass}.
+
+**Example**
+
+```
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Attribute rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "attribute" ;
+    dct:description "An attribute is a characteristic of some entity." .
+
+sio:RealizableEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Attribute ;
+    dct:description "A realizable entity is an attribute that is exhibited under some condition and is realized in some process." ;
+    rdfs:label "realizable entity" .
+
+sio:Quality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Attribute ;
+    owl:disjointWith sio:RealizableEntity ;
+    dct:description "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary." ;
+    rdfs:label "quality" .
+
+sio:ExistenceQuality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Quality ;
+    dct:description "existence quality is the quality of an entity that describe in what environment it is known to exist." ;
+    rdfs:label "existence quality" .
+
+sio:Virtual rdf:type owl:Class ;
+    rdfs:subClassOf sio:ExistenceQuality ;
+    dct:description "virtual is the quality of an entity that exists only in a virtual setting such as a simulation or game environment." ;
+    rdfs:label "virtual" .
+
+sio:Real rdf:type owl:Class ;
+    rdfs:subClassOf sio:ExistenceQuality ;
+    owl:disjointWith sio:Fictional ;
+    owl:disjointWith sio:Virtual ;
+    dct:description "real is the quality of an entity that exists in real space and time." ;
+    rdfs:label "real" .
+
+sio:Hypothetical rdf:type owl:Class ;
+    rdfs:subClassOf sio:ExistenceQuality ;
+    dct:description "hypothetical is the quality of an entity that is conjectured to exist." ;
+    rdfs:label "hypothetical" .
+
+sio:Fictional rdf:type owl:Class ;
+    rdfs:subClassOf sio:Hypothetical ;
+    dct:description "fictional is the quality of an entity that exists only in a creative work of fiction." ;
+    rdfs:label "fictional" .
+
+val-kb:ImaginaryFriend
+    rdfs:label "my imaginary friend" ;
+    rdf:type sio:Real ;
+    rdf:type sio:Fictional .
+```
+#### Property Disjointness
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?p1 ?o1 ,
+      ?o2 .
+  ?resource ?p2 ?o2.
+  {?p1 owl:propertyDisjointWith ?p2 .}
+    UNION
+  {?p2 owl:propertyDisjointWith ?p1 .}
+}
+```
+**Explanation**
+
+Since properties _p1} and _p2} are disjoint, _resource_ having both _p2} _o2} as well as _p1} _o2} leads to an inconsistency.
+
+**Example**
+
+```
+valo:hasMother rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    rdfs:label "has mother" ;
+    owl:propertyDisjointWith valo:hasFather .
+
+valo:hasFather rdf:type owl:ObjectProperty ;
+    rdfs:label "has father" .
+
+val-kb:Jordan rdf:type sio:Human ;
+    rdfs:label "Jordan" .
+
+val-kb:Susan rdf:type sio:Human ;
+    rdfs:label "Susan" ;
+    valo:hasFather val-kb:Jordan ;
+    valo:hasMother val-kb:Jordan .
+```
+
+#### All Disjoint Classes
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+  ?member owl:disjointWith ?item .
+}
+WHERE {
+  ?restriction rdf:type owl:AllDisjointClasses ;
+    owl:members ?list .
+  ?list rdf:rest*/rdf:first ?member .
+  {
+    SELECT DISTINCT ?item ?restrict WHERE
+    {
+      ?restrict rdf:type owl:AllDisjointClasses ;
+        owl:members ?list .
+      ?list rdf:rest*/rdf:first ?item .
+    }
+  }
+  BIND(?restriction AS ?restrict)
+  FILTER(?member != ?item)
+}
+```
+**Explanation**
+
+Since _restriction} is an all disjoint classes restriction with classes listed in _list}, each member in _list} is disjoint with each other member in the list.
+
+**Example**
+
+```
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Process rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
+    rdfs:label "process" .
+
+sio:Attribute rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "attribute" ;
+    dct:description "An attribute is a characteristic of some entity." .
+
+sio:Object rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "object" ;
+    dct:description "An object is an entity that is wholly identifiable at any instant of time during which it exists." .
+
+[ rdf:type owl:AllDisjointClasses ;
+    owl:members ( sio:Process sio:Attribute sio:Object ) ] .
+```
+#### All Disjoint Properties
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?member owl:propertyDisjointWith ?item .
+}
+WHERE {
+  ?restriction rdf:type owl:AllDisjointProperties ;
+    owl:members ?list .
+  ?list rdf:rest*/rdf:first ?member .
+  {
+    SELECT DISTINCT ?item ?restrict WHERE
+    {
+      ?restrict rdf:type owl:AllDisjointProperties ;
+        owl:members ?list .
+      ?list rdf:rest*/rdf:first ?item .
+    }
+  }
+  BIND(?restriction AS ?restrict)
+  FILTER(?member != ?item)
+}
+```
+**Explanation**
+
+Since _restriction} is an all disjoint properties restriction with properties listed in _list}, each member in _list} is disjoint with each other property in the list.
+
+**Example**
+
+```
+val-kb:DisjointPropertiesRestriction rdf:type owl:AllDisjointProperties ;
+    owl:members ( valo:hasMother valo:hasFather valo:hasSibling ) .
+
+valo:hasMother rdf:type owl:ObjectProperty ;
+    rdfs:label "has mother" .
+
+valo:hasFather rdf:type owl:ObjectProperty ;
+    rdfs:label "has father" .
+
+valo:hasSibling rdf:type owl:ObjectProperty ;
+    rdfs:label "has sibling" .
+```
+
+### Transitivity
+#### Object Property Transitivity
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=P^+%20\sqsubseteq%20P)
+
+**Query**
+```
+CONSTRUCT {
+  ?resource ?transitiveProperty ?o2 .
+}
+WHERE {
+  ?resource ?transitiveProperty ?o1 .
+  ?o1 ?transitiveProperty ?o2 .
+  ?transitiveProperty rdf:type owl:TransitiveProperty .
+}
+```
+**Explanation**
+
+Since _transitiveProperty} is a transitive object property, and the relationships _resource_ _transitiveProperty} _o1} and _o1} _transitiveProperty} _o2} exist, then we can infer that _resource_ _transitiveProperty} _o2}.
+
+**Example**
+
+```
+sio:isRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:label "is related to" ;
+    dct:description "A is related to B iff there is some relation between A and B." .
+
+sio:isSpatiotemporallyRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:subPropertyOf sio:isRelatedTo ;
+    rdfs:label "is spatiotemporally related to" ;
+    dct:description "A is spatiotemporally related to B iff A is in the spatial or temporal vicinity of B" .
+
+sio:isLocationOf rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    rdfs:label "is location of" ;
+    dct:description "A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part." .
+
+sio:hasPart rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ,
+                                owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isLocationOf ;
+    owl:inverseOf sio:isPartOf ;
+    rdfs:label "has part" ;
+    dct:description "has part is a transitive, reflexive and antisymmetric relation between a whole and itself or a whole and its part" .
+
+sio:isLocatedIn rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    rdfs:label "is located in" ;
+    dct:description "A is located in B iff the spatial region occupied by A is part of the spatial region occupied by B." .
+
+sio:isPartOf rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ,
+                                owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isLocatedIn ;
+    rdfs:label "is part of" ;
+    dct:description "is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole." .
+
+val-kb:Fingernail rdf:type owl:Individual ;
+    rdfs:label "finger nail" ;
+    sio:isPartOf val-kb:Finger .
+
+val-kb:Finger rdf:type owl:Individual ;
+    rdfs:label "finger" ;
+    sio:isPartOf val-kb:Hand . 
+
+val-kb:Hand rdf:type owl:Individual ;
+    rdfs:label "hand" .
+```
+
+### Reflexivity
+#### Object Property Reflexivity
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource ?reflexiveProperty ?resource .
+}
+WHERE {
+  ?resource rdf:type ?type ;
+    ?reflexiveProperty ?o .
+  ?o rdf:type ?type.
+  ?reflexiveProperty rdf:type owl:ReflexiveProperty .
+}
+```
+**Explanation**
+
+Since _resource_ has a _reflexiveProperty} assertion to _o_, _resource_ and _o_ are both of type _type}, and _reflexiveProperty} is a reflexive property, we can infer that _resource_ _reflexiveProperty} _resource_.
+
+**Example**
+
+```
+sio:Process rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
+    rdfs:label "process" .
+
+val-kb:Workflow rdf:type sio:Process ;
+    rdfs:label "workflow" ;
+    sio:hasPart val-kb:Step .
+
+val-kb:Step rdf:type sio:Process ;
+    rdfs:label "step" .
+```
+#### Object Property Irreflexivity
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?irreflexiveProperty ?o .
+  ?irreflexiveProperty rdf:type owl:IrreflexiveProperty .
+  ?resource ?irreflexiveProperty ?resource .
+}
+```
+**Explanation**
+
+Since _resource_ has a _irreflexiveProperty} assertion, and _irreflexiveProperty} is a irreflexive property, we can infer that the relationship _resource_ _irreflexiveProperty} _resource_ does not exist.
+
+**Example**
+
+```
+sio:hasMember rdf:type owl:ObjectProperty ,
+                                owl:IrreflexiveProperty ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    owl:inverseOf sio:isMemberOf ;
+    rdfs:label "has member" ;
+    dct:description "has member is a mereological relation between a collection and an item." .
+
+sio:isMemberOf rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sio:isAttributeOf ;
+    rdfs:label "is member of" ;
+    dct:description "is member of is a mereological relation between a item and a collection." .
+
+sio:Collection rdf:type owl:Class ;
+    rdfs:subClassOf sio:Set ;
+    rdfs:label "collection" ;
+    dct:description "A collection is a set for which there exists at least one member, although any member need not to exist at any point in the collection's existence." .
+
+sio:Set rdf:type owl:Class ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    rdfs:label "set" ;
+    dct:description "A set is a collection of entities, for which there may be zero members." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+val-kb:Group rdf:type sio:Collection ;
+    rdfs:label "group" ;
+    sio:hasMember val-kb:Group .
+```
+
+### Symmetry
+#### Object Property Symmetry
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?o ?symmetricProperty ?resource .
+}
+WHERE {
+  ?resource ?symmetricProperty ?o .
+  ?symmetricProperty rdf:type owl:SymmetricProperty .
+}
+```
+**Explanation**
+
+Since _symmetricProperty} is a symmetric property, and _resource_ _symmetricProperty} _o_, we can infer that _o_ _symmetricProperty} _resource_.
+
+**Example**
+
+```
+val-kb:Peter rdf:type sio:Human ;
+    rdfs:label "Peter" ;
+    sio:isRelatedTo val-kb:Samantha .
+
+val-kb:Samantha rdf:type sio:Human ;
+    rdfs:label "Samantha" .
+```
+
+#### Object Property Asymmetry
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?asymmetricProperty ?o .
+  ?asymmetricProperty rdf:type owl:AsymmetricProperty .
+  ?o ?asymmetricProperty ?resource .
+}
+```
+**Explanation**
+
+Since _asymmetricProperty} is an asymmetric property, and _resource_ _asymmetricProperty} _o_, then the assertion _o_ _asymmetricProperty} _resource_ results in an inconsistency.
+
+**Example**
+
+```
+sio:isProperPartOf rdf:type owl:ObjectProperty ,
+                                owl:AsymmetricProperty ,
+                                owl:IrreflexiveProperty ;
+    rdfs:label "is proper part of" ;
+    rdfs:subPropertyOf sio:isPartOf ;
+    dct:description "is proper part of is an asymmetric, irreflexive (normally transitive) relation between a part and its distinct whole." .
+
+val-kb:Nose rdf:type owl:Individual ;
+    rdfs:label "nose" ;
+    sio:isProperPartOf val-kb:Face .
+
+val-kb:Face rdf:type owl:Individual ;
+    sio:isProperPartOf val-kb:Nose ;
+    rdfs:label "face" .
+```
+
+### Functionality
+#### Functional Object Property
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?functionalProperty ?o1 ,
+      ?o2 .
+  ?functionalProperty rdf:type owl:ObjectProperty , 
+      owl:FunctionalProperty .
+  FILTER (str(?o1) !=  str(?o2))
+}
+```
+**Explanation**
+
+Since _functionalProperty} is a functional object property, _resource_ can only have one value for _functionalProperty}. Since _resource_ _functionalProperty} both _o1} and _o2}, we can infer that _o1} and _o2} must be the same individual.
+
+**Example**
+
+```
+val-kb:Tutor rdf:type sio:Human ;
+    rdfs:label "tutor" .
+
+val-kb:TeachingRole rdf:type sio:Role ;
+    rdfs:label "teaching role" ;
+    sio:isRoleOf val-kb:Tutor .
+
+val-kb:TutoringRole rdf:type sio:Role ;
+    rdfs:label "tutoring role" ;
+    sio:isRoleOf val-kb:Tutor .
+```
+#### Functional Data Property
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?functionalProperty ?o1 , 
+      ?o2 .
+  ?functionalProperty rdf:type owl:DatatypeProperty , 
+      owl:FunctionalProperty .
+  FILTER (str(?o1) !=  str(?o2))
+}
+```
+**Explanation**
+
+Since _functionalProperty_ is a functional data property, _resource_ can only have one value for _functionalProperty}. Since _resource_ _functionalProperty} both _o1} and _o2}, and _o1} is different from _o2}, an inconsistency occurs.
+
+**Example**
+
+```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+val-kb:HeightOfTom sio:hasValue "5"^^xsd:integer .
+val-kb:HeightOfTom sio:hasValue "6"^^xsd:integer .
+```
+
+### Inversion
+#### Object Property Inversion
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?o ?inverseProperty ?resource .
+}
+WHERE {
+  ?resource ?p ?o .
+  ?p rdf:type owl:ObjectProperty .
+  {?p owl:inverseOf ?inverseProperty .}
+    UNION
+  {?inverseProperty owl:inverseOf ?p . }
+}
+```
+**Explanation**
+
+The object properties _p_ and _inverseProperty} are inversely related to eachother. Therefore, since _resource_ _p_ _o_, it is implied that _o_ _inverseProperty} _resource_.
+
+**Example**
+
+```
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:hasProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has property" ;
+    owl:inverseOf sio:isPropertyOf ;
+    dct:description "has property is a relation between an entity and the quality, capability or role that it and it alone bears." ;
+    rdfs:subPropertyOf sio:hasAttribute .
+
+sio:Symbol rdf:type owl:Class ;
+    rdfs:subClassOf sio:Representation ;
+    dct:description "A symbol is a proposition about what an entity represents." ;
+    rdfs:label "symbol" .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:Representation rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    dct:description "A representation is a entity that in some way represents another entity (or attribute thereof)." ;
+    rdfs:label "representation" .
+
+valo:MolecularFormula rdfs:subClassOf sio:Symbol ;
+    rdfs:label "molecular formula" .
+
+val-kb:Water sio:hasAttribute val-kb:H2O ;
+    rdfs:label "water" .
+
+val-kb:HyrdogenDioxide sio:hasAttribute val-kb:H2O ;
+    rdfs:label "hydrogen dioxide" .
+
+val-kb:H2O rdf:type valo:MolecularFormula ;
+    rdfs:label "H2O" .
+```
+##### Inverse Functional Object Property
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource owl:sameAs ?individual .
+}
+WHERE {
+  ?resource ?invFunctionalProperty ?o .
+  ?individual ?invFunctionalProperty ?o .
+  ?invFunctionalProperty rdf:type owl:ObjectProperty ,
+      owl:InverseFunctionalProperty .
+}
+```
+**Explanation**
+
+Since _invFunctionalProperty} is an inverse functional property, and _resource_ and _individual} both have the relationship _invFunctionalProperty} _o_, then we can infer that _resource_ is the same as _individual}.
+
+**Example**
+
+```
+```
+
+### Domain \& Range Restrictions
+#### Domain Restriction
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?class .
+}
+WHERE {
+  ?resource ?p ?o .
+  ?p rdfs:domain ?class .
+}
+```
+**Explanation**
+
+Since the domain of _p_ is _class_, this implies that _resource_ is a _class_.
+
+**Example**
+
+```
+sio:Role rdf:type owl:Class ;
+    rdfs:label "role" ;
+    rdfs:subClassOf sio:RealizableEntity ;
+    dct:description "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance." .
+
+sio:isAttributeOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is attribute of" ;
+    dct:description "is attribute of is a relation that associates an attribute with an entity where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:isPropertyOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is property of" ;
+    dct:description "is property of is a relation betweena  quality, capability or role and the entity that it and it alone bears." ;
+    rdfs:subPropertyOf sio:isAttributeOf .
+
+sio:hasProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has property" ;
+    owl:inverseOf sio:isPropertyOf ;
+    dct:description "has property is a relation between an entity and the quality, capability or role that it and it alone bears." ;
+    rdfs:subPropertyOf sio:hasAttribute .
+
+sio:hasRealizableProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has realizable property" ;
+    rdfs:subPropertyOf sio:hasProperty .
+
+sio:isRealizablePropertyOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is realizable property of" ;
+    rdfs:subPropertyOf sio:isPropertyOf ;
+    owl:inverseOf sio:hasRealizableProperty .
+
+sio:isRoleOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is role of" ;
+    rdfs:domain sio:Role ;
+    rdfs:subPropertyOf sio:isRealizablePropertyOf ;
+    dct:description "is role of is a relation between a role and the entity that it is a property of." ;
+    owl:inverseOf sio:hasRole .
+
+sio:hasRole rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has role" ;
+    rdfs:subPropertyOf sio:hasRealizableProperty ;
+    dct:description "has role is a relation between an entity and a role that it bears." .
+
+sio:Human  rdf:type owl:Class ;
+    rdfs:label "human" ;
+    rdfs:subClassOf sio:MulticellularOrganism ;
+    dct:description "A human is a primates of the family Hominidae and are characterized by having a large brain relative to body size, with a well developed neocortex, prefrontal cortex and temporal lobes, making them capable of abstract reasoning, language, introspection, problem solving and culture through social learning." .
+
+sio:MulticellularOrganism  rdf:type owl:Class ;
+    rdfs:label "multicellular organism" ;
+    rdfs:subClassOf sio:CellularOrganism ;
+    dct:description "A multi-cellular organism is an organism that consists of more than one cell." .
+
+sio:CellularOrganism  rdf:type owl:Class ;
+    rdfs:label "cellular organism" ;
+    rdfs:subClassOf sio:Organism ;
+    dct:description "A cellular organism is an organism that contains one or more cells." .
+
+sio:Non-cellularOrganism  rdf:type owl:Class ;
+    rdfs:label "non-cellular organism" ;
+    rdfs:subClassOf sio:Organism ;
+    dct:description "A non-cellular organism is an organism that does not contain a cell." .
+
+sio:Organism rdf:type owl:Class ;
+    owl:equivalentClass 
+        [   rdf:type owl:Class ;
+            owl:unionOf ( sio:CellularOrganism sio:Non-cellularOrganism ) ] ;
+    rdfs:subClassOf sio:BiologicalEntity ;
+    dct:description "A biological organisn is a biological entity that consists of one or more cells and is capable of genomic replication (independently or not)." ;
+    rdfs:label "organism" .
+
+sio:BiologicalEntity  rdf:type owl:Class ;
+    rdfs:label "biological entity" ;
+    rdfs:subClassOf sio:HeterogeneousSubstance ;
+    dct:description "A biological entity is a heterogeneous substance that contains genomic material or is the product of a biological process." .
+
+sio:HeterogeneousSubstance  rdf:type owl:Class ;
+    rdfs:label "heterogeneous substance" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+    rdfs:subClassOf sio:ChemicalEntity ;
+    dct:description "A heterogeneous substance is a chemical substance that is composed of more than one different kind of component." .
+
+sio:MaterialEntity  rdf:type owl:Class ;
+    rdfs:label "material entity" ;
+    rdfs:subClassOf sio:Object ;
+    dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
+
+sio:ChemicalEntity  rdf:type owl:Class ;
+    rdfs:label "chemical entity" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+    dct:description "A chemical entity is a material entity that pertains to chemistry." .
+
+val-kb:Mother rdf:type owl:Individual ;
+    rdfs:label "mother" ;
+    sio:isRoleOf val-kb:Sarah ;
+    sio:inRelationTo val-kb:Tim .
+
+val-kb:Sarah rdf:type sio:Human ;
+    rdfs:label "Sarah" .
+
+val-kb:Tim rdf:type sio:Human ;
+    rdfs:label "Tim" .
+```
+#### Range Restriction
+% Should come back to this since data and object properties need to be handled differently
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?o rdf:type ?class .
+}
+WHERE {
+  ?resource ?p ?o .
+  ?p rdfs:range ?class .
+}
+```
+**Explanation**
+
+Since the range of _p_ is _class_, this implies that _o_ is a _class_.
+
+**Example**
+
+```
+sio:UnitOfMeasurement rdf:type owl:Class ;
+    rdfs:label "unit of measurement" ;
+    rdfs:subClassOf sio:Quantity ;
+    dct:description "A unit of measurement is a definite magnitude of a physical quantity, defined and adopted by convention and/or by law, that is used as a standard for measurement of the same physical quantity." .
+
+sio:hasUnit rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has unit" ;
+    owl:inverseOf sio:isUnitOf ;
+    rdfs:range sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    dct:description "has unit is a relation between a quantity and the unit it is a multiple of." .
+
+sio:isUnitOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is unit of" ;
+    rdfs:domain sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:isAttributeOf ;
+    dct:description "is unit of is a relation between a unit and a quantity that it is a multiple of." .
+
+sio:Height rdf:type owl:Class ;
+    rdfs:label "height" ;
+    rdfs:subClassOf sio:1DExtentQuantity ;
+    dct:description "Height is the one dimensional extent along the vertical projection of a 3D object from a base plane of reference." .
+
+sio:1DExtentQuantity rdf:type owl:Class ;
+    rdfs:label "1D extent quantity" ;
+    rdfs:subClassOf sio:SpatialQuantity ;
+    dct:description "A quantity that extends in single dimension." .
+
+sio:SpatialQuantity rdf:type owl:Class ;
+    rdfs:label "spatial quantity" ;
+    rdfs:subClassOf sio:DimensionalQuantity ;
+    dct:description "A spatial quantity is a quantity obtained from measuring the spatial extent of an entity." .
+
+sio:DimensionalQuantity rdf:type owl:Class ;
+    rdfs:label "dimensional quantity" ;
+    rdfs:subClassOf sio:Quantity ,
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasUnit ;
+            owl:someValuesFrom sio:UnitOfMeasurement ] ;
+    dct:description "A dimensional quantity is a quantity that has an associated unit." .
+
+val-kb:Tom rdf:type sio:Human ;
+    rdfs:label "Tom" ;
+    sio:hasAttribute val-kb:HeightOfTom .
+
+val-kb:HeightOfTom rdf:type sio:Height ;
+    sio:hasUnit val-kb:Meter .
+
+val-kb:Meter rdf:type owl:Individual ;
+    rdfs:label "meter" .
+```
+
+### Datatype
+#### Datatype Restriction
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?dataProperty ?value .
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Restriction ;
+        owl:onProperty ?dataProperty ; 
+        owl:someValuesFrom ?datatype ] .
+  ?dataProperty rdf:type owl:DatatypeProperty .
+  ?datatype rdf:type rdfs:Datatype ;
+    owl:onDatatype ?restrictedDatatype ;
+    owl:withRestrictions ?list .
+  {
+    ?list rdf:first ?min .
+    ?list rdf:rest/rdf:first ?max .
+    ?min xsd:minInclusive ?minValue .
+    ?max xsd:maxInclusive ?maxValue .
+  }
+  UNION
+  {
+    ?list rdf:first ?max .
+    ?list rdf:rest/rdf:first ?min .
+    ?min xsd:minInclusive ?minValue .
+    ?max xsd:maxInclusive ?maxValue .
+  }
+  FILTER(?value < ?minValue || ?value > ?maxValue)
+}
+```
+**Explanation**
+
+Since _class_ has a with restriction on datatype property _dataProperty} to be within the range specified in _list} with min value _minValue} and max value _maxValue}, and {{resource}} is of type _class_ and has a value _value} for _dataProperty} which is outside the specified range, an inconsistency occurs.
+
+**Example**
+
+```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+sio:ProbabilityMeasure rdf:type owl:Class ;
+    rdfs:subClassOf sio:DimensionlessQuantity ;
+    dct:description "A probability measure is quantity of how likely it is that some event will occur." ;
+    rdfs:label "probability measure" .
+
+sio:ProbabilityValue rdf:type owl:Class ;
+    rdfs:subClassOf sio:ProbabilityMeasure ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasValue ;
+            owl:someValuesFrom 
+                [ rdf:type rdfs:Datatype ;
+                    owl:onDatatype xsd:double ;
+                    owl:withRestrictions ( [ xsd:minInclusive "0.0"^^xsd:double ] [ xsd:maxInclusive "1.0"^^xsd:double ] ) 
+                ]
+        ] ;
+    dct:description "A p-value or probability value is the probability of obtaining a test statistic at least as extreme as the one that was actually observed, assuming that the null hypothesis is true" ;
+    #<sio:hasSynonym xml:lang="en">p-value</sio:hasSynonym>
+    rdfs:label "probability value" .
+
+val-kb:EffortExerted rdf:type sio:ProbabilityValue ;
+    rdfs:label "effort exerted" ;
+    sio:hasValue "1.1"^^xsd:double .
+```
+### Assertions
+#### Same Individual
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?individual ?p ?o .
+}
+WHERE {
+  ?resource owl:sameAs ?individual .
+  ?resource ?p ?o .
+}
+```
+**Explanation**
+
+Since _resource_ is the same as _individual}, they share the same properties.
+
+**Example**
+
+```
+val-kb:Peter owl:sameAs val-kb:Pete .
+```
+#### Different Individuals
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource owl:differentFrom ?individual ;
+    owl:sameAs ?individual .
+}
+```
+**Explanation**
+
+Since _resource_ is asserted as being different from _individual}, the assertion that _resource_ is the same as _individual} leads to an inconsistency.
+
+**Example**
+
+```
+val-kb:Sam owl:differentFrom val-kb:Samantha .
+val-kb:Sam owl:sameAs val-kb:Samantha .
+```
+#### All Different Individuals
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?member owl:differentFrom ?item .
+}
+WHERE {
+  ?restriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers ?list .
+  ?list rdf:rest*/rdf:first ?member .
+  {
+    SELECT DISTINCT ?item ?restrict WHERE
+    {
+      ?restrict rdf:type owl:AllDifferent ;
+        owl:distinctMembers ?list .
+      ?list rdf:rest*/rdf:first ?item .
+    }
+  }
+  BIND(?restriction AS ?restrict) 
+  FILTER(?member != ?item)
+}
+```
+**Explanation**
+
+Since _restriction} is an all different restriction with individuals listed in _list}, each member in _list} is different from each other member in the list.
+
+**Example**
+
+```
+val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( val-kb:Integer
+        val-kb:String 
+        val-kb:Boolean
+        val-kb:Double 
+        val-kb:Float 
+        val-kb:Tuple 
+        ) .
+```
+#### Class Assertion
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?superClass .
+}
+WHERE {
+  ?resource rdf:type ?class .
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf+ ?superClass .
+}
+```
+**Explanation**
+
+Since _class_ is a subclass of _superClass_, any individual that is an instance of _class_ is also an instance of _superClass_. Therefore, _resource_ is an instance of _superClass_.
+
+**Example**
+
+```
+val-kb:Reliable rdf:type sio:Quality ;
+    rdfs:label "reliable" .
+```
+#### Property Assertion
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+```
+##### Object Property Assertion
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+```
+##### Data Property Assertion
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+```
+##### Negative Object Property Assertion
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?p ?o.
+  ?p rdf:type owl:ObjectProperty .
+  ?x rdf:type owl:NegativePropertyAssertion ;
+    owl:sourceIndividual ?resource ;
+    owl:assertionProperty ?p ;
+    owl:targetIndividual ?o .
+}
+```
+**Explanation**
+
+Since a negative object property assertion was made with source _resource_, object property _p_, and target individual _o_, the existence of _resource_ _p_ _o_ results in an inconsistency.
+
+**Example**
+
+```
+val-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual val-kb:AgeOfSamantha ; 
+    owl:assertionProperty sio:hasUnit ; 
+    owl:targetIndividual val-kb:Meter .
+
+val-kb:AgeOfSamantha sio:hasUnit val-kb:Meter .
+```
+##### Negative Data Property Assertion
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource ?p ?o.
+  ?p rdf:type owl:DatatypeProperty .
+  ?x rdf:type owl:NegativePropertyAssertion ;
+    owl:sourceIndividual ?resource ;
+    owl:assertionProperty ?p ;
+    owl:targetValue ?o .
+}
+```
+**Explanation**
+
+Since a negative datatype property assertion was made with source _resource_, datatype property _p_, and target value _o_, the existence of _resource_ _p_ _o_ results in an inconsistency.
+
+**Example**
+
+```
+val-kb:NDPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual val-kb:AgeOfPeter ; 
+    owl:assertionProperty sio:hasValue ; 
+    owl:targetValue "10" .
+
+val-kb:AgeOfPeter rdf:type sio:Age;
+    rdfs:label "Peter's age" ;
+    sio:hasValue "10" .
+```
+
+### Keys
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource owl:sameAs ?individual .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?keyProperty ?keyValue.
+  ?class rdf:type owl:Class ;
+    owl:hasKey ( ?keyProperty ) .
+  ?individual rdf:type ?class ;
+    ?keyProperty ?keyValue.
+}
+```
+**Explanation**
+
+Since _class_ has key _keyProperty}, _resource_ and _individual} are both of type _class_, and _resource_ and _individual} both _keyProperty} _keyValue}, then _resource_ and _individual} must be the same.
+
+**Example**
+
+```
+valo:uniqueID rdf:type owl:DatatypeProperty ;
+    rdfs:label "unique identifier" .
+
+valo:Person rdf:type owl:Class ;
+    rdfs:subClassOf sio:Human ;
+    rdfs:label "person" ;
+    owl:hasKey ( valo:uniqueID ) .
+
+val-kb:John rdf:type valo:Person ;
+    rdfs:label "John" ;
+    valo:uniqueID "101D" .
+
+val-kb:Jack rdf:type valo:Person ;
+    rdfs:label "Jack" ;
+    valo:uniqueID "101D" .
+
+val-kb:John owl:differentFrom val-kb:Jack .
+```
+
+### Existential Quantification
+#### Object Some Values From}
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=\exists%20P.C)
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?class .
+}
+WHERE {
+  ?resource ?objectProperty
+    [ rdf:type ?valueclass ] .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction;
+      owl:onProperty ?objectProperty;
+      owl:someValuesFrom ?valueclass ] .
+}
+```
+**Explanation**
+
+Since _resource_ _objectProperty} an instance of {{valueclass}}, and _class_ has a restriction on _objectProperty} to have some values from {{valueclass}}, we can infer that _resource_ rdf:type _class_.
+
+**Example**
+
+```
+sio:CollectionOf3dMolecularStructureModels rdf:type owl:Class ;
+    rdfs:subClassOf sio:Collection ,
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasMember ;
+        owl:someValuesFrom sio:3dStructureModel ] ;
+    rdfs:label "collection of 3d molecular structure models" ;
+    dct:description "A collection of 3D molecular structure models is just that." .
+
+sio:3dStructureModel rdf:type owl:Class ;
+    rdfs:subClassOf sio:TertiaryStructureDescriptor ;
+    rdfs:label "3d structure model" ;
+    dct:description "A 3D structure model is a representation of the spatial arrangement of one or more chemical entities." .
+
+sio:TertiaryStructureDescriptor rdf:type owl:Class ;
+    rdfs:subClassOf sio:BiomolecularStructureDescriptor ;
+    rdfs:label "tertiary structure descriptor" ;
+    dct:description "A tertiary structure descriptor describes 3D topological patterns in a biopolymer." .
+
+sio:BiomolecularStructureDescriptor rdf:type owl:Class ;
+    rdfs:subClassOf sio:MolecularStructureDescriptor ;
+    rdfs:label "biomolecular structure descriptor" ;
+    dct:description "A biomolecular structure descriptor is structure description for organic compounds." .
+
+sio:MolecularStructureDescriptor rdf:type owl:Class ;
+    rdfs:subClassOf sio:ChemicalQuality ;
+    rdfs:label "molecular structure descriptor" ;
+    dct:description "A molecular structure descriptor is data that describes some aspect of the molecular structure (composition) and is about some chemical entity." .
+
+sio:ChemicalQuality rdf:type owl:Class ;
+    rdfs:subClassOf sio:ObjectQuality ;
+    rdfs:label "chemical quality" ;
+    dct:description "Chemical quality is the quality of a chemical entity." .
+
+sio:ObjectQuality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Quality ;
+    rdfs:label "object quality" ;
+    dct:description "An object quality is quality of an object." .
+
+val-kb:MolecularCollection rdf:type owl:Individual ;
+    rdfs:label "molecular collection" ;
+    sio:hasMember val-kb:WaterMolecule .
+
+val-kb:WaterMolecule rdf:type sio:3dStructureModel  .
+```
+
+#### Data Some Values From
+
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?datatypeProperty ?val .
+  ?datatypeProperty rdf:type owl:DatatypeProperty .
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Restriction ;
+        owl:onProperty ?datatypeProperty ;
+        owl:someValuesFrom ?value ] .
+  FILTER(DATATYPE(?val) != ?value)
+}
+```
+**Explanation**
+
+_resource_ _datatypeProperty} _val}, but _val} does not have the same datatype _value} restricted for _datatypeProperty} in _class_. Since _resource_ rdf:type _class_, an inconsistency occurs.
+
+**Example**
+
+```
+valo:Text rdf:type owl:Class ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasValue  ;
+        owl:someValuesFrom xsd:string ] .
+
+val-kb:Question rdf:type valo:Text ;
+    sio:hasValue "4"^^xsd:integer .
+```
+#### Object Has Value
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource ?objectProperty ?object .
+}
+WHERE {
+  ?resource rdf:type ?class .
+  ?objectProperty rdf:type owl:ObjectProperty.
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:hasValue ?object ] .
+}
+```
+**Explanation**
+
+Since _resource_ is of type _class_, which has a value restriction on _objectProperty} to have _object}, we can infer that _resource_ _objectProperty} _object}.
+
+**Example**
+
+```
+valo:Vehicle rdf:type owl:Class ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasPart ;
+            owl:hasValue val-kb:Wheel ] .
+
+val-kb:Car rdf:type valo:Vehicle ;
+    sio:hasPart val-kb:Mirror .
+
+val-kb:Mirror owl:differentFrom val-kb:Wheel .
+```
+#### Data Has Value
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?class .
+}
+WHERE {
+  ?resource ?datatypeProperty ?value.
+  ?class owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?datatypeProperty ;
+      owl:hasValue ?value ].
+}
+```
+**Explanation**
+
+Since _class_ is equivalent to the restriction on _datatypeProperty} to have value _value} and _resource_ _datatypeProperty} _value}, we can infer that _resource_ \textit{rdf:type} _class_.
+
+**Example**
+
+```
+valo:Unliked rdf:type owl:Class ;
+    owl:equivalentClass#rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty valo:hasAge ;
+            owl:hasValue "23"^^xsd:integer ] .
+
+val-kb:Tom valo:hasAge "23"^^xsd:integer .
+```
+
+### Universal Quantification
+#### Object All Values From
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=\forall%20P.C)
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?valueclass.
+}
+WHERE {
+  ?individual rdf:type ?class ; 
+    ?objectProperty ?resource .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction;
+      owl:onProperty ?objectProperty;
+      owl:allValuesFrom ?valueclass ] .
+}
+```
+**Explanation**
+
+Since _class_ has a restriction on _objectProperty} to have all values from {{valueclass}}, _individual} \textit{rdf:type} _class_, and _individual} _objectProperty} _resource_, we can infer that _resource_ \textit{rdf:type} {{valueclass}}.
+
+**Example**
+
+```
+sio:Namespace rdf:type owl:Class ;
+    rdfs:subClassOf sio:ComputationalEntity ,
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasMember ;
+        owl:allValuesFrom sio:Identifier ] ;
+    rdfs:label "namespace" ;
+    dct:description "A namespace is an informational entity that defines a logical container for a set of symbols or identifiers." .
+
+sio:ComputationalEntity rdf:type owl:Class;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "computational entity" ;
+    dct:description "A computational entity is an information content entity operated on using some computational system." .
+
+val-kb:NamespaceInstance rdf:type sio:Namespace ;
+    sio:hasMember val-kb:NamespaceID .
+```
+#### Data All Values From
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?datatypeProperty ?val .
+  ?datatypeProperty rdf:type owl:DatatypeProperty .
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Restriction ;
+        owl:onProperty ?datatypeProperty ;
+        owl:allValuesFrom ?value ] .
+  FILTER(DATATYPE(?val)!= ?value)
+}
+```
+**Explanation**
+
+_resource_ _datatypeProperty} _val}, but _val} does not have the same datatype _value} restricted for _datatypeProperty} in _class_. Since _resource_ \textit{rdf:type} _class_, an inconsistency occurs.
+
+**Example**
+
+```
+valo:Integer rdf:type owl:Class ;
+    rdfs:subClassOf sio:ComputationalEntity ,
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasValue ;
+        owl:allValuesFrom xsd:integer ] ;
+    rdfs:label "integer" .
+
+val-kb:Ten rdf:type valo:Integer ;
+    sio:hasValue "10.1"^^xsd:float .
+```
+
+### Self Restriction
+#### Object Has Self
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource ?objectProperty ?resource .
+}
+WHERE {
+  ?resource rdf:type ?class .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:hasSelf \"true\"^^xsd:boolean ] .
+}
+```
+**Explanation**
+
+_resource_ is of type _class_, which has a self restriction on the property _objectProperty}, allowing us to infer _resource_ _objectProperty} _resource_.
+
+**Example**
+
+```
+valo:SelfAttributing rdf:type owl:Class ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasAttribute ;
+            owl:hasSelf "true"^^xsd:boolean ] .
+
+val-kb:Blue rdf:type valo:SelfAttributing .
+```
+
+### Individual Enumeration
+#### Object One Of
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=\{x_1\}\sqcup\dots\sqcup\{x_n\})
+
+##### Object One Of Membership
+**Query**
+```
+CONSTRUCT {
+  ?member rdf:type ?resource .
+}
+WHERE {
+  ?resource rdf:type owl:Class ;
+    owl:oneOf ?list .
+  ?list rdf:rest*/rdf:first ?member .
+}
+```
+**Explanation**
+
+Since _resource_ has a one of relationship with _list}, the member _member} in _list} is of type _resource_.
+
+**Example**
+
+```
+valo:Type rdf:type owl:Class ;
+    owl:oneOf (val-kb:Integer val-kb:String val-kb:Boolean val-kb:Double val-kb:Float) .
+
+val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( val-kb:Integer
+        val-kb:String 
+        val-kb:Boolean
+        val-kb:Double 
+        val-kb:Float 
+        val-kb:Tuple 
+        ) .
+
+val-kb:Tuple rdf:type valo:Type .
+```
+
+##### Object One Of Inconsistency
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?class rdf:type owl:Class ;
+    owl:oneOf ?list .
+  ?list rdf:rest*/rdf:first ?member .
+  ?resource rdf:type ?class .
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?concept) AS ?conceptCount)
+    WHERE 
+    {
+      ?concept rdf:type owl:Class ;
+        owl:oneOf ?list .
+      ?individual rdf:type ?concept .
+      ?list rdf:rest*/rdf:first ?member .
+      FILTER(?individual = ?member)
+    }
+  }
+  FILTER(?conceptCount=0)
+}
+```
+**Explanation**
+
+Since _class_ has a one of relationship with _list}, and _resource_ is not in _list}, the assertion _resource_ is a _class_ leads to an inconsistency.
+
+**Example**
+
+```
+```
+#### Data One Of
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?datatypeProperty rdf:type owl:DatatypeProperty ;
+    rdfs:range [ rdf:type owl:DataRange ;
+      owl:oneOf ?list ] .
+  ?resource ?datatypeProperty ?value .
+  ?list rdf:rest*/rdf:first ?member .
+  {
+    SELECT DISTINCT (COUNT( DISTINCT ?datatypeProperty) AS ?dataCount)
+    WHERE 
+    {
+      ?datatypeProperty rdf:type owl:DatatypeProperty ;
+      rdfs:range [ rdf:type owl:DataRange ;
+        owl:oneOf ?list ] .
+      ?individual ?datatypeProperty ?value .
+      ?list rdf:rest*/rdf:first ?member .
+      FILTER(?value=?member)
+    }
+  }
+  FILTER(?dataCount=0)
+}
+```
+**Explanation**
+
+Since _datatypeProperty} is restricted to have a value from _list}, and _resource_ _datatypeProperty} _value}, but _value} is not in _list}, an inconsistency occurs.
+
+**Example**
+
+```
+valo:hasTeenAge rdf:type owl:DatatypeProperty ;
+    rdfs:label "has age" ;
+    rdfs:range [ rdf:type owl:DataRange ;
+        owl:oneOf ("13"^^xsd:integer "14"^^xsd:integer "15"^^xsd:integer "16"^^xsd:integer "17"^^xsd:integer "18"^^xsd:integer "19"^^xsd:integer )].
+
+val-kb:Sarah valo:hasTeenAge "12"^^xsd:integer .
+```
+
+### Cardinality
+#### Max Cardinality
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=\leq%20nP)
+
+##### Object Max Cardinality
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?objectProperty ?object .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:maxCardinality|owl:cardinality ?cardinalityValue ].
+  FILTER(?objectCount > ?cardinalityValue)
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount) ?individual ?concept
+    WHERE 
+    {
+      ?individual rdf:type ?concept ;
+        ?objectProperty ?object .
+      ?objectProperty rdf:type owl:ObjectProperty .
+      ?concept rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ;
+          owl:maxCardinality|owl:cardinality ?cardinalityValue ].
+    } GROUP BY ?individual ?concept
+  }
+  BIND(?resource AS ?individual)
+  BIND(?class AS ?concept)
+}
+```
+**Explanation**
+
+Since _objectProperty} is assigned a maximum cardinality of _cardinalityValue} for class _class_, _resource_ \textit{rdf:type} _class_, and _resource_ has _objectCount} distinct assignments of _objectProperty} which is greater than _cardinalityValue}, we can conclude that there is an inconsistency associated with _resource_.
+
+**Example**
+
+```
+valo:DeadlySins rdf:type owl:Class ;
+    rdfs:subClassOf sio:Collection ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasMember ;
+            owl:maxCardinality "7"^^xsd:integer ] ; #Set to 8 instead of 7 to keep ontology consistent
+    rdfs:label "seven deadly sins" .
+
+val-kb:SevenDeadlySins rdf:type valo:DeadlySins ;
+    sio:hasMember 
+        val-kb:Pride ,
+        val-kb:Envy ,
+        val-kb:Gluttony ,
+        val-kb:Greed ,
+        val-kb:Lust ,
+        val-kb:Sloth ,
+        val-kb:Wrath ,
+        val-kb:Redundancy .
+
+val-kb:DistinctSinsRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        (val-kb:Pride 
+        val-kb:Envy 
+        val-kb:Gluttony 
+        val-kb:Greed 
+        val-kb:Lust 
+        val-kb:Sloth 
+        val-kb:Wrath 
+        val-kb:Redundancy ) .
+```
+##### Data Max Cardinality
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?dataProperty ?data .
+  ?dataProperty rdf:type owl:DatatypeProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?dataProperty ;
+      owl:maxCardinality ?cardinalityValue ] .
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?data) AS ?dataCount)
+    WHERE 
+    {
+      ?resource rdf:type ?class ;
+        ?dataProperty ?data .
+      ?dataProperty rdf:type owl:DatatypeProperty .
+      ?class rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?dataProperty ;
+          owl:maxCardinality ?cardinalityValue ].
+    }
+  }
+  FILTER(?dataCount > ?cardinalityValue)
+}
+```
+**Explanation**
+
+Since _datatypeProperty} is assigned a maximum cardinality of _cardinalityValue} for class _class_, _resource_ \textit{rdf:type} _class_, and _resource_ has _dataCount} distinct assignments of _datatypeProperty} which is greater than _cardinalityValue}, we can conclude that there is an inconsistency associated with _resource_.
+
+**Example**
+
+```
+valo:hasAge rdf:type owl:DatatypeProperty ;
+    rdfs:label "has age" ;
+    rdfs:subPropertyOf sio:hasValue .
+
+valo:Person rdf:type owl:Class ;
+    rdfs:label "person" ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty valo:hasAge ;
+            owl:maxCardinality "1"^^xsd:integer ] . 
+
+val-kb:Katie rdf:type valo:Person ;
+    rdfs:label "Katie" ;
+    valo:hasAge "31"^^xsd:integer , "34"^^xsd:integer .
+```
+##### Object Max Qualified Cardinality
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+sio:hasComponentPart rdf:type owl:ObjectProperty ;
+    rdfs:label "has component part" .
+
+sio:Triangle rdf:type owl:Class ;
+    rdfs:subClassOf sio:Polygon ;
+    dct:description "A triangle is a polygon composed of three points and three line segments, in which each point is fully connected to another point along through the line segment." ;
+    rdfs:label "triangle" .
+
+sio:LineSegment rdf:type owl:Class ;
+    rdfs:subClassOf sio:Line ;
+    dct:description "A line segment is a line and a part of a curve that is (inclusively) bounded by two terminal points." ;
+    rdfs:label "line segment" .
+
+sio:DirectedLineSegment rdf:type owl:Class ;
+    rdfs:subClassOf sio:LineSegment ;
+    dct:description "A directed line segment is a line segment that is contained by an ordered pair of endpoints (a start point and an endpoint)." ;
+    rdfs:label "directed line segment" .
+
+sio:ArrowedLineSegment rdf:type owl:Class ;
+    rdfs:subClassOf sio:DirectedLineSegment ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasPart ;
+            owl:someValuesFrom sio:Triangle ] ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasComponentPart ; 
+            owl:maxQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onClass sio:Triangle ] ;
+    dct:description "An arrowed line is a directed line segment in which one or both endpoints is tangentially part of a triangle that bisects the line." ;
+    rdfs:label "arrowed line segment" .
+
+val-kb:TripleArrowLineSegment rdf:type sio:ArrowedLineSegment ;
+    rdfs:label "triple arrow line segment" ;
+    sio:hasComponentPart
+        val-kb:LineSegment ,
+        val-kb:FirstArrow ,
+        val-kb:SecondArrow ,
+        val-kb:ThirdArrow .
+
+val-kb:FirstArrow rdf:type sio:Triangle ;
+    rdfs:label "first arrow" .
+
+val-kb:SecondArrow rdf:type sio:Triangle ;
+    rdfs:label "first arrow" .
+
+val-kb:ThirdArrow rdf:type sio:Triangle ;
+    rdfs:label "first arrow" .
+
+val-kb:LineSegment rdf:type sio:LineSegment ;
+    rdfs:label "line segment " .
+```
+##### Data Max Qualified Cardinality
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+valo:hasPolynomialRoot rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has polynomial root" .
+
+val-kb:QuadraticPolynomialRootRestriction rdf:type owl:Restriction ;
+    owl:onProperty valo:hasPolynomialRoot ;
+    owl:maxQualifiedCardinality "2"^^xsd:integer ;
+    owl:onDataRange xsd:decimal .
+
+val-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
+    rdfs:label "quadratic polynomial instance" ;
+    valo:hasPolynomialRoot "1.23"^^xsd:decimal , "3.45"^^xsd:decimal , "5.67"^^xsd:decimal .
+```
+#### Min Cardinality
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=\leq%20nP)
+
+##### Object Min Cardinality
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource ?objectProperty [ rdf:type owl:Individual ] .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?objectProperty ?object .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:minCardinality|owl:cardinality ?cardinalityValue ].
+  FILTER(?objectCount < ?cardinalityValue)
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount)
+    WHERE 
+    {
+      ?resource rdf:type ?class ;
+        ?objectProperty ?object .
+      ?objectProperty rdf:type owl:ObjectProperty .
+      ?class rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ;
+          owl:minCardinality|owl:cardinality ?cardinalityValue ].
+    }
+  }
+}
+```
+**Explanation**
+
+Since _objectProperty} is assigned a minimum cardinality of _cardinalityValue} for class _class_, _resource_ \textit{rdf:type} _class_, and _resource_ has _objectCount} distinct assignments of _objectProperty} which is less than _cardinalityValue}, we can conclude the existence of additional assignments of _objectProperty} for _resource_.
+
+**Example**
+
+```
+valo:StudyGroup rdf:type owl:Class ;
+    rdfs:subClassOf sio:Collection ,
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasMember ;
+            owl:minCardinality "3"^^xsd:integer ] ; 
+    rdfs:label "study group" .
+
+val-kb:StudyGroupInstance rdf:type valo:StudyGroup ;
+    sio:hasMember 
+        val-kb:Steve ,
+        val-kb:Ali .
+
+val-kb:Steve rdf:type sio:Human .
+val-kb:Luis rdf:type sio:Human .
+val-kb:Ali rdf:type sio:Human .
+
+val-kb:DistinctStudentsRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        (val-kb:Steve 
+        val-kb:Luis 
+        val-kb:Ali ) .
+```
+
+##### Data Min Cardinality
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+  ?resource ?dataProperty [ rdf:type rdfs:Datatype ] .
+}
+WHERE {
+  ?resource rdf:type ?class ;
+    ?dataProperty ?data .
+  ?dataProperty rdf:type owl:DatatypeProperty .
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Restriction ;
+        owl:onProperty ?dataProperty ;
+        owl:minCardinality ?cardinalityValue ] .
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?data) AS ?dataCount)
+    WHERE 
+    {
+      ?resource rdf:type ?class ;
+        ?dataProperty ?data .
+      ?dataProperty rdf:type owl:DatatypeProperty .
+      ?class rdf:type owl:Class ;
+        rdfs:subClassOf|owl:equivalentClass
+          [ rdf:type owl:Restriction ;
+            owl:onProperty ?dataProperty ;
+            owl:minCardinality ?cardinalityValue ].
+    }
+  }
+  FILTER(?dataCount < ?cardinalityValue)
+}
+```
+**Explanation**
+
+Since _dataProperty} is assigned a minimum cardinality of _cardinalityValue} for class _class_, _resource_ \textit{rdf:type} _class_, and _resource_ has _dataCount} distinct assignments of _dataProperty} which is less than _cardinalityValue}, we can conclude the existence of additional assignments of _dataProperty} for _resource_.
+
+**Example**
+
+```
+valo:hasBirthYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has birth year" .
+
+valo:Person rdf:type owl:Class ;
+    rdfs:label "person" ;
+    rdfs:subClassOf sio:Human ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty valo:hasBirthYear ;
+            owl:cardinality "1"^^xsd:integer ] . 
+
+val-kb:Erik rdf:type valo:Person ;
+    rdfs:label "Erik" ;
+    valo:hasBirthYear "1988"^^xsd:integer , "1998"^^xsd:integer .
+```
+
+##### Object Min Qualified Cardinality
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+sio:Polyline rdf:type owl:Class ;
+    rdfs:subClassOf sio:GeometricEntity ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasComponentPart ; 
+            owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onClass sio:LineSegment ] ;
+    dct:description "A polyline is a connected sequence of line segments." ;
+    rdfs:label "polyline" .
+
+val-kb:PolylineSegment rdf:type sio:Polyline ;
+    rdfs:label "polyline segment " ;
+    sio:hasComponentPart val-kb:LineSegmentInstance .
+
+val-kb:LineSegmentInstance rdf:type sio:LineSegment ;
+    rdfs:label "line segment instance" .
+```
+##### Data Min Qualified Cardinality
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+valo:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasName ;
+    rdfs:label "has name" .
+
+val-kb:NameRestriction rdf:type owl:Restriction ;
+    owl:onProperty valo:hasName ;
+    owl:minQualifiedCardinality "2"^^xsd:integer ;
+    owl:onDataRange xsd:string .
+
+val-kb:Jackson rdf:type sio:Human ;
+    rdfs:label "Jackson" ;
+    valo:hasName "Jackson"^^xsd:string .
+```
+
+#### Exact Cardinality
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math==nP)
+
+##### Object Exact Cardinality
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+
+}
+```
+% Still need to check distinctness of object -- This is currently only accounting for max. Need to account for min as well
+**Explanation**
+
+
+**Example**
+
+```
+valo:Trio rdf:type owl:Class ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasMember ;
+            owl:cardinality "2"^^xsd:integer
+        ] .
+
+val-kb:Stooges rdf:type valo:Trio ;
+    sio:hasMember 
+        val-kb:Larry ,
+        val-kb:Moe ,
+        val-kb:Curly .
+
+val-kb:DistinctStoogesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( val-kb:Larry 
+        val-kb:Moe 
+        val-kb:Curly ) .
+```
+##### Data Exact Cardinality
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+```
+##### Object Exact Qualified Cardinality
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+sio:hasComponentPart rdf:type owl:ObjectProperty ;
+    rdfs:label "has component part" .
+
+sio:PolygonEdge rdf:type owl:Class ;
+    rdfs:subClassOf sio:LineSegment ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:isPartOf ;
+            owl:someValuesFrom sio:Polygon ] ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasComponentPart ; 
+            owl:qualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onClass sio:PolygonVertex ] ;
+    dct:description "A polygon edge is a line segment joining two polygon vertices." ;
+    rdfs:label "polygon edge" .
+
+val-kb:TripleVertexedPolyEdge rdf:type sio:PolygonEdge ;
+    rdfs:label "triple vertexed polygon edge" ;
+    sio:hasComponentPart val-kb:VertexOne , val-kb:VertexTwo , val-kb:VertexThree .
+
+val-kb:VertexOne rdf:type sio:PolygonVertex ;
+    rdfs:label "vertex one" .
+
+val-kb:VertexTwo rdf:type sio:PolygonVertex ;
+    rdfs:label "vertex two" .
+
+val-kb:VertexThree rdf:type sio:PolygonVertex ;
+    rdfs:label "vertex three" .
+```
+##### Data Exact Qualified Cardinality
+**Axiom**
+
+
+**Query**
+
+```
+CONSTRUCT {
+}
+WHERE {
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+valo:uniqueUsername rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "unique username" .
+
+val-kb:UsernameRestriction rdf:type owl:Restriction ;
+    owl:onProperty valo:uniqueUsername ;
+    owl:qualifiedCardinality "1"^^xsd:integer ;
+    owl:onDataRange xsd:string .
+
+val-kb:Steve rdf:type sio:Human ;
+    rdfs:label "Steve" ;
+    valo:uniqueUsername "SteveTheGamer"^^xsd:string , "ScubaSteve508"^^xsd:string .
+```
+
+### Disjunction
+#### Object Union Of
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=C_1%20\sqcup%20\dots%20\sqcup%20C_n)
+
+**Query**
+
+```
+CONSTRUCT {
+  ?member rdfs:subClassOf ?resource .
+}
+WHERE {
+  ?resource rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Class ;
+        owl:unionOf ?list ] .
+  ?list rdf:rest*/rdf:first ?member .
+}
+```
+**Explanation**
+
+Since the class _resource_ has a subclass or equivalent class relation with a class that comprises the union of _list}, which contains member _member}, we can infer that _member} is a subclass of _resource_.
+
+**Example**
+
+```
+valo:Virus rdf:type owl:Class ;
+    rdfs:label "virus" ;
+    rdfs:subClassOf sio:Organism ;
+    owl:disjointWith sio:CellularOrganism , sio:Non-cellularOrganism .
+```
+#### Data Union Of
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?class .
+}
+WHERE {
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Class ;
+        owl:unionOf ?list ] .
+  ?list rdf:rest*/rdf:first ?member .
+  ?member rdf:type owl:Restriction ;
+    owl:onProperty ?dataProperty ;
+    owl:someValuesFrom ?datatype . 
+  ?dataProperty rdf:type owl:DatatypeProperty .
+  ?resource ?dataProperty ?data .
+  FILTER(DATATYPE(?data)=?datatype)
+}
+```
+**Explanation**
+
+Since _class_ has a subclass or equivalent class relationship to the union of _list} which has members _member}, and _member} is a restriction on _dataProperty} to have some values from _datatype_, we can infer _resource_ \textit{rdf:type} _class_, since _resource_ _dataProperty} _data} and the datatype of _data} is _datatype_.
+
+**Example**
+
+```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sio:Number rdf:type owl:Class ;
+    rdfs:label "number" ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    dct:description "A number is a mathematical object used to count, label, and measure." .
+
+sio:MeasurementValue rdf:type owl:Class ;
+    rdfs:label "measurement value" ;
+    rdfs:subClassOf sio:Number ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Class ;
+            owl:unionOf ( 
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:dateTime ] 
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:double ]
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:float ]
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:integer ]
+            ) ] ;
+    dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
+
+val-kb:DateTimeMeasurement rdf:type owl:Individual ;
+    rdfs:label "date time measurement" ;
+    sio:hasValue "10141990"^^xsd:dateTime .
+
+val-kb:IntegerMeasurement rdf:type owl:Individual ;
+    rdfs:label "integer measurement" ;
+    sio:hasValue "12"^^xsd:integer .
+
+val-kb:DoubleMeasurement rdf:type owl:Individual ;
+    rdfs:label "double measurement" ;
+    sio:hasValue "6.34"^^xsd:double .
+
+val-kb:FloatMeasurement rdf:type owl:Individual ;
+    rdfs:label "float measurement" ;
+    sio:hasValue "3.14"^^xsd:float .
+```
+#### Disjoint Union
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  ?member rdfs:subClassOf ?resource ;
+    owl:disjointWith ?item .
+}
+WHERE {
+  ?resource rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Class ;
+        owl:disjointUnionOf ?list ] .
+  ?list rdf:rest*/rdf:first ?member .
+  {
+    SELECT DISTINCT ?item ?class WHERE 
+    {
+      ?class rdf:type owl:Class ;
+        rdfs:subClassOf|owl:equivalentClass
+          [ rdf:type owl:Class ;
+            owl:disjointUnionOf ?list ] .
+      ?list rdf:rest*/rdf:first ?item .
+    }
+  }
+  FILTER(?resource = ?class)
+  FILTER(?member != ?item)
+}
+```
+**Explanation**
+
+Since the class _resource_ has a subclass or equivalent class relation with a class that comprises the disjoint union of _list}, which contains member _member}, we can infer that _member} is a subclass of _resource_ and disjoint with the other members of the list.
+
+**Example**
+
+```
+sio:BiologicalEntity  rdf:type owl:Class ;
+    rdfs:label "biological entity" ;
+    rdfs:subClassOf sio:HeterogeneousSubstance ;
+    dct:description "A biological entity is a heterogeneous substance that contains genomic material or is the product of a biological process." .
+
+sio:HeterogeneousSubstance  rdf:type owl:Class ;
+    rdfs:label "heterogeneous substance" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+    rdfs:subClassOf sio:ChemicalEntity ;
+    dct:description "A heterogeneous substance is a chemical substance that is composed of more than one different kind of component." .
+
+sio:MaterialEntity  rdf:type owl:Class ;
+    rdfs:label "material entity" ;
+    rdfs:subClassOf sio:Object ;
+    dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
+
+sio:ChemicalEntity  rdf:type owl:Class ;
+    rdfs:label "chemical entity" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+    dct:description "A chemical entity is a material entity that pertains to chemistry." .
+
+valo:Lobe rdf:type owl:Class ;
+    rdfs:subClassOf sio:BiologicalEntity ;
+    rdfs:label "lobe" ;
+    dct:description "A lobe that is part the brain." ;
+    owl:equivalentClass 
+        [ rdf:type owl:Class ;
+            owl:disjointUnionOf ( valo:FrontalLobe valo:ParietalLobe valo:TemporalLobe valo:OccipitalLobe valo:LimbicLobe ) ] .
+```
+
+
+### Intersection
+#### Object Intersection Of
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=C_1%20\sqcap%20\dots%20\sqcap%20C_n)
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type ?class.
+}
+WHERE {
+  ?class rdf:type owl:Class ;
+    owl:intersectionOf ?list .
+  ?list rdf:rest*/rdf:first ?member .
+  {
+    ?member rdf:type owl:Class .
+    ?resource rdf:type ?member .
+  }
+  UNION 
+  {
+    ?member rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:someValuesFrom ?restrictedClass .
+    ?objectProperty rdf:type owl:ObjectProperty .
+    ?resource ?objectProperty [rdf:type  ?restrictedClass ] .
+  }
+  {
+    SELECT DISTINCT * WHERE
+    {
+      ?concept rdf:type owl:Class ;
+        owl:intersectionOf ?list .
+      ?list rdf:rest*/rdf:first ?item .
+      {
+        ?item rdf:type owl:Class .
+        ?individual rdf:type ?item .
+      }
+      UNION
+      {
+        ?item rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ;
+          owl:someValuesFrom ?restrictedClass .
+        ?objectProperty rdf:type owl:ObjectProperty .
+        ?individual ?objectProperty [rdf:type  ?restrictedClass ] .
+      }
+    }
+  }
+  BIND(?class AS ?concept) 
+  BIND(?resource AS ?individual) 
+  FILTER(?member != ?item)
+}
+```
+**Explanation**
+
+Since _class_ is the intersection of the the members in _list}, and _resource_ is of type each of the members in the list, then we can infer _resource_ is a _class_.
+
+**Example**
+
+```
+sio:Molecule rdf:type owl:Class ;
+    rdfs:label "molecule" .
+
+sio:isTargetIn rdf:type owl:ObjectProperty ;
+    rdfs:label "is target in" .
+
+sio:Target rdf:type owl:Class  ;
+    owl:intersectionOf ( 
+        sio:Molecule 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:isTargetIn ;
+            owl:someValuesFrom sio:Process ] ) ;
+    rdfs:label "target" .
+
+val-kb:ProteinReceptor rdf:type sio:Molecule ;
+    rdfs:label "protein receptor" ;
+    sio:isTargetIn val-kb:Therapy .
+
+val-kb:Therapy rdf:type sio:Process ;
+    rdfs:label "therapy" .
+
+val-kb:Brian rdf:type valo:CanTalk , valo:Dog , valo:Friendly .
+
+valo:CanTalk rdf:type owl:Class .
+valo:Dog rdf:type owl:Class .
+valo:Friendly rdf:type owl:Class .
+
+valo:FriendlyTalkingDog rdf:type owl:Class ;
+    owl:intersectionOf (valo:CanTalk valo:Dog valo:Friendly) .
+```
+
+#### Data Intersection Of
+**Axiom**
+
+**Query**
+```
+CONSTRUCT {
+  
+}
+WHERE {
+  
+}
+```
+**Explanation**
+
+
+**Example**
+
+```
+```
+
+### Negation
+#### Complement Of
+**Axiom**
+
+![formula](https://render.githubusercontent.com/render/math?math=\neg%20C)
+
+##### Object Complement Of
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?resource rdf:type ?class ,
+      ?complementClass .
+  ?class rdf:type owl:Class .
+  ?complementClass rdf:type owl:Class .
+  {?class owl:complementOf ?complementClass .} 
+    UNION 
+  {?complementClass owl:complementOf ?class .}
+}
+```
+**Explanation**
+
+Since _class_ and _complementClass} are complementary, _resource_ being of type both _class_ and _complementClass} leads to an inconsistency.
+
+**Example**
+
+```
+valo:VitalStatus rdfs:subClassOf sio:Attribute ;
+    rdfs:label "vital status" .
+
+valo:Dead rdf:type owl:Class ;
+    rdfs:subClassOf valo:VitalStatus ;
+    rdfs:label "dead" .
+
+valo:Alive rdf:type owl:Class ;
+    rdfs:subClassOf valo:VitalStatus ;
+    rdfs:label "alive" ;
+    owl:complementOf valo:Dead .
+
+val-kb:VitalStatusOfPat rdf:type valo:Alive , valo:Dead ;
+    rdfs:label "Pat's Vital Status" ;
+    sio:isAttributeOf val-kb:Pat .
+
+val-kb:Pat rdf:type sio:Human ;
+    rdfs:label "Pat" .
+```
+
+##### Data Complement Of
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?datatype rdf:type rdfs:Datatype ;
+    owl:datatypeComplementOf ?complement .
+  ?resource ?dataProperty ?value .
+  ?dataProperty rdf:type owl:DatatypeProperty ;
+    rdfs:range ?datatype .
+  FILTER(DATATYPE(?value) = ?complement)
+}
+```
+**Explanation**
+
+Since _datatype_ is the complement of _complement}, _dataProperty} has range _datatype_, and _resource_ _dataProperty} _value}, but _value} is of type _complement}, an inconsistency occurs.
+
+**Example**
+
+```
+```
+
+##### Object Property Complement Of
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Class ;
+        owl:complementOf 
+          [ rdf:type owl:Restriction ;
+            owl:onProperty ?objectProperty ;
+            owl:someValuesFrom ?restrictedClass ] 
+      ] .
+  ?resource rdf:type ?class ;
+    ?objectProperty [ rdf:type ?objectClass ] .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  {
+    FILTER(?objectClass = ?restrictedClass)
+  }
+  UNION
+  {
+    ?objectClass rdfs:subClassOf*|owl:equivalentClass ?restrictedClass . 
+  }
+}
+```
+**Explanation**
+
+Since _class_ is a subclass of or is equivalent to a class with a complement restriction on the use of _objectProperty} to have values from _restrictedClass}, and _resource_ is of type _class_, but has the link _objectProperty} to have values from an instance of _restrictedClass}, an inconsistency occurs.
+
+**Example**
+
+```
+sio:hasUnit rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has unit" ;
+    owl:inverseOf sio:isUnitOf ;
+    rdfs:range sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    dct:description "has unit is a relation between a quantity and the unit it is a multiple of." .
+
+sio:DimensionlessQuantity rdf:type owl:Class ;
+    rdfs:label "dimensionless quantity" ;
+    rdfs:subClassOf sio:Quantity ,
+        [ rdf:type owl:Class ;
+            owl:complementOf [ rdf:type owl:Restriction ;
+                owl:onProperty sio:hasUnit ;
+                owl:someValuesFrom sio:UnitOfMeasurement ] ];
+    owl:disjointWith sio:DimensionalQuantity ;
+    dct:description "A dimensionless quantity is a quantity that has no associated unit." .
+
+sio:Quantity rdf:type owl:Class ;
+    rdfs:label "quantity" ;
+    owl:equivalentClass 
+        [ rdf:type owl:Class ; 
+            owl:unionOf (sio:DimensionlessQuantity sio:DimensionalQuantity) ] ;
+    rdfs:subClassOf sio:MeasurementValue ;
+    dct:description "A quantity is an informational entity that gives the magnitude of a property." .
+
+sio:MeasurementValue rdf:type owl:Class ;
+    rdfs:label "measurement value" ;
+    rdfs:subClassOf sio:Number ;
+    dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
+
+sio:Number rdf:type owl:Class ;
+    rdfs:label "number" ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    dct:description "A number is a mathematical object used to count, label, and measure." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+val-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
+    sio:hasUnit [ rdf:type valo:Percentage ] ;
+    rdfs:label "efficiency" .
+
+valo:Percentage rdfs:subClassOf sio:UnitOfMeasurement ;
+    rdfs:label "percentage" .
+```
+
+##### Data Property Complement Of
+**Query**
+```
+CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
+}
+WHERE {
+  ?class rdf:type owl:Class ;
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Class ;
+        owl:complementOf 
+          [ rdf:type owl:Restriction ;
+            owl:onProperty ?dataProperty ;
+            owl:someValuesFrom ?datatype ] 
+      ] .
+  ?resource rdf:type ?class ;
+    ?dataProperty ?value .
+  ?dataProperty rdf:type owl:DatatypeProperty .
+  FILTER(DATATYPE(?value)=?datatype)
+}
+```
+**Explanation**
+
+Since _resource_ is a _class_ which is equivalent to or a subclass of a class that has a complement of restriction on _dataProperty} to have some values from _datatype_, _resource_ _dataProperty} _value}, but _value} has a datatype _datatype_, an inconsistency occurs.
+
 ### Code
 
 

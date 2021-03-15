@@ -495,7 +495,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _transitiveProperty_ is a transitive object property, and the relationships _resource_ _transitiveProperty_ _o1} and _o1} _transitiveProperty_ _o2_ exist, then we can infer that _resource_ _transitiveProperty_ _o2_.
+Since _transitiveProperty_ is a transitive object property, and the relationships _resource_ _transitiveProperty_ _o1_ and _o1_ _transitiveProperty_ _o2_ exist, then we can infer that _resource_ _transitiveProperty_ _o2_.
 
 **Example**
 
@@ -728,7 +728,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _functionalProperty_ is a functional object property, _resource_ can only have one value for _functionalProperty_. Since _resource_ _functionalProperty_ both _o1} and _o2_, we can infer that _o1} and _o2_ must be the same individual.
+Since _functionalProperty_ is a functional object property, _resource_ can only have one value for _functionalProperty_. Since _resource_ _functionalProperty_ both _o1_ and _o2_, we can infer that _o1_ and _o2_ must be the same individual.
 
 **Example**
 
@@ -762,7 +762,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _functionalProperty_ is a functional data property, _resource_ can only have one value for _functionalProperty_. Since _resource_ _functionalProperty_ both _o1} and _o2_, and _o1} is different from _o2_, an inconsistency occurs.
+Since _functionalProperty_ is a functional data property, _resource_ can only have one value for _functionalProperty_. Since _resource_ _functionalProperty_ both _o1_ and _o2_, and _o1_ is different from _o2_, an inconsistency occurs.
 
 **Example**
 
@@ -1514,7 +1514,7 @@ WHERE {
 ```
 **Explanation**
 
-_resource_ _datatypeProperty_ _val}, but _val} does not have the same datatype _value_ restricted for _datatypeProperty_ in _class_. Since _resource_ rdf:type _class_, an inconsistency occurs.
+_resource_ _datatypeProperty_ _val_, but _val_ does not have the same datatype _value_ restricted for _datatypeProperty_ in _class_. Since _resource_ rdf:type _class_, an inconsistency occurs.
 
 **Example**
 
@@ -1547,7 +1547,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _resource_ is of type _class_, which has a value restriction on _objectProperty_ to have _object}, we can infer that _resource_ _objectProperty_ _object}.
+Since _resource_ is of type _class_, which has a value restriction on _objectProperty_ to have _object_, we can infer that _resource_ _objectProperty_ _object_.
 
 **Example**
 
@@ -1661,7 +1661,7 @@ WHERE {
 ```
 **Explanation**
 
-_resource_ _datatypeProperty_ _val}, but _val} does not have the same datatype _value_ restricted for _datatypeProperty_ in _class_. Since _resource_ _rdf:type_ _class_, an inconsistency occurs.
+_resource_ _datatypeProperty_ _val_, but _val_ does not have the same datatype _value_ restricted for _datatypeProperty_ in _class_. Since _resource_ _rdf:type_ _class_, an inconsistency occurs.
 
 **Example**
 
@@ -1873,7 +1873,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _objectProperty_ is assigned a maximum cardinality of _cardinalityValue} for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount} distinct assignments of _objectProperty_ which is greater than _cardinalityValue}, we can conclude that there is an inconsistency associated with _resource_.
+Since _objectProperty_ is assigned a maximum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount_ distinct assignments of _objectProperty_ which is greater than _cardinalityValue_, we can conclude that there is an inconsistency associated with _resource_.
 
 **Example**
 
@@ -1942,7 +1942,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _datatypeProperty_ is assigned a maximum cardinality of _cardinalityValue} for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount} distinct assignments of _datatypeProperty_ which is greater than _cardinalityValue}, we can conclude that there is an inconsistency associated with _resource_.
+Since _datatypeProperty_ is assigned a maximum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount_ distinct assignments of _datatypeProperty_ which is greater than _cardinalityValue_, we can conclude that there is an inconsistency associated with _resource_.
 
 **Example**
 
@@ -2110,7 +2110,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _objectProperty_ is assigned a minimum cardinality of _cardinalityValue} for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount} distinct assignments of _objectProperty_ which is less than _cardinalityValue}, we can conclude the existence of additional assignments of _objectProperty_ for _resource_.
+Since _objectProperty_ is assigned a minimum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount_ distinct assignments of _objectProperty_ which is less than _cardinalityValue_, we can conclude the existence of additional assignments of _objectProperty_ for _resource_.
 
 **Example**
 
@@ -2176,7 +2176,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _dataProperty_ is assigned a minimum cardinality of _cardinalityValue} for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount} distinct assignments of _dataProperty_ which is less than _cardinalityValue}, we can conclude the existence of additional assignments of _dataProperty_ for _resource_.
+Since _dataProperty_ is assigned a minimum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount_ distinct assignments of _dataProperty_ which is less than _cardinalityValue_, we can conclude the existence of additional assignments of _dataProperty_ for _resource_.
 
 **Example**
 
@@ -2466,7 +2466,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _class_ has a subclass or equivalent class relationship to the union of _list_ which has members _member_, and _member_ is a restriction on _dataProperty_ to have some values from _datatype_, we can infer _resource_ _rdf:type_ _class_, since _resource_ _dataProperty_ _data} and the datatype of _data} is _datatype_.
+Since _class_ has a subclass or equivalent class relationship to the union of _list_ which has members _member_, and _member_ is a restriction on _dataProperty_ to have some values from _datatype_, we can infer _resource_ _rdf:type_ _class_, since _resource_ _dataProperty_ _data_ and the datatype of _data_ is _datatype_.
 
 **Example**
 
@@ -2728,7 +2728,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _class_ and _complementClass} are complementary, _resource_ being of type both _class_ and _complementClass} leads to an inconsistency.
+Since _class_ and _complementClass_ are complementary, _resource_ being of type both _class_ and _complementClass_ leads to an inconsistency.
 
 **Example**
 
@@ -2770,7 +2770,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _datatype_ is the complement of _complement}, _dataProperty_ has range _datatype_, and _resource_ _dataProperty_ _value_, but _value_ is of type _complement}, an inconsistency occurs.
+Since _datatype_ is the complement of _complement_, _dataProperty_ has range _datatype_, and _resource_ _dataProperty_ _value_, but _value_ is of type _complement_, an inconsistency occurs.
 
 **Example**
 
@@ -2806,7 +2806,7 @@ WHERE {
 ```
 **Explanation**
 
-Since _class_ is a subclass of or is equivalent to a class with a complement restriction on the use of _objectProperty_ to have values from _restrictedClass}, and _resource_ is of type _class_, but has the link _objectProperty_ to have values from an instance of _restrictedClass}, an inconsistency occurs.
+Since _class_ is a subclass of or is equivalent to a class with a complement restriction on the use of _objectProperty_ to have values from _restrictedClass_, and _resource_ is of type _class_, but has the link _objectProperty_ to have values from an instance of _restrictedClass_, an inconsistency occurs.
 
 **Example**
 
@@ -2888,7 +2888,11 @@ WHERE {
 ```
 **Explanation**
 
-Since _resource_ is a _class_ which is equivalent to or a subclass of a class that has a complement of restriction on _dataProperty_ to have some values from _datatype_, _resource_ _dataProperty_ _value_, but _value_ has a datatype _datatype_, an inconsistency occurs.### Code
+Since _resource_ is a _class_ which is equivalent to or a subclass of a class that has a complement of restriction on _dataProperty_ to have some values from _datatype_, _resource_ _dataProperty_ _value_, but _value_ has a datatype _datatype_, an inconsistency occurs.
+
+
+
+### Code
 
 
 ## Welcome to GitHub Pages

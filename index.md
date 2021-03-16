@@ -104,6 +104,7 @@ We describe an approach for building a deductive inference engine by encoding ea
 ## Resources
 
 ### Ontology
+The documentation for the ontology is available here: [Documentation](documentation.html)
 
 ### SPARQL CONSTRUCT Axioms
 ### Inclusion 

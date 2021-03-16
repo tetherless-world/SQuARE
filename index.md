@@ -105,7 +105,9 @@ We describe an approach for building a deductive inference engine by encoding ea
 
 ### Ontology
 The documentation for the ontology is available [here](documentation.html).
+
 The consistent version of the ontology is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo.ttl).
+
 The inconsistent version of the ontology is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo_inconsistent.ttl).
 
 ### SPARQL CONSTRUCT Axioms
@@ -1951,7 +1953,6 @@ WHERE {
 Since _class_ has a restriction on _objectProperty_ to have all values from _valueclass_, _individual_ _rdf:type_ _class_, and _individual_ _objectProperty_ _resource_, we can infer that _resource_ _rdf:type_ _valueclass_.
 
 **Example**
-
 ```
 sio:Namespace rdf:type owl:Class ;
     rdfs:subClassOf sio:ComputationalEntity ,
@@ -1969,6 +1970,7 @@ sio:ComputationalEntity rdf:type owl:Class;
 val-kb:NamespaceInstance rdf:type sio:Namespace ;
     sio:hasMember val-kb:NamespaceID .
 ```
+A reasoner should infer \texttt{val-kb:NamespaceID rdf:type sio:Identifier .}
 #### Data All Values From
 **Axiom**
 
@@ -1994,7 +1996,6 @@ WHERE {
 _resource_ _datatypeProperty_ _val_, but _val_ does not have the same datatype _value_ restricted for _datatypeProperty_ in _class_. Since _resource_ _rdf:type_ _class_, an inconsistency occurs.
 
 **Example**
-
 ```
 valo:Integer rdf:type owl:Class ;
     rdfs:subClassOf sio:ComputationalEntity ,
@@ -2006,7 +2007,7 @@ valo:Integer rdf:type owl:Class ;
 val-kb:Ten rdf:type valo:Integer ;
     sio:hasValue "10.1"^^xsd:float .
 ```
-
+A reasoner should infer `val-kb:Ten rdf:type owl:Nothing .` or than an inconsistency occurs.
 ### Self Restriction
 #### Object Has Self
 **Axiom**
@@ -2040,7 +2041,7 @@ valo:SelfAttributing rdf:type owl:Class ;
 
 val-kb:Blue rdf:type valo:SelfAttributing .
 ```
-
+A reasoner should infer `val-kb:Blue sio:hasAttribute val-kb:Blue .`
 ### Individual Enumeration
 #### Object One Of
 **Axiom**
@@ -2064,7 +2065,6 @@ WHERE {
 Since _resource_ has a one of relationship with _list_, the member _member_ in _list_ is of type _resource_.
 
 **Example**
-
 ```
 valo:Type rdf:type owl:Class ;
     owl:oneOf (val-kb:Integer val-kb:String val-kb:Boolean val-kb:Double val-kb:Float) .
@@ -2078,10 +2078,8 @@ val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
         val-kb:Float 
         val-kb:Tuple 
         ) .
-
-val-kb:Tuple rdf:type valo:Type .
 ```
-
+A reasoner should infer `val-kb:Integer rdf:type valo:Type . val-kb:String rdf:type valo:Type . val-kb:Boolean rdf:type valo:Type . val-kb:Double rdf:type valo:Type . val-kb:Float rdf:type valo:Type .`
 ##### Object One Of Inconsistency
 **Query**
 ```
@@ -2112,15 +2110,28 @@ WHERE {
 Since _class_ has a one of relationship with _list_, and _resource_ is not in _list_, the assertion _resource_ is a _class_ leads to an inconsistency.
 
 **Example**
+```
+valo:Type rdf:type owl:Class ;
+    owl:oneOf (val-kb:Integer val-kb:String val-kb:Boolean val-kb:Double val-kb:Float) .
 
+val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( val-kb:Integer
+        val-kb:String 
+        val-kb:Boolean
+        val-kb:Double 
+        val-kb:Float 
+        val-kb:Tuple 
+        ) .
+
+val-kb:Tuple rdf:type valo:Type .
 ```
-```
+A reasoner should infer `val-kb:Tuple rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### Data One Of
 **Axiom**
 
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource rdf:type owl:Nothing .
@@ -2151,7 +2162,6 @@ WHERE {
 Since _datatypeProperty_ is restricted to have a value from _list_, and _resource_ _datatypeProperty_ _value_, but _value_ is not in _list_, an inconsistency occurs.
 
 **Example**
-
 ```
 valo:hasTeenAge rdf:type owl:DatatypeProperty ;
     rdfs:label "has age" ;
@@ -2160,7 +2170,7 @@ valo:hasTeenAge rdf:type owl:DatatypeProperty ;
 
 val-kb:Sarah valo:hasTeenAge "12"^^xsd:integer .
 ```
-
+A reasoner should infer `val-kb:Sarah rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Cardinality
 #### Max Cardinality
 **Axiom**
@@ -2170,7 +2180,6 @@ val-kb:Sarah valo:hasTeenAge "12"^^xsd:integer .
 ##### Object Max Cardinality
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource rdf:type owl:Nothing .
@@ -2206,7 +2215,6 @@ WHERE {
 Since _objectProperty_ is assigned a maximum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount_ distinct assignments of _objectProperty_ which is greater than _cardinalityValue_, we can conclude that there is an inconsistency associated with _resource_.
 
 **Example**
-
 ```
 valo:DeadlySins rdf:type owl:Class ;
     rdfs:subClassOf sio:Collection ;
@@ -2275,7 +2283,6 @@ WHERE {
 Since _datatypeProperty_ is assigned a maximum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount_ distinct assignments of _datatypeProperty_ which is greater than _cardinalityValue_, we can conclude that there is an inconsistency associated with _resource_.
 
 **Example**
-
 ```
 valo:hasAge rdf:type owl:DatatypeProperty ;
     rdfs:label "has age" ;
@@ -2297,7 +2304,6 @@ val-kb:Katie rdf:type valo:Person ;
 
 
 **Query**
-
 ```
 CONSTRUCT {
 }
@@ -2409,7 +2415,6 @@ val-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
 ##### Object Min Cardinality
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource ?objectProperty [ rdf:type owl:Individual ] .
@@ -2443,7 +2448,6 @@ WHERE {
 Since _objectProperty_ is assigned a minimum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount_ distinct assignments of _objectProperty_ which is less than _cardinalityValue_, we can conclude the existence of additional assignments of _objectProperty_ for _resource_.
 
 **Example**
-
 ```
 valo:StudyGroup rdf:type owl:Class ;
     rdfs:subClassOf sio:Collection ,
@@ -2473,7 +2477,6 @@ val-kb:DistinctStudentsRestriction rdf:type owl:AllDifferent ;
 
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource ?dataProperty [ rdf:type rdfs:Datatype ] .
@@ -2509,7 +2512,6 @@ WHERE {
 Since _dataProperty_ is assigned a minimum cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount_ distinct assignments of _dataProperty_ which is less than _cardinalityValue_, we can conclude the existence of additional assignments of _dataProperty_ for _resource_.
 
 **Example**
-
 ```
 valo:hasBirthYear rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasValue ;
@@ -2544,7 +2546,6 @@ WHERE {
 
 
 **Example**
-
 ```
 sio:Polyline rdf:type owl:Class ;
     rdfs:subClassOf sio:GeometricEntity ;
@@ -2577,7 +2578,6 @@ WHERE {
 
 
 **Example**
-
 ```
 valo:hasName rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasName ;
@@ -2601,7 +2601,6 @@ val-kb:Jackson rdf:type sio:Human ;
 ##### Object Exact Cardinality
 
 **Query**
-
 ```
 CONSTRUCT {
 }
@@ -2614,7 +2613,6 @@ WHERE {
 
 
 **Example**
-
 ```
 valo:Trio rdf:type owl:Class ;
     rdfs:subClassOf 
@@ -2640,7 +2638,6 @@ val-kb:DistinctStoogesRestriction rdf:type owl:AllDifferent ;
 
 
 **Query**
-
 ```
 CONSTRUCT {
 }
@@ -2660,7 +2657,6 @@ WHERE {
 
 
 **Query**
-
 ```
 CONSTRUCT {
 }
@@ -2671,7 +2667,6 @@ WHERE {
 
 
 **Example**
-
 ```
 sio:hasComponentPart rdf:type owl:ObjectProperty ;
     rdfs:label "has component part" .
@@ -2708,7 +2703,6 @@ val-kb:VertexThree rdf:type sio:PolygonVertex ;
 
 
 **Query**
-
 ```
 CONSTRUCT {
 }
@@ -2719,7 +2713,6 @@ WHERE {
 
 
 **Example**
-
 ```
 sio:hasValue rdf:type owl:DatatypeProperty ,
                                 owl:FunctionalProperty;
@@ -2747,7 +2740,6 @@ val-kb:Steve rdf:type sio:Human ;
 ![formula](https://render.githubusercontent.com/render/math?math=C_1%20\sqcup%20\dots%20\sqcup%20C_n)
 
 **Query**
-
 ```
 CONSTRUCT {
   ?member rdfs:subClassOf ?resource .
@@ -2765,13 +2757,32 @@ WHERE {
 Since the class _resource_ has a subclass or equivalent class relation with a class that comprises the union of _list_, which contains member _member_, we can infer that _member_ is a subclass of _resource_.
 
 **Example**
+```
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
+sio:GeometricEntity rdf:type owl:Class ;
+    rdfs:label "geometric entity" ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    dct:description "A geometric entity is an information content entity that pertains to the structure and topology of a space." .
+
+sio:Curve rdf:type owl:Class ;
+    rdfs:label "curve" ;
+    rdfs:subClassOf sio:GeometricEntity ;
+    dct:description "A curve is a geometric entity that may be located in n-dimensional spatial region whose extension may be n-dimensional,  is composed of at least two fully connected points and does not intersect itself." .
+
+sio:Line rdf:type owl:Class ;
+    rdfs:subClassOf sio:Curve ;
+    rdfs:label "line" ;
+    owl:equivalentClass 
+        [   rdf:type owl:Class ;
+            owl:unionOf ( sio:LineSegment sio:Ray sio:InfiniteLine ) ] ;
+    dct:description "A line is curve that extends in a single dimension (e.g. straight line; exhibits no curvature), and is composed of at least two fully connected points." .
 ```
-valo:Virus rdf:type owl:Class ;
-    rdfs:label "virus" ;
-    rdfs:subClassOf sio:Organism ;
-    owl:disjointWith sio:CellularOrganism , sio:Non-cellularOrganism .
-```
+A reasoner should infer `sio:LineSegment rdfs:subClassOf sio:Line . sio:Ray rdfs:subClassOf sio:Line . sio:InfiniteLine rdfs:subClassOf sio:Line .`
 #### Data Union Of
 **Axiom**
 
@@ -2799,7 +2810,6 @@ WHERE {
 Since _class_ has a subclass or equivalent class relationship to the union of _list_ which has members _member_, and _member_ is a restriction on _dataProperty_ to have some values from _datatype_, we can infer _resource_ _rdf:type_ _class_, since _resource_ _dataProperty_ _data_ and the datatype of _data_ is _datatype_.
 
 **Example**
-
 ```
 sio:hasValue rdf:type owl:DatatypeProperty ,
                                 owl:FunctionalProperty;
@@ -2858,6 +2868,7 @@ val-kb:FloatMeasurement rdf:type owl:Individual ;
     rdfs:label "float measurement" ;
     sio:hasValue "3.14"^^xsd:float .
 ```
+A reasoner should infer `val-kb:DateTimeMeasurement rdf:type sio:MeasurementValue . val-kb:IntegerMeasurement rdf:type sio:MeasurementValue . val-kb:DoubleMeasurement rdf:type sio:MeasurementValue . val-kb:FloatMeasurement rdf:type sio:MeasurementValue .`
 #### Disjoint Union
 **Axiom**
 
@@ -2892,7 +2903,6 @@ WHERE {
 Since the class _resource_ has a subclass or equivalent class relation with a class that comprises the disjoint union of _list_, which contains member _member_, we can infer that _member_ is a subclass of _resource_ and disjoint with the other members of the list.
 
 **Example**
-
 ```
 sio:BiologicalEntity  rdf:type owl:Class ;
     rdfs:label "biological entity" ;
@@ -2923,8 +2933,23 @@ valo:Lobe rdf:type owl:Class ;
         [ rdf:type owl:Class ;
             owl:disjointUnionOf ( valo:FrontalLobe valo:ParietalLobe valo:TemporalLobe valo:OccipitalLobe valo:LimbicLobe ) ] .
 ```
+A reasoner should infer
+```
+valo:FrontalLobe rdfs:subClassOf valo:Lobe ;
+    owl:disjointWith ex:ParietalLobe , valo:TemporalLobe , valo:OccipitalLobe , valo:LimbicLobe .
 
+valo:ParietalLobe rdfs:subClassOf valo:Lobe ;
+    owl:disjointWith valo:FrontalLobe , valo:TemporalLobe , valo:OccipitalLobe , valo:LimbicLobe .
 
+valo:TemporalLobe rdfs:subClassOf valo:Lobe ;
+    owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:OccipitalLobe , valo:LimbicLobe .
+
+valo:OccipitalLobe rdfs:subClassOf ex:Lobe ;
+    owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:TemporalLobe , valo:LimbicLobe .
+
+valo:LimbicLobe rdfs:subClassOf valo:Lobe ;
+    owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:TemporalLobe , valo:OccipitalLobe .
+```
 ### Intersection
 #### Object Intersection Of
 **Axiom**

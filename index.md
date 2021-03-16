@@ -3028,7 +3028,9 @@ val-kb:ProteinReceptor rdf:type sio:Molecule ;
 
 val-kb:Therapy rdf:type sio:Process ;
     rdfs:label "therapy" .
-
+```
+A reasoner should infer `val-kb:ProteinReceptor rdf:type sio:Target .`
+```
 val-kb:Brian rdf:type valo:CanTalk , valo:Dog , valo:Friendly .
 
 valo:CanTalk rdf:type owl:Class .
@@ -3038,7 +3040,7 @@ valo:Friendly rdf:type owl:Class .
 valo:FriendlyTalkingDog rdf:type owl:Class ;
     owl:intersectionOf (valo:CanTalk valo:Dog valo:Friendly) .
 ```
-
+A reasoner should infer `val-kb:Brian rdf:type valo:FriendlyTalkingDog .`
 #### Data Intersection Of
 **Axiom**
 

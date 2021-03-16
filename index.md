@@ -170,9 +170,15 @@ Any instance of _class_ is also an instance of _superClass_. Therefore, since _r
 **Example**
 
 ```
+sio:Role rdf:type owl:Class ;
+    rdfs:label "role" ;
+    rdfs:subClassOf sio:RealizableEntity ;
+    dct:description "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance." .
+
 val-kb:Farmer rdf:type sio:Role ;
     rdfs:label "farmer" .
 ```
+A reasoner should infer `val-kb:Farmer rdf:type sio:RealizableEntity .`
 #### Property Inclusion
 **Axiom**
 
@@ -197,6 +203,7 @@ Any subject and object related by the property _p_ is also related by _superProp
 
 ```
 ```
+A reasoner should infer ` `
 ##### Object Property Inclusion
 
 **Query**
@@ -256,6 +263,7 @@ val-kb:Samantha sio:hasProperty val-kb:AgeOfSamantha .
 val-kb:AgeOfSamantha rdf:type sio:Age ;
     rdfs:label "Samantha's age" .
 ```
+A reasoner should infer ` `
 ##### Data Property Inclusion
 
 **Query**
@@ -283,7 +291,7 @@ valo:hasExactValue rdf:type owl:DatatypeProperty ;
 
 val-kb:AgeOfSamantha valo:hasExactValue "25.82"^^xsd:decimal .
 ```
-
+A reasoner should infer ` `
 #### Object Property Chain Inclusion
 
 **Query**
@@ -302,7 +310,7 @@ WHERE {
 
 ```
 ```
-
+A reasoner should infer ` `
 ### Equivalence
 #### Class Equivalence
 **Axiom**
@@ -337,7 +345,7 @@ valo:Fake rdf:type owl:Class ;
 val-kb:Hubert rdf:type valo:Fake ;
     rdfs:label "Hubert" .
 ```
-
+A reasoner should infer ` `
 #### Property Equivalence
 **Axiom**
 
@@ -367,7 +375,7 @@ valo:hasValue rdf:type owl:DatatypeProperty ;
     rdfs:label "has value" ;
     owl:equivalentProperty sio:hasValue .
 ```
-
+A reasoner should infer ` `
 ### Disjointness
 #### Class Disjointness
 **Axiom**
@@ -446,6 +454,7 @@ val-kb:ImaginaryFriend
     rdf:type sio:Real ;
     rdf:type sio:Fictional .
 ```
+A reasoner should infer ` `
 #### Property Disjointness
 **Axiom**
 
@@ -488,7 +497,7 @@ val-kb:Susan rdf:type sio:Human ;
     valo:hasFather val-kb:Jordan ;
     valo:hasMother val-kb:Jordan .
 ```
-
+A reasoner should infer ` `
 #### All Disjoint Classes
 **Axiom**
 
@@ -520,7 +529,6 @@ WHERE {
 Since _restriction_ is an all disjoint classes restriction with classes listed in _list_, each member in _list_ is disjoint with each other member in the list.
 
 **Example**
-
 ```
 sio:Entity rdf:type owl:Class ;
     rdfs:label "entity" ;
@@ -544,6 +552,7 @@ sio:Object rdf:type owl:Class ;
 [ rdf:type owl:AllDisjointClasses ;
     owl:members ( sio:Process sio:Attribute sio:Object ) ] .
 ```
+A reasoner should infer ` `
 #### All Disjoint Properties
 **Axiom**
 
@@ -573,7 +582,6 @@ WHERE {
 Since _restriction_ is an all disjoint properties restriction with properties listed in _list_, each member in _list_ is disjoint with each other property in the list.
 
 **Example**
-
 ```
 val-kb:DisjointPropertiesRestriction rdf:type owl:AllDisjointProperties ;
     owl:members ( valo:hasMother valo:hasFather valo:hasSibling ) .
@@ -587,7 +595,7 @@ valo:hasFather rdf:type owl:ObjectProperty ;
 valo:hasSibling rdf:type owl:ObjectProperty ;
     rdfs:label "has sibling" .
 ```
-
+A reasoner should infer ` `
 ### Transitivity
 #### Object Property Transitivity
 **Axiom**
@@ -610,7 +618,6 @@ WHERE {
 Since _transitiveProperty_ is a transitive object property, and the relationships _resource_ _transitiveProperty_ _o1_ and _o1_ _transitiveProperty_ _o2_ exist, then we can infer that _resource_ _transitiveProperty_ _o2_.
 
 **Example**
-
 ```
 sio:isRelatedTo rdf:type owl:ObjectProperty ,
                                 owl:SymmetricProperty ;
@@ -661,7 +668,7 @@ val-kb:Finger rdf:type owl:Individual ;
 val-kb:Hand rdf:type owl:Individual ;
     rdfs:label "hand" .
 ```
-
+A reasoner should infer ` `
 ### Reflexivity
 #### Object Property Reflexivity
 **Axiom**
@@ -697,6 +704,7 @@ val-kb:Workflow rdf:type sio:Process ;
 val-kb:Step rdf:type sio:Process ;
     rdfs:label "step" .
 ```
+A reasoner should infer ` `
 #### Object Property Irreflexivity
 **Axiom**
 
@@ -716,7 +724,6 @@ WHERE {
 Since _resource_ has a _irreflexiveProperty_ assertion, and _irreflexiveProperty_ is a irreflexive property, we can infer that the relationship _resource_ _irreflexiveProperty_ _resource_ does not exist.
 
 **Example**
-
 ```
 sio:hasMember rdf:type owl:ObjectProperty ,
                                 owl:IrreflexiveProperty ;
@@ -754,7 +761,7 @@ val-kb:Group rdf:type sio:Collection ;
     rdfs:label "group" ;
     sio:hasMember val-kb:Group .
 ```
-
+A reasoner should infer ` `
 ### Symmetry
 #### Object Property Symmetry
 **Axiom**
@@ -774,7 +781,6 @@ WHERE {
 Since _symmetricProperty_ is a symmetric property, and _resource_ _symmetricProperty_ _o_, we can infer that _o_ _symmetricProperty_ _resource_.
 
 **Example**
-
 ```
 val-kb:Peter rdf:type sio:Human ;
     rdfs:label "Peter" ;
@@ -783,7 +789,7 @@ val-kb:Peter rdf:type sio:Human ;
 val-kb:Samantha rdf:type sio:Human ;
     rdfs:label "Samantha" .
 ```
-
+A reasoner should infer ` `
 #### Object Property Asymmetry
 **Axiom**
 
@@ -803,7 +809,6 @@ WHERE {
 Since _asymmetricProperty_ is an asymmetric property, and _resource_ _asymmetricProperty_ _o_, then the assertion _o_ _asymmetricProperty_ _resource_ results in an inconsistency.
 
 **Example**
-
 ```
 sio:isProperPartOf rdf:type owl:ObjectProperty ,
                                 owl:AsymmetricProperty ,
@@ -820,7 +825,7 @@ val-kb:Face rdf:type owl:Individual ;
     sio:isProperPartOf val-kb:Nose ;
     rdfs:label "face" .
 ```
-
+A reasoner should infer ` `
 ### Functionality
 #### Functional Object Property
 **Axiom**
@@ -843,7 +848,6 @@ WHERE {
 Since _functionalProperty_ is a functional object property, _resource_ can only have one value for _functionalProperty_. Since _resource_ _functionalProperty_ both _o1_ and _o2_, we can infer that _o1_ and _o2_ must be the same individual.
 
 **Example**
-
 ```
 val-kb:Tutor rdf:type sio:Human ;
     rdfs:label "tutor" .
@@ -856,6 +860,7 @@ val-kb:TutoringRole rdf:type sio:Role ;
     rdfs:label "tutoring role" ;
     sio:isRoleOf val-kb:Tutor .
 ```
+A reasoner should infer ` `
 #### Functional Data Property
 **Axiom**
 
@@ -877,7 +882,6 @@ WHERE {
 Since _functionalProperty_ is a functional data property, _resource_ can only have one value for _functionalProperty_. Since _resource_ _functionalProperty_ both _o1_ and _o2_, and _o1_ is different from _o2_, an inconsistency occurs.
 
 **Example**
-
 ```
 sio:hasValue rdf:type owl:DatatypeProperty ,
                                 owl:FunctionalProperty;
@@ -887,7 +891,7 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
 val-kb:HeightOfTom sio:hasValue "5"^^xsd:integer .
 val-kb:HeightOfTom sio:hasValue "6"^^xsd:integer .
 ```
-
+A reasoner should infer ` `
 ### Inversion
 #### Object Property Inversion
 **Axiom**
@@ -910,7 +914,6 @@ WHERE {
 The object properties _p_ and _inverseProperty_ are inversely related to eachother. Therefore, since _resource_ _p_ _o_, it is implied that _o_ _inverseProperty_ _resource_.
 
 **Example**
-
 ```
 sio:hasAttribute rdf:type owl:ObjectProperty ;
     rdfs:label "has attribute" ;
@@ -951,6 +954,7 @@ val-kb:HyrdogenDioxide sio:hasAttribute val-kb:H2O ;
 val-kb:H2O rdf:type valo:MolecularFormula ;
     rdfs:label "H2O" .
 ```
+A reasoner should infer ` `
 ##### Inverse Functional Object Property
 **Axiom**
 
@@ -974,7 +978,7 @@ Since _invFunctionalProperty_ is an inverse functional property, and _resource_ 
 
 ```
 ```
-
+A reasoner should infer ` `
 ### Domain & Range Restrictions
 #### Domain Restriction
 **Axiom**
@@ -994,7 +998,6 @@ WHERE {
 Since the domain of _p_ is _class_, this implies that _resource_ is a _class_.
 
 **Example**
-
 ```
 sio:Role rdf:type owl:Class ;
     rdfs:label "role" ;
@@ -1109,6 +1112,7 @@ val-kb:Sarah rdf:type sio:Human ;
 val-kb:Tim rdf:type sio:Human ;
     rdfs:label "Tim" .
 ```
+A reasoner should infer ` `
 #### Range Restriction
 
 **Axiom**
@@ -1128,7 +1132,6 @@ WHERE {
 Since the range of _p_ is _class_, this implies that _o_ is a _class_.
 
 **Example**
-
 ```
 sio:UnitOfMeasurement rdf:type owl:Class ;
     rdfs:label "unit of measurement" ;
@@ -1182,7 +1185,7 @@ val-kb:HeightOfTom rdf:type sio:Height ;
 val-kb:Meter rdf:type owl:Individual ;
     rdfs:label "meter" .
 ```
-
+A reasoner should infer ` `
 ### Datatype
 #### Datatype Restriction
 **Axiom**
@@ -1225,7 +1228,6 @@ WHERE {
 Since _class_ has a with restriction on datatype property _dataProperty_ to be within the range specified in _list_ with min value _minValue_ and max value _maxValue_, and _resource_ is of type _class_ and has a value _value_ for _dataProperty_ which is outside the specified range, an inconsistency occurs.
 
 **Example**
-
 ```
 sio:hasValue rdf:type owl:DatatypeProperty ,
                                 owl:FunctionalProperty;
@@ -1256,6 +1258,7 @@ val-kb:EffortExerted rdf:type sio:ProbabilityValue ;
     rdfs:label "effort exerted" ;
     sio:hasValue "1.1"^^xsd:double .
 ```
+A reasoner should infer ` `
 ### Assertions
 #### Same Individual
 **Axiom**
@@ -1279,6 +1282,7 @@ Since _resource_ is the same as _individual_, they share the same properties.
 ```
 val-kb:Peter owl:sameAs val-kb:Pete .
 ```
+A reasoner should infer ` `
 #### Different Individuals
 **Axiom**
 
@@ -1297,11 +1301,11 @@ WHERE {
 Since _resource_ is asserted as being different from _individual_, the assertion that _resource_ is the same as _individual_ leads to an inconsistency.
 
 **Example**
-
 ```
 val-kb:Sam owl:differentFrom val-kb:Samantha .
 val-kb:Sam owl:sameAs val-kb:Samantha .
 ```
+A reasoner should infer ` `
 #### All Different Individuals
 **Axiom**
 
@@ -1331,7 +1335,6 @@ WHERE {
 Since _restriction_ is an all different restriction with individuals listed in _list_, each member in _list_ is different from each other member in the list.
 
 **Example**
-
 ```
 val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
@@ -1343,6 +1346,7 @@ val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
         val-kb:Tuple 
         ) .
 ```
+A reasoner should infer ` `
 #### Class Assertion
 **Axiom**
 
@@ -1362,11 +1366,11 @@ WHERE {
 Since _class_ is a subclass of _superClass_, any individual that is an instance of _class_ is also an instance of _superClass_. Therefore, _resource_ is an instance of _superClass_.
 
 **Example**
-
 ```
 val-kb:Reliable rdf:type sio:Quality ;
     rdfs:label "reliable" .
 ```
+A reasoner should infer ` `
 #### Property Assertion
 **Axiom**
 
@@ -1384,6 +1388,7 @@ WHERE {
 
 ```
 ```
+A reasoner should infer ` `
 ##### Object Property Assertion
 **Axiom**
 
@@ -1401,6 +1406,7 @@ WHERE {
 
 ```
 ```
+A reasoner should infer ` `
 ##### Data Property Assertion
 **Axiom**
 
@@ -1420,6 +1426,7 @@ WHERE {
 
 ```
 ```
+A reasoner should infer ` `
 ##### Negative Object Property Assertion
 **Axiom**
 
@@ -1442,7 +1449,6 @@ WHERE {
 Since a negative object property assertion was made with source _resource_, object property _p_, and target individual _o_, the existence of _resource_ _p_ _o_ results in an inconsistency.
 
 **Example**
-
 ```
 val-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
     owl:sourceIndividual val-kb:AgeOfSamantha ; 
@@ -1451,6 +1457,7 @@ val-kb:NOPA rdf:type owl:NegativePropertyAssertion ;
 
 val-kb:AgeOfSamantha sio:hasUnit val-kb:Meter .
 ```
+A reasoner should infer ` `
 ##### Negative Data Property Assertion
 **Axiom**
 
@@ -1475,7 +1482,6 @@ WHERE {
 Since a negative datatype property assertion was made with source _resource_, datatype property _p_, and target value _o_, the existence of _resource_ _p_ _o_ results in an inconsistency.
 
 **Example**
-
 ```
 val-kb:NDPA rdf:type owl:NegativePropertyAssertion ; 
     owl:sourceIndividual val-kb:AgeOfPeter ; 
@@ -1486,7 +1492,7 @@ val-kb:AgeOfPeter rdf:type sio:Age;
     rdfs:label "Peter's age" ;
     sio:hasValue "10" .
 ```
-
+A reasoner should infer ` `
 ### Keys
 **Axiom**
 
@@ -1509,7 +1515,6 @@ WHERE {
 Since _class_ has key _keyProperty_, _resource_ and _individual_ are both of type _class_, and _resource_ and _individual_ both _keyProperty_ _keyValue_, then _resource_ and _individual_ must be the same.
 
 **Example**
-
 ```
 valo:uniqueID rdf:type owl:DatatypeProperty ;
     rdfs:label "unique identifier" .
@@ -1529,7 +1534,7 @@ val-kb:Jack rdf:type valo:Person ;
 
 val-kb:John owl:differentFrom val-kb:Jack .
 ```
-
+A reasoner should infer ` `
 ### Existential Quantification
 #### Object Some Values From
 **Axiom**

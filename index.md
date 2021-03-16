@@ -1243,7 +1243,7 @@ val-kb:Sarah rdf:type sio:Human ;
 val-kb:Tim rdf:type sio:Human ;
     rdfs:label "Tim" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Mother rdf:type sio:Role .` and/or `val-kb:Sarah sio:hasRole val-kb:Mother .`
 #### Range Restriction
 
 **Axiom**
@@ -1316,7 +1316,7 @@ val-kb:HeightOfTom rdf:type sio:Height ;
 val-kb:Meter rdf:type owl:Individual ;
     rdfs:label "meter" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Meter rdf:type sio:UnitOfMeasurement .`
 ### Datatype
 #### Datatype Restriction
 **Axiom**
@@ -1389,7 +1389,7 @@ val-kb:EffortExerted rdf:type sio:ProbabilityValue ;
     rdfs:label "effort exerted" ;
     sio:hasValue "1.1"^^xsd:double .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:EffortExerted rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Assertions
 #### Same Individual
 **Axiom**
@@ -1409,11 +1409,17 @@ WHERE {
 Since _resource_ is the same as _individual_, they share the same properties.
 
 **Example**
-
 ```
+val-kb:Peter rdf:type sio:Human ;
+    rdfs:label "Peter" ;
+    sio:isRelatedTo val-kb:Samantha .
+
+val-kb:Samantha rdf:type sio:Human ;
+    rdfs:label "Samantha" .
+
 val-kb:Peter owl:sameAs val-kb:Pete .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Pete rdf:type sio:Human ; rdfs:label "Peter" ; sio:isRelatedTo val-kb:Samantha .`
 #### Different Individuals
 **Axiom**
 
@@ -1436,7 +1442,7 @@ Since _resource_ is asserted as being different from _individual_, the assertion
 val-kb:Sam owl:differentFrom val-kb:Samantha .
 val-kb:Sam owl:sameAs val-kb:Samantha .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Sam rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### All Different Individuals
 **Axiom**
 
@@ -1477,7 +1483,21 @@ val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
         val-kb:Tuple 
         ) .
 ```
-A reasoner should infer ` `
+A reasoner should infer
+```
+val-kb:Integer owl:differentFrom 
+    val-kb:String , val-kb:Boolean, val-kb:Double , val-kb:Float , val-kb:Tuple .
+val-kb:String owl:differentFrom 
+    val-kb:Integer , val-kb:Boolean, val-kb:Double, val-kb:Float , val-kb:Tuple .
+val-kb:Boolean owl:differentFrom 
+    val-kb:Integer , val-kb:String, val-kb:Double, val-kb:Float , val-kb:Tuple .
+val-kb:Double owl:differentFrom 
+    val-kb:Integer , val-kb:String , val-kb:Boolean, val-kb:Float , val-kb:Tuple .
+val-kb:Float owl:differentFrom 
+    val-kb:Integer , val-kb:String , val-kb:Boolean, val-kb:Double , val-kb:Tuple .
+val-kb:Tuple owl:differentFrom 
+    val-kb:Integer , val-kb:String , val-kb:Boolean, val-kb:Double, val-kb:Float .
+```
 #### Class Assertion
 **Axiom**
 
@@ -1498,10 +1518,30 @@ Since _class_ is a subclass of _superClass_, any individual that is an instance 
 
 **Example**
 ```
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Attribute rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "attribute" ;
+    dct:description "An attribute is a characteristic of some entity." .
+
+sio:RealizableEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Attribute ;
+    dct:description "A realizable entity is an attribute that is exhibited under some condition and is realized in some process." ;
+    rdfs:label "realizable entity" .
+
+sio:Quality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Attribute ;
+    owl:disjointWith sio:RealizableEntity ;
+    dct:description "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary." ;
+    rdfs:label "quality" .
+    
 val-kb:Reliable rdf:type sio:Quality ;
     rdfs:label "reliable" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Reliable rdf:type sio:Attribute , sio:Entity .`
 #### Property Assertion
 **Axiom**
 
@@ -1581,17 +1621,33 @@ Since a negative object property assertion was made with source _resource_, obje
 
 **Example**
 ```
-val-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
-    owl:sourceIndividual val-kb:AgeOfSamantha ; 
-    owl:assertionProperty sio:hasUnit ; 
-    owl:targetIndividual val-kb:Meter .
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
 
-val-kb:AgeOfSamantha sio:hasUnit val-kb:Meter .
+sio:hasUnit rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has unit" ;
+    owl:inverseOf sio:isUnitOf ;
+    rdfs:range sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    dct:description "has unit is a relation between a quantity and the unit it is a multiple of." .
+
+ex-kb:AgeOfSamantha rdf:type sio:Age ;
+    rdfs:label "Samantha's age" .
+
+ex-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual ex-kb:AgeOfSamantha ; 
+    owl:assertionProperty sio:hasUnit ; 
+    owl:targetIndividual ex-kb:Meter .
+
+ex-kb:AgeOfSamantha sio:hasUnit ex-kb:Meter .
 ```
-A reasoner should infer ` `
+A reasoner should infer `ex-kb:AgeOfSamantha rdf:type owl:Nothing .` or that an inconsistency occurs.
+
 ##### Negative Data Property Assertion
 **Axiom**
-
 
 **Query**
 
@@ -1623,7 +1679,7 @@ val-kb:AgeOfPeter rdf:type sio:Age;
     rdfs:label "Peter's age" ;
     sio:hasValue "10" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:AgeOfPeter rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Keys
 **Axiom**
 
@@ -1662,10 +1718,8 @@ val-kb:John rdf:type valo:Person ;
 val-kb:Jack rdf:type valo:Person ;
     rdfs:label "Jack" ;
     valo:uniqueID "101D" .
-
-val-kb:John owl:differentFrom val-kb:Jack .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:John owl:sameAs val-kb:Jack .`
 ### Existential Quantification
 #### Object Some Values From
 **Axiom**
@@ -1738,7 +1792,7 @@ val-kb:MolecularCollection rdf:type owl:Individual ;
 
 val-kb:WaterMolecule rdf:type sio:3dStructureModel  .
 ```
-
+A reasoner should infer `val-kb:MolecularCollection rdf:type sio:CollectionOf3dMolecularStructureModels .`
 #### Data Some Values From
 
 **Axiom**
@@ -1765,7 +1819,6 @@ WHERE {
 _resource_ _datatypeProperty_ _val_, but _val_ does not have the same datatype _value_ restricted for _datatypeProperty_ in _class_. Since _resource_ rdf:type _class_, an inconsistency occurs.
 
 **Example**
-
 ```
 valo:Text rdf:type owl:Class ;
     rdfs:subClassOf
@@ -1776,6 +1829,7 @@ valo:Text rdf:type owl:Class ;
 val-kb:Question rdf:type valo:Text ;
     sio:hasValue "4"^^xsd:integer .
 ```
+A reasoner should infer `val-kb:Question rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### Object Has Value
 **Axiom**
 

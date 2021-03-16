@@ -131,7 +131,22 @@ Since _class_ is a subclass of _superClass_, any class that is a subclass of _cl
 **Example**
 
 ```
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Object rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "object" ;
+    #<rdfs:subClassOf rdf:nodeID="arc703eb381"/>
+    dct:description "An object is an entity that is wholly identifiable at any instant of time during which it exists." .
+
+sio:MaterialEntity  rdf:type owl:Class ;
+    rdfs:label "material entity" ;
+    rdfs:subClassOf sio:Object ;
+    dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
 ```
+A reasoner should infer `sio:MaterialEntity rdfs:subClassOf sio:Entity .` 
 #### Individual Inclusion
 **Axiom**
 

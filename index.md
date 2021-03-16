@@ -39,7 +39,7 @@ We describe an approach for building a deductive inference engine by encoding ea
     + [Inversion](#inversion)
       - [Object Property Inversion](#object-property-inversion)
         * [Inverse Functional Object Property](#inverse-functional-object-property)
-    + [Domain \& Range Restrictions](#domain----range-restrictions)
+    + [Domain & Range Restrictions](#domain-&-range-restrictions)
       - [Domain Restriction](#domain-restriction)
       - [Range Restriction](#range-restriction)
     + [Datatype](#datatype)
@@ -960,7 +960,7 @@ Since _invFunctionalProperty_ is an inverse functional property, and _resource_ 
 ```
 ```
 
-### Domain \& Range Restrictions
+### Domain & Range Restrictions
 #### Domain Restriction
 **Axiom**
 

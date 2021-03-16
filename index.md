@@ -263,7 +263,7 @@ val-kb:Samantha sio:hasProperty val-kb:AgeOfSamantha .
 val-kb:AgeOfSamantha rdf:type sio:Age ;
     rdfs:label "Samantha's age" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Samantha sio:hasAttribute val-kb:AgeOfSamantha .`
 ##### Data Property Inclusion
 
 **Query**
@@ -291,26 +291,58 @@ valo:hasExactValue rdf:type owl:DatatypeProperty ;
 
 val-kb:AgeOfSamantha valo:hasExactValue "25.82"^^xsd:decimal .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:AgeOfSamantha sio:hasValue 25.82 .`
 #### Object Property Chain Inclusion
 
 **Query**
 
 ```
 CONSTRUCT {
+  ?resource ?objectProperty ?o .
 }
 WHERE {
+?objectProperty rdf:type owl:ObjectProperty ;
+    owl:propertyChainAxiom ?list .
+  ?list rdf:first ?prop1 .
+  ?list rdf:rest/rdf:first ?prop2 .
+  ?resource ?prop1 [ ?prop2 ?o ] .
 }
 ```
 **Explanation**
 
-
-
 **Example**
+```
+sio:isRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:label "is related to" ;
+    dct:description "A is related to B iff there is some relation between A and B." .
 
+sio:isSpatiotemporallyRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:subPropertyOf sio:isRelatedTo ;
+    rdfs:label "is spatiotemporally related to" ;
+    dct:description "A is spatiotemporally related to B iff A is in the spatial or temporal vicinity of B" .
+
+sio:overlapsWith rdf:type owl:ObjectProperty ,
+        owl:SymmetricProperty ,
+        owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    owl:propertyChainAxiom ( sio:overlapsWith sio:isPartOf ) ;
+    dct:description "A overlaps with B iff there is some C that is part of both A and B." ;
+    rdfs:label "overlaps with" .
+
+val-kb:Rug rdf:type sio:Object ;
+    rdfs:label "rug" ;
+    sio:overlapsWith ex-kb:FloorPanel .
+
+val-kb:FloorPanel rdf:type sio:Object ;
+    rdfs:label "floor panel" ;
+    sio:isPartOf ex-kb:Floor .
+
+val-kb:Floor rdf:type sio:Object ;
+    rdfs:label "floor" .
 ```
-```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Rug sio:overlapsWith val-kb:Floor .`
 ### Equivalence
 #### Class Equivalence
 **Axiom**
@@ -318,7 +350,6 @@ A reasoner should infer ` `
 ![formula](https://render.githubusercontent.com/render/math?math=C_1\equiv%20C_2)
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource rdf:type ?equivClass .
@@ -336,7 +367,6 @@ WHERE {
 _superClass_ is equivalent to _equivClass_, so since _resource_ is a _superClass_, it is also a _equivClass_.
 
 **Example**
-
 ```
 valo:Fake rdf:type owl:Class ;
     owl:equivalentClass sio:Fictional ;
@@ -345,14 +375,13 @@ valo:Fake rdf:type owl:Class ;
 val-kb:Hubert rdf:type valo:Fake ;
     rdfs:label "Hubert" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `{val-kb:Hubert rdf:type sio:Fictional .`
 #### Property Equivalence
 **Axiom**
 
 ![formula](https://render.githubusercontent.com/render/math?math=P_1\equiv%20P_2)
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource ?equivProperty ?o .
@@ -369,13 +398,21 @@ WHERE {
 The properties _p_ and _equivProperty_ are equivalent. Therefore, since _resource_ _p_ _o_, it is implied that _resource_ _equivProperty_ _o_.
 
 **Example**
-
 ```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+val-kb:AgeOfSamantha rdf:type sio:Age ;
+    rdfs:label "Samantha's age" ;
+    sio:hasValue "25.82"^^xsd:decimal .
+
 valo:hasValue rdf:type owl:DatatypeProperty ;
     rdfs:label "has value" ;
     owl:equivalentProperty sio:hasValue .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:AgeOfSamantha valo:hasValue 25.82 .`
 ### Disjointness
 #### Class Disjointness
 **Axiom**
@@ -400,7 +437,6 @@ WHERE {
 Since _class_ is a disjoint with _disjointClass_, any resource that is an instance of _class_ is not an instance of _disjointClass_. Therefore, since _resource_ is an instance of _class_, it can not be an instance of _disjointClass_.
 
 **Example**
-
 ```
 sio:Entity rdf:type owl:Class ;
     rdfs:label "entity" ;
@@ -454,13 +490,12 @@ val-kb:ImaginaryFriend
     rdf:type sio:Real ;
     rdf:type sio:Fictional .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:ImaginaryFriend rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### Property Disjointness
 **Axiom**
 
 
 **Query**
-
 ```
 CONSTRUCT {
   ?resource rdf:type owl:Nothing .
@@ -479,7 +514,6 @@ WHERE {
 Since properties _p1_ and _p2_ are disjoint, _resource_ having both _p2_ _o2_ as well as _p1_ _o2_ leads to an inconsistency.
 
 **Example**
-
 ```
 valo:hasMother rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf sio:hasAttribute ;
@@ -497,13 +531,12 @@ val-kb:Susan rdf:type sio:Human ;
     valo:hasFather val-kb:Jordan ;
     valo:hasMother val-kb:Jordan .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Susan rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### All Disjoint Classes
 **Axiom**
 
 
 **Query**
-
 ```
 CONSTRUCT {
   ?member owl:disjointWith ?item .
@@ -552,7 +585,7 @@ sio:Object rdf:type owl:Class ;
 [ rdf:type owl:AllDisjointClasses ;
     owl:members ( sio:Process sio:Attribute sio:Object ) ] .
 ```
-A reasoner should infer ` `
+A reasoner should infer `sio:Process owl:disjointWith sio:Object , sio:Attribute . sio:Attribute owl:disjointWith sio:Object , sio:Process . sio:Object owl:disjointWith sio:Attribute, sio:Process .`
 #### All Disjoint Properties
 **Axiom**
 
@@ -595,7 +628,7 @@ valo:hasFather rdf:type owl:ObjectProperty ;
 valo:hasSibling rdf:type owl:ObjectProperty ;
     rdfs:label "has sibling" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `valo:hasMother owl:propertyDisjointWith valo:hasFather , valo:hasSibling . valo:hasFather owl:propertyDisjointWith valo:hasMother , valo:hasSibling . valo:hasSibling owl:propertyDisjointWith valo:hasMother , valo:hasFather .`
 ### Transitivity
 #### Object Property Transitivity
 **Axiom**
@@ -668,7 +701,7 @@ val-kb:Finger rdf:type owl:Individual ;
 val-kb:Hand rdf:type owl:Individual ;
     rdfs:label "hand" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Fingernail sio:isPartOf val-kb:Hand .`
 ### Reflexivity
 #### Object Property Reflexivity
 **Axiom**
@@ -690,7 +723,6 @@ WHERE {
 Since _resource_ has a _reflexiveProperty_ assertion to _o_, _resource_ and _o_ are both of type _type_, and _reflexiveProperty_ is a reflexive property, we can infer that _resource_ _reflexiveProperty_ _resource_.
 
 **Example**
-
 ```
 sio:Process rdf:type owl:Class ;
     rdfs:subClassOf sio:Entity ;
@@ -704,7 +736,7 @@ val-kb:Workflow rdf:type sio:Process ;
 val-kb:Step rdf:type sio:Process ;
     rdfs:label "step" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Workflow sio:hasPart val-kb:Workflow .`
 #### Object Property Irreflexivity
 **Axiom**
 
@@ -761,7 +793,7 @@ val-kb:Group rdf:type sio:Collection ;
     rdfs:label "group" ;
     sio:hasMember val-kb:Group .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Group rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Symmetry
 #### Object Property Symmetry
 **Axiom**
@@ -782,6 +814,11 @@ Since _symmetricProperty_ is a symmetric property, and _resource_ _symmetricProp
 
 **Example**
 ```
+sio:isRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:label "is related to" ;
+    dct:description "A is related to B iff there is some relation between A and B." .
+
 val-kb:Peter rdf:type sio:Human ;
     rdfs:label "Peter" ;
     sio:isRelatedTo val-kb:Samantha .
@@ -789,7 +826,7 @@ val-kb:Peter rdf:type sio:Human ;
 val-kb:Samantha rdf:type sio:Human ;
     rdfs:label "Samantha" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Samantha sio:isRelatedTo val-kb:Peter .`
 #### Object Property Asymmetry
 **Axiom**
 
@@ -825,7 +862,7 @@ val-kb:Face rdf:type owl:Individual ;
     sio:isProperPartOf val-kb:Nose ;
     rdfs:label "face" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Face rdf:type owl:Nothing .` , `val-kb:Nose rdf:type owl:Nothing .` , and/or that an inconsistency occurs.
 ### Functionality
 #### Functional Object Property
 **Axiom**
@@ -849,6 +886,53 @@ Since _functionalProperty_ is a functional object property, _resource_ can only 
 
 **Example**
 ```
+sio:Role rdf:type owl:Class ;
+    rdfs:label "role" ;
+    rdfs:subClassOf sio:RealizableEntity ;
+    dct:description "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance." .
+
+sio:isAttributeOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is attribute of" ;
+    dct:description "is attribute of is a relation that associates an attribute with an entity where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:isPropertyOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is property of" ;
+    dct:description "is property of is a relation betweena  quality, capability or role and the entity that it and it alone bears." ;
+    rdfs:subPropertyOf sio:isAttributeOf .
+
+sio:hasProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has property" ;
+    owl:inverseOf sio:isPropertyOf ;
+    dct:description "has property is a relation between an entity and the quality, capability or role that it and it alone bears." ;
+    rdfs:subPropertyOf sio:hasAttribute .
+
+sio:hasRealizableProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has realizable property" ;
+    rdfs:subPropertyOf sio:hasProperty .
+
+sio:isRealizablePropertyOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is realizable property of" ;
+    rdfs:subPropertyOf sio:isPropertyOf ;
+    owl:inverseOf sio:hasRealizableProperty .
+
+sio:isRoleOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is role of" ;
+    rdfs:domain sio:Role ;
+    rdfs:subPropertyOf sio:isRealizablePropertyOf ;
+    dct:description "is role of is a relation between a role and the entity that it is a property of." ;
+    owl:inverseOf sio:hasRole .
+    
 val-kb:Tutor rdf:type sio:Human ;
     rdfs:label "tutor" .
 
@@ -860,7 +944,7 @@ val-kb:TutoringRole rdf:type sio:Role ;
     rdfs:label "tutoring role" ;
     sio:isRoleOf val-kb:Tutor .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:TeachingRole owl:sameAs val-kb:TutoringRole .`
 #### Functional Data Property
 **Axiom**
 
@@ -891,7 +975,7 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
 val-kb:HeightOfTom sio:hasValue "5"^^xsd:integer .
 val-kb:HeightOfTom sio:hasValue "6"^^xsd:integer .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:HeightOfTom rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Inversion
 #### Object Property Inversion
 **Axiom**
@@ -954,7 +1038,7 @@ val-kb:HyrdogenDioxide sio:hasAttribute val-kb:H2O ;
 val-kb:H2O rdf:type valo:MolecularFormula ;
     rdfs:label "H2O" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Water owl:sameAs val-kb:HyrdogenDioxide .`
 ##### Inverse Functional Object Property
 **Axiom**
 
@@ -977,8 +1061,55 @@ Since _invFunctionalProperty_ is an inverse functional property, and _resource_ 
 **Example**
 
 ```
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:hasProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has property" ;
+    owl:inverseOf sio:isPropertyOf ;
+    dct:description "has property is a relation between an entity and the quality, capability or role that it and it alone bears." ;
+    rdfs:subPropertyOf sio:hasAttribute .
+
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Object rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "object" ;
+    dct:description "An object is an entity that is wholly identifiable at any instant of time during which it exists." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:Representation rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    dct:description "A representation is a entity that in some way represents another entity (or attribute thereof)." ;
+    rdfs:label "representation" .
+
+sio:Symbol rdf:type owl:Class ;
+    rdfs:subClassOf sio:Representation ;
+    dct:description "A symbol is a proposition about what an entity represents." ;
+    rdfs:label "symbol" .
+
+valo:MolecularFormula rdfs:subClassOf sio:Symbol ;
+    rdfs:label "molecular formula" .
+
+val-kb:Water sio:hasProperty ex-kb:H2O ;
+    rdfs:label "water" .
+
+val-kb:HyrdogenDioxide sio:hasProperty ex-kb:H2O ;
+    rdfs:label "hydrogen dioxide" .
+
+val-kb:H2O rdf:type ex:MolecularFormula ;
+    rdfs:label "H2O" .
 ```
-A reasoner should infer ` `
+A reasoner should infer `val-kb:Water owl:sameAs val-kb:HyrdogenDioxide .`
 ### Domain & Range Restrictions
 #### Domain Restriction
 **Axiom**

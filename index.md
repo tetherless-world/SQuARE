@@ -105,6 +105,8 @@ We describe an approach for building a deductive inference engine by encoding ea
 
 ### Ontology
 The documentation for the ontology is available [here](documentation.html).
+The consistent version of the ontology is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo.ttl).
+The inconsistent version of the ontology is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo_inconsistent.ttl).
 
 ### SPARQL CONSTRUCT Axioms
 ### Inclusion 

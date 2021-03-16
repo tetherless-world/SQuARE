@@ -3267,42 +3267,57 @@ val-kb:Number rdf:type val:NumericalValue ;
 ```
 A reasoner should infer `val-kb:Number rdf:type owl:Nothing .`
 ### Code
+#### Deductor Agent
+```python
+class Deductor(GlobalChangeService):
+    def __init__(self, reference, antecedent, consequent, explanation, resource="?resource", prefixes=None): 
+        if resource is not None:
+            self.resource = resource
+        self.prefixes = {}
+        if prefixes is not None:
+            self.prefixes = prefixes
+        self.reference = reference
+        self.antecedent = antecedent
+        self.consequent = consequent
+        self.explanation = explanation
 
+    def getInputClass(self):
+        return pv.File
 
-## Welcome to GitHub Pages
+    def getOutputClass(self):
+        return whyis.InferencedOver
 
-You can use the [editor on GitHub](https://github.com/tetherless-world/validation/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+    def get_query(self):
+        self.app.db.store.nsBindings = {}
+        return '''SELECT DISTINCT %s WHERE {\n%s \nFILTER NOT EXISTS {\n%s\n\t}\n}''' % (
+        self.resource, self.antecedent, self.consequent)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+    def get_context(self, i):
+        context = {}
+        context_vars = self.app.db.query('''SELECT DISTINCT * WHERE {\n%s \nFILTER(regex(str(%s), "^(%s)")) . }''' % (
+        self.antecedent, self.resource, i.identifier), initNs=self.prefixes)
+        for key in context_vars.vars :
+            context[key] = context_vars.bindings[0][key]
+        return context
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+    def process(self, i, o):
+        for profile in self.app.config["active_profiles"] :
+            if self.reference in self.app.config["reasoning_profiles"][profile] :
+                npub = Nanopublication(store=o.graph.store)
+                triples = self.app.db.query(
+                    '''CONSTRUCT {\n%s\n} WHERE {\n%s \nFILTER NOT EXISTS {\n%s\n\t}\nFILTER (regex(str(%s), "^(%s)")) .\n}''' % (
+                    self.consequent, self.antecedent, self.consequent, self.resource, i.identifier), initNs=self.prefixes)
+                try :
+                    for s, p, o in triples:
+                        print("Deductor Adding ", s, p, o)
+                        npub.assertion.add((s, p, o))
+                except :
+                    for s, p, o, c in triples:
+                        print("Deductor Adding ", s, p, o)
+                        npub.assertion.add((s, p, o))                
+                npub.provenance.add((npub.assertion.identifier, prov.value,
+                                     rdflib.Literal(flask.render_template_string(self.explanation, **self.get_context(i)))))
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/tetherless-world/validation/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
 ### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Contact us at rashis2@rpi.edu.

@@ -100,6 +100,8 @@ We describe an approach for building a deductive inference engine by encoding ea
         * [Object Property Complement Of](#object-property-complement-of)
         * [Data Property Complement Of](#data-property-complement-of)
     + [Code](#code)
+      - [Deductor Agent](#deductor-agent)
+      - [Backtracer Agent](#backtracer-agent)
 
 ## Resources
 

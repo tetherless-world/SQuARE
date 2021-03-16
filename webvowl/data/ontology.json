@@ -1,0 +1,3457 @@
+{
+  "_comment" : "Created with OWL2VOWL (version 0.3.5), http://vowl.visualdataweb.org",
+  "header" : {
+    "languages" : [ "undefined" ],
+    "baseIris" : [ "http://www.w3.org/2002/07/owl", "http://www.w3.org/2000/01/rdf-schema", "http://www.w3.org/2001/XMLSchema", "http://purl.org/ontology/validation/ont", "http://org.semanticweb.owlapi/error", "http://semanticscience.org/resource" ],
+    "title" : {
+      "undefined" : "Validation ontology"
+    },
+    "iri" : "http://purl.org/ontology/validation.ttl",
+    "author" : [ "Sabbir M. Rashid" ],
+    "description" : {
+      "undefined" : "The validation ontology include example test cases for each OWL DL axiom. It leverages the Semanticscience Integrated Ontology for existing rule examples, and incorporates its own classes when necessary. For examples that result in inconsistencies, the inconsistencies are commented out in order for the ontology to load properly. The user is recommended to manually uncomment inconsistencies if they wish to test the corresponding axiom."
+    },
+    "other" : {
+      "license" : [ {
+        "identifier" : "license",
+        "language" : "undefined",
+        "value" : "http://www.apache.org/licenses/LICENSE-2.0",
+        "type" : "iri"
+      } ],
+      "creator" : [ {
+        "identifier" : "creator",
+        "language" : "undefined",
+        "value" : "Sabbir M. Rashid",
+        "type" : "label"
+      } ],
+      "contributor" : [ {
+        "identifier" : "contributor",
+        "language" : "undefined",
+        "value" : "Deborah L. McGuinness",
+        "type" : "label"
+      }, {
+        "identifier" : "contributor",
+        "language" : "undefined",
+        "value" : "Morgan Foreman",
+        "type" : "label"
+      }, {
+        "identifier" : "contributor",
+        "language" : "undefined",
+        "value" : "Jamie P. McCusker",
+        "type" : "label"
+      }, {
+        "identifier" : "contributor",
+        "language" : "undefined",
+        "value" : "Amar K. Das",
+        "type" : "label"
+      }, {
+        "identifier" : "contributor",
+        "language" : "undefined",
+        "value" : "Oshani Seneviratne",
+        "type" : "label"
+      }, {
+        "identifier" : "contributor",
+        "language" : "undefined",
+        "value" : "Daniel Gruen",
+        "type" : "label"
+      } ],
+      "created" : [ {
+        "identifier" : "created",
+        "language" : "undefined",
+        "value" : "2020-05-01T12:00:00",
+        "type" : "label"
+      } ],
+      "modified" : [ {
+        "identifier" : "modified",
+        "language" : "undefined",
+        "value" : "2020-8-01T14:30:00",
+        "type" : "label"
+      } ],
+      "title" : [ {
+        "identifier" : "title",
+        "language" : "undefined",
+        "value" : "Validation ontology",
+        "type" : "label"
+      } ]
+    }
+  },
+  "namespace" : [ ],
+  "class" : [ {
+    "id" : "0",
+    "type" : "owl:Class"
+  }, {
+    "id" : "3",
+    "type" : "owl:Class"
+  }, {
+    "id" : "6",
+    "type" : "owl:Class"
+  }, {
+    "id" : "18",
+    "type" : "owl:Class"
+  }, {
+    "id" : "20",
+    "type" : "owl:complementOf"
+  }, {
+    "id" : "23",
+    "type" : "owl:Class"
+  }, {
+    "id" : "24",
+    "type" : "owl:Class"
+  }, {
+    "id" : "27",
+    "type" : "owl:Class"
+  }, {
+    "id" : "29",
+    "type" : "owl:Class"
+  }, {
+    "id" : "1",
+    "type" : "owl:Class"
+  }, {
+    "id" : "34",
+    "type" : "owl:Class"
+  }, {
+    "id" : "25",
+    "type" : "owl:Class"
+  }, {
+    "id" : "36",
+    "type" : "owl:Class"
+  }, {
+    "id" : "39",
+    "type" : "owl:Class"
+  }, {
+    "id" : "44",
+    "type" : "owl:Class"
+  }, {
+    "id" : "26",
+    "type" : "owl:Class"
+  }, {
+    "id" : "45",
+    "type" : "owl:Class"
+  }, {
+    "id" : "47",
+    "type" : "owl:Class"
+  }, {
+    "id" : "49",
+    "type" : "owl:Class"
+  }, {
+    "id" : "50",
+    "type" : "owl:intersectionOf"
+  }, {
+    "id" : "54",
+    "type" : "owl:Class"
+  }, {
+    "id" : "58",
+    "type" : "owl:Class"
+  }, {
+    "id" : "30",
+    "type" : "owl:Class"
+  }, {
+    "id" : "37",
+    "type" : "owl:Class"
+  }, {
+    "id" : "66",
+    "type" : "owl:Class"
+  }, {
+    "id" : "31",
+    "type" : "owl:Class"
+  }, {
+    "id" : "22",
+    "type" : "owl:Class"
+  }, {
+    "id" : "72",
+    "type" : "owl:Class"
+  }, {
+    "id" : "73",
+    "type" : "owl:Class"
+  }, {
+    "id" : "21",
+    "type" : "owl:Class"
+  }, {
+    "id" : "74",
+    "type" : "owl:Class"
+  }, {
+    "id" : "28",
+    "type" : "owl:Class"
+  }, {
+    "id" : "55",
+    "type" : "owl:Class"
+  }, {
+    "id" : "51",
+    "type" : "owl:Class"
+  }, {
+    "id" : "80",
+    "type" : "owl:Class"
+  }, {
+    "id" : "65",
+    "type" : "owl:Class"
+  }, {
+    "id" : "84",
+    "type" : "owl:Class"
+  }, {
+    "id" : "32",
+    "type" : "owl:Class"
+  }, {
+    "id" : "90",
+    "type" : "owl:Class"
+  }, {
+    "id" : "91",
+    "type" : "owl:unionOf"
+  }, {
+    "id" : "33",
+    "type" : "owl:Class"
+  }, {
+    "id" : "95",
+    "type" : "owl:Class"
+  }, {
+    "id" : "7",
+    "type" : "owl:Class"
+  }, {
+    "id" : "35",
+    "type" : "owl:Class"
+  }, {
+    "id" : "96",
+    "type" : "owl:Class"
+  }, {
+    "id" : "101",
+    "type" : "owl:Class"
+  }, {
+    "id" : "98",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "103",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "60",
+    "type" : "owl:Thing"
+  }, {
+    "id" : "57",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "38",
+    "type" : "owl:Class"
+  }, {
+    "id" : "104",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "63",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "77",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "105",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "106",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "43",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "2",
+    "type" : "owl:equivalentClass"
+  }, {
+    "id" : "110",
+    "type" : "owl:intersectionOf"
+  }, {
+    "id" : "11",
+    "type" : "owl:Thing"
+  }, {
+    "id" : "17",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "48",
+    "type" : "owl:Class"
+  }, {
+    "id" : "125",
+    "type" : "owl:Class"
+  }, {
+    "id" : "122",
+    "type" : "owl:Class"
+  }, {
+    "id" : "129",
+    "type" : "owl:Class"
+  }, {
+    "id" : "40",
+    "type" : "owl:unionOf"
+  }, {
+    "id" : "81",
+    "type" : "owl:Class"
+  }, {
+    "id" : "94",
+    "type" : "owl:Class"
+  }, {
+    "id" : "92",
+    "type" : "owl:Class"
+  }, {
+    "id" : "132",
+    "type" : "owl:Class"
+  }, {
+    "id" : "144",
+    "type" : "owl:Class"
+  }, {
+    "id" : "83",
+    "type" : "owl:Class"
+  }, {
+    "id" : "53",
+    "type" : "owl:Class"
+  }, {
+    "id" : "100",
+    "type" : "owl:Class"
+  }, {
+    "id" : "159",
+    "type" : "owl:Class"
+  }, {
+    "id" : "46",
+    "type" : "owl:Class"
+  }, {
+    "id" : "124",
+    "type" : "owl:Class"
+  }, {
+    "id" : "5",
+    "type" : "owl:Class"
+  }, {
+    "id" : "162",
+    "type" : "owl:equivalentClass"
+  }, {
+    "id" : "75",
+    "type" : "owl:Class"
+  }, {
+    "id" : "78",
+    "type" : "owl:Class"
+  }, {
+    "id" : "82",
+    "type" : "owl:Class"
+  }, {
+    "id" : "173",
+    "type" : "owl:Class"
+  }, {
+    "id" : "174",
+    "type" : "owl:Class"
+  }, {
+    "id" : "141",
+    "type" : "owl:Class"
+  }, {
+    "id" : "52",
+    "type" : "owl:Class"
+  }, {
+    "id" : "113",
+    "type" : "owl:Class"
+  }, {
+    "id" : "8",
+    "type" : "owl:Class"
+  }, {
+    "id" : "102",
+    "type" : "owl:Class"
+  }, {
+    "id" : "79",
+    "type" : "owl:Class"
+  }, {
+    "id" : "107",
+    "type" : "owl:equivalentClass"
+  }, {
+    "id" : "19",
+    "type" : "owl:Class"
+  }, {
+    "id" : "191",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "41",
+    "type" : "owl:equivalentClass"
+  }, {
+    "id" : "93",
+    "type" : "owl:Class"
+  }, {
+    "id" : "199",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "9",
+    "type" : "owl:Class"
+  }, {
+    "id" : "190",
+    "type" : "owl:Class"
+  }, {
+    "id" : "4",
+    "type" : "owl:Class"
+  }, {
+    "id" : "130",
+    "type" : "owl:Class"
+  }, {
+    "id" : "138",
+    "type" : "owl:Class"
+  } ],
+  "classAttribute" : [ {
+    "iri" : "http://semanticscience.org/resource/Hypothetical",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "hypothetical is the quality of an entity that is conjectured to exist."
+    },
+    "label" : {
+      "IRI-based" : "Hypothetical",
+      "undefined" : "hypothetical"
+    },
+    "subClasses" : [ "2" ],
+    "attributes" : [ "external" ],
+    "id" : "0",
+    "superClasses" : [ "1" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/ObjectQuality",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "An object quality is quality of an object."
+    },
+    "label" : {
+      "IRI-based" : "ObjectQuality",
+      "undefined" : "object quality"
+    },
+    "subClasses" : [ "5" ],
+    "attributes" : [ "external" ],
+    "id" : "3",
+    "superClasses" : [ "4" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Entity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "Every thing is an entity."
+    },
+    "label" : {
+      "IRI-based" : "Entity",
+      "undefined" : "entity"
+    },
+    "subClasses" : [ "7", "8", "9" ],
+    "attributes" : [ "external" ],
+    "id" : "6"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Line",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Line"
+    },
+    "subClasses" : [ "19" ],
+    "attributes" : [ "external" ],
+    "id" : "18"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Alive",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Alive",
+      "undefined" : "alive"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#VitalStatusOfPat",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "VitalStatusOfPat",
+        "undefined" : "Pat's Vital Status"
+      }
+    } ],
+    "attributes" : [ "complement", "external" ],
+    "id" : "20",
+    "complement" : [ "22" ],
+    "superClasses" : [ "21" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Molecule",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Molecule",
+      "undefined" : "molecule"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#ProteinReceptor",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "ProteinReceptor",
+        "undefined" : "protein receptor"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "23"
+  }, {
+    "iri" : "http://semanticscience.org/resource/ChemicalEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A chemical entity is a material entity that pertains to chemistry."
+    },
+    "label" : {
+      "IRI-based" : "ChemicalEntity",
+      "undefined" : "chemical entity"
+    },
+    "subClasses" : [ "26" ],
+    "attributes" : [ "external" ],
+    "id" : "24",
+    "superClasses" : [ "25" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/CollectionOf3dMolecularStructureModels",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A collection of 3D molecular structure models is just that."
+    },
+    "label" : {
+      "IRI-based" : "CollectionOf3dMolecularStructureModels",
+      "undefined" : "collection of 3d molecular structure models"
+    },
+    "attributes" : [ "external" ],
+    "id" : "27",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/TertiaryStructureDescriptor",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A tertiary structure descriptor describes 3D topological patterns in a biopolymer."
+    },
+    "label" : {
+      "IRI-based" : "TertiaryStructureDescriptor",
+      "undefined" : "tertiary structure descriptor"
+    },
+    "subClasses" : [ "31" ],
+    "attributes" : [ "external" ],
+    "id" : "29",
+    "superClasses" : [ "30" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/ExistenceQuality",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "existence quality is the quality of an entity that describe in what environment it is known to exist."
+    },
+    "label" : {
+      "IRI-based" : "ExistenceQuality",
+      "undefined" : "existence quality"
+    },
+    "subClasses" : [ "0", "32", "33" ],
+    "attributes" : [ "external" ],
+    "id" : "1",
+    "superClasses" : [ "4" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Percentage",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Percentage",
+      "undefined" : "percentage"
+    },
+    "attributes" : [ "external" ],
+    "id" : "34",
+    "superClasses" : [ "35" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/MaterialEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass."
+    },
+    "label" : {
+      "IRI-based" : "MaterialEntity",
+      "undefined" : "material entity"
+    },
+    "subClasses" : [ "26", "24" ],
+    "attributes" : [ "external" ],
+    "id" : "25",
+    "superClasses" : [ "7" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/MulticellularOrganism",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A multi-cellular organism is an organism that consists of more than one cell."
+    },
+    "label" : {
+      "IRI-based" : "MulticellularOrganism",
+      "undefined" : "multicellular organism"
+    },
+    "subClasses" : [ "38" ],
+    "attributes" : [ "external" ],
+    "id" : "36",
+    "superClasses" : [ "37" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/BiologicalEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A biological entity is a heterogeneous substance that contains genomic material or is the product of a biological process."
+    },
+    "label" : {
+      "IRI-based" : "BiologicalEntity",
+      "undefined" : "biological entity"
+    },
+    "subClasses" : [ "40", "41" ],
+    "attributes" : [ "external" ],
+    "id" : "39",
+    "superClasses" : [ "26" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/ConceptualEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ConceptualEntity"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#QuadraticPolynomialInstance",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "QuadraticPolynomialInstance",
+        "undefined" : "quadratic polynomial instance"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "44"
+  }, {
+    "iri" : "http://semanticscience.org/resource/HeterogeneousSubstance",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A heterogeneous substance is a chemical substance that is composed of more than one different kind of component."
+    },
+    "label" : {
+      "IRI-based" : "HeterogeneousSubstance",
+      "undefined" : "heterogeneous substance"
+    },
+    "subClasses" : [ "39" ],
+    "attributes" : [ "external" ],
+    "id" : "26",
+    "superClasses" : [ "25", "24" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Set",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A set is a collection of entities, for which there may be zero members."
+    },
+    "label" : {
+      "IRI-based" : "Set",
+      "undefined" : "set"
+    },
+    "subClasses" : [ "28" ],
+    "attributes" : [ "external" ],
+    "id" : "45",
+    "superClasses" : [ "46" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#MolecularFormula",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "MolecularFormula",
+      "undefined" : "molecular formula"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#H2O",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "H2O",
+        "undefined" : "H2O"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "47",
+    "superClasses" : [ "48" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Person",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Person",
+      "undefined" : "person"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Erik",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Erik",
+        "undefined" : "Erik"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Jack",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Jack",
+        "undefined" : "Jack"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Katie",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Katie",
+        "undefined" : "Katie"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#John",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "John",
+        "undefined" : "John"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "49",
+    "superClasses" : [ "38" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#FriendlyTalkingDog",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "FriendlyTalkingDog"
+    },
+    "intersection" : [ "51", "52", "53" ],
+    "attributes" : [ "intersection", "external" ],
+    "id" : "50"
+  }, {
+    "iri" : "http://semanticscience.org/resource/ArrowedLineSegment",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "An arrowed line is a directed line segment in which one or both endpoints is tangentially part of a triangle that bisects the line."
+    },
+    "label" : {
+      "IRI-based" : "ArrowedLineSegment",
+      "undefined" : "arrowed line segment"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#TripleArrowLineSegment",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "TripleArrowLineSegment",
+        "undefined" : "triple arrow line segment"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "54",
+    "superClasses" : [ "55" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Non-cellularOrganism",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A non-cellular organism is an organism that does not contain a cell."
+    },
+    "label" : {
+      "IRI-based" : "Non-cellularOrganism",
+      "undefined" : "non-cellular organism"
+    },
+    "attributes" : [ "external" ],
+    "id" : "58",
+    "superClasses" : [ "40" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/BiomolecularStructureDescriptor",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A biomolecular structure descriptor is structure description for organic compounds."
+    },
+    "label" : {
+      "IRI-based" : "BiomolecularStructureDescriptor",
+      "undefined" : "biomolecular structure descriptor"
+    },
+    "subClasses" : [ "29" ],
+    "attributes" : [ "external" ],
+    "id" : "30",
+    "superClasses" : [ "65" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/CellularOrganism",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A cellular organism is an organism that contains one or more cells."
+    },
+    "label" : {
+      "IRI-based" : "CellularOrganism",
+      "undefined" : "cellular organism"
+    },
+    "subClasses" : [ "36" ],
+    "attributes" : [ "external" ],
+    "id" : "37",
+    "superClasses" : [ "40" ]
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Individual",
+    "baseIri" : "http://www.w3.org/2002/07/owl",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Individual"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Nose",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Nose",
+        "undefined" : "nose"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#DateTimeMeasurement",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "DateTimeMeasurement",
+        "undefined" : "date time measurement"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Mother",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "annotations" : {
+        "inRelationTo" : [ {
+          "identifier" : "inRelationTo",
+          "language" : "undefined",
+          "value" : "http://purl.org/ontology/validation/kb#Tim",
+          "type" : "iri"
+        } ]
+      },
+      "labels" : {
+        "IRI-based" : "Mother",
+        "undefined" : "mother"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#MolecularCollection",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "MolecularCollection",
+        "undefined" : "molecular collection"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Hand",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Hand",
+        "undefined" : "hand"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Fingernail",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Fingernail",
+        "undefined" : "finger nail"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#FloatMeasurement",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "FloatMeasurement",
+        "undefined" : "float measurement"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Face",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Face",
+        "undefined" : "face"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#DoubleMeasurement",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "DoubleMeasurement",
+        "undefined" : "double measurement"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Finger",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Finger",
+        "undefined" : "finger"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#IntegerMeasurement",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "IntegerMeasurement",
+        "undefined" : "integer measurement"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Meter",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Meter",
+        "undefined" : "meter"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "66"
+  }, {
+    "iri" : "http://semanticscience.org/resource/3dStructureModel",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A 3D structure model is a representation of the spatial arrangement of one or more chemical entities."
+    },
+    "label" : {
+      "IRI-based" : "3dStructureModel",
+      "undefined" : "3d structure model"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#WaterMolecule",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "WaterMolecule"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "31",
+    "superClasses" : [ "29" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Dead",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Dead",
+      "undefined" : "dead"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#VitalStatusOfPat",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "VitalStatusOfPat",
+        "undefined" : "Pat's Vital Status"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "22",
+    "superClasses" : [ "21" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#ConicalCylinder",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ConicalCylinder",
+      "undefined" : "conical cylinder"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#CoffeeContainer",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "CoffeeContainer",
+        "undefined" : "coffee container"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "72"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Vehicle",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Vehicle"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Car",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Car"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "73"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#VitalStatus",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "VitalStatus",
+      "undefined" : "vital status"
+    },
+    "subClasses" : [ "20", "22" ],
+    "attributes" : [ "external" ],
+    "id" : "21",
+    "superClasses" : [ "9" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/RealizableEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A realizable entity is an attribute that is exhibited under some condition and is realized in some process."
+    },
+    "label" : {
+      "IRI-based" : "RealizableEntity",
+      "undefined" : "realizable entity"
+    },
+    "subClasses" : [ "75" ],
+    "attributes" : [ "external" ],
+    "id" : "74",
+    "superClasses" : [ "9" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Collection",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A collection is a set for which there exists at least one member, although any member need not to exist at any point in the collection's existence."
+    },
+    "label" : {
+      "IRI-based" : "Collection",
+      "undefined" : "collection"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Group",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Group",
+        "undefined" : "group"
+      }
+    } ],
+    "subClasses" : [ "78", "27", "79" ],
+    "attributes" : [ "external" ],
+    "id" : "28",
+    "superClasses" : [ "45" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/DirectedLineSegment",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A directed line segment is a line segment that is contained by an ordered pair of endpoints (a start point and an endpoint)."
+    },
+    "label" : {
+      "IRI-based" : "DirectedLineSegment",
+      "undefined" : "directed line segment"
+    },
+    "subClasses" : [ "54" ],
+    "attributes" : [ "external" ],
+    "id" : "55",
+    "superClasses" : [ "19" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#CanTalk",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "CanTalk"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Brian",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Brian"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "51"
+  }, {
+    "iri" : "http://semanticscience.org/resource/ComputationalEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A computational entity is an information content entity operated on using some computational system."
+    },
+    "label" : {
+      "IRI-based" : "ComputationalEntity",
+      "undefined" : "computational entity"
+    },
+    "subClasses" : [ "82", "83" ],
+    "attributes" : [ "external" ],
+    "id" : "80",
+    "superClasses" : [ "81" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/MolecularStructureDescriptor",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A molecular structure descriptor is data that describes some aspect of the molecular structure (composition) and is about some chemical entity."
+    },
+    "label" : {
+      "IRI-based" : "MolecularStructureDescriptor",
+      "undefined" : "molecular structure descriptor"
+    },
+    "subClasses" : [ "30" ],
+    "attributes" : [ "external" ],
+    "id" : "65",
+    "superClasses" : [ "5" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Trio",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Trio"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Stooges",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Stooges"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "84"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Real",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "real is the quality of an entity that exists in real space and time."
+    },
+    "label" : {
+      "IRI-based" : "Real",
+      "undefined" : "real"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#ImaginaryFriend",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "ImaginaryFriend",
+        "undefined" : "my imaginary friend"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "32",
+    "superClasses" : [ "1" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/PolygonEdge",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A polygon edge is a line segment joining two polygon vertices."
+    },
+    "label" : {
+      "IRI-based" : "PolygonEdge",
+      "undefined" : "polygon edge"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#TripleVertexedPolyEdge",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "TripleVertexedPolyEdge",
+        "undefined" : "triple vertexed polygon edge"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "90",
+    "superClasses" : [ "19" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Quantity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A quantity is an informational entity that gives the magnitude of a property."
+    },
+    "label" : {
+      "IRI-based" : "Quantity",
+      "undefined" : "quantity"
+    },
+    "union" : [ "93", "94" ],
+    "subClasses" : [ "93", "35", "94" ],
+    "attributes" : [ "union", "external" ],
+    "id" : "91",
+    "superClasses" : [ "92" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Virtual",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "virtual is the quality of an entity that exists only in a virtual setting such as a simulation or game environment."
+    },
+    "label" : {
+      "IRI-based" : "Virtual",
+      "undefined" : "virtual"
+    },
+    "attributes" : [ "external" ],
+    "id" : "33",
+    "superClasses" : [ "1" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Height",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "Height is the one dimensional extent along the vertical projection of a 3D object from a base plane of reference."
+    },
+    "label" : {
+      "IRI-based" : "Height",
+      "undefined" : "height"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#HeightOfTom",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "HeightOfTom"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "95",
+    "superClasses" : [ "96" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Object",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "An object is an entity that is wholly identifiable at any instant of time during which it exists."
+    },
+    "label" : {
+      "IRI-based" : "Object",
+      "undefined" : "object"
+    },
+    "subClasses" : [ "25", "81" ],
+    "attributes" : [ "external" ],
+    "id" : "7",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/UnitOfMeasurement",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A unit of measurement is a definite magnitude of a physical quantity, defined and adopted by convention and/or by law, that is used as a standard for measurement of the same physical quantity."
+    },
+    "label" : {
+      "IRI-based" : "UnitOfMeasurement",
+      "undefined" : "unit of measurement"
+    },
+    "subClasses" : [ "34" ],
+    "attributes" : [ "external" ],
+    "id" : "35",
+    "superClasses" : [ "91" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/1DExtentQuantity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A quantity that extends in single dimension."
+    },
+    "label" : {
+      "IRI-based" : "1DExtentQuantity",
+      "undefined" : "1D extent quantity"
+    },
+    "subClasses" : [ "95" ],
+    "attributes" : [ "external" ],
+    "id" : "96",
+    "superClasses" : [ "100" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Triangle",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A triangle is a polygon composed of three points and three line segments, in which each point is fully connected to another point along through the line segment."
+    },
+    "label" : {
+      "IRI-based" : "Triangle",
+      "undefined" : "triangle"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#ThirdArrow",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "ThirdArrow",
+        "undefined" : "third arrow"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#SecondArrow",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "SecondArrow",
+        "undefined" : "second arrow"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#FirstArrow",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "FirstArrow",
+        "undefined" : "first arrow"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "101",
+    "superClasses" : [ "102" ]
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "98",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "103",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Thing",
+    "baseIri" : "http://owl2vowl.de",
+    "id" : "60",
+    "label" : {
+      "undefined" : "Thing"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "57",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://semanticscience.org/resource/Human",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A human is a primates of the family Hominidae and are characterized by having a large brain relative to body size, with a well developed neocortex, prefrontal cortex and temporal lobes, making them capable of abstract reasoning, language, introspection, problem solving and culture through social learning."
+    },
+    "label" : {
+      "IRI-based" : "Human",
+      "undefined" : "human"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Ali",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Ali"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Jackson",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Jackson",
+        "undefined" : "Jackson"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Tutor",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Tutor",
+        "undefined" : "tutor"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Tim",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Tim",
+        "undefined" : "Tim"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Tom",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Tom",
+        "undefined" : "Tom"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Luis",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Luis"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Sarah",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Sarah",
+        "undefined" : "Sarah"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Steve",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Steve",
+        "undefined" : "Steve"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Jordan",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Jordan",
+        "undefined" : "Jordan"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Susan",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Susan",
+        "undefined" : "Susan"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Peter",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Peter",
+        "undefined" : "Peter"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Samantha",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Samantha",
+        "undefined" : "Samantha"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Pat",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Pat",
+        "undefined" : "Pat"
+      }
+    } ],
+    "subClasses" : [ "49" ],
+    "attributes" : [ "external" ],
+    "id" : "38",
+    "superClasses" : [ "36" ]
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "104",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "63",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "77",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "105",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "106",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "43",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://semanticscience.org/resource/Fictional",
+    "equivalent" : [ "107" ],
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "fictional is the quality of an entity that exists only in a creative work of fiction."
+    },
+    "label" : {
+      "IRI-based" : "Fictional",
+      "undefined" : "fictional"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#ImaginaryFriend",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "ImaginaryFriend",
+        "undefined" : "my imaginary friend"
+      }
+    } ],
+    "attributes" : [ "equivalent", "external" ],
+    "id" : "2",
+    "superClasses" : [ "0" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Target",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Target",
+      "undefined" : "target"
+    },
+    "intersection" : [ "23" ],
+    "attributes" : [ "intersection", "external" ],
+    "id" : "110"
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Thing",
+    "baseIri" : "http://owl2vowl.de",
+    "id" : "11",
+    "label" : {
+      "undefined" : "Thing"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "17",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://semanticscience.org/resource/Symbol",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A symbol is a proposition about what an entity represents."
+    },
+    "label" : {
+      "IRI-based" : "Symbol",
+      "undefined" : "symbol"
+    },
+    "subClasses" : [ "47" ],
+    "attributes" : [ "external" ],
+    "id" : "48",
+    "superClasses" : [ "122" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/GeometricEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "GeometricEntity"
+    },
+    "subClasses" : [ "124" ],
+    "attributes" : [ "external" ],
+    "id" : "125"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Representation",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A representation is a entity that in some way represents another entity (or attribute thereof)."
+    },
+    "label" : {
+      "IRI-based" : "Representation",
+      "undefined" : "representation"
+    },
+    "subClasses" : [ "48" ],
+    "attributes" : [ "external" ],
+    "id" : "122",
+    "superClasses" : [ "81" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/ProbabilityMeasure",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A probability measure is quantity of how likely it is that some event will occur."
+    },
+    "label" : {
+      "IRI-based" : "ProbabilityMeasure",
+      "undefined" : "probability measure"
+    },
+    "subClasses" : [ "130" ],
+    "attributes" : [ "external" ],
+    "id" : "129",
+    "superClasses" : [ "93" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Organism",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A biological organisn is a biological entity that consists of one or more cells and is capable of genomic replication (independently or not)."
+    },
+    "label" : {
+      "IRI-based" : "Organism",
+      "undefined" : "organism"
+    },
+    "union" : [ "58", "37" ],
+    "subClasses" : [ "132", "58", "37" ],
+    "attributes" : [ "union", "external" ],
+    "id" : "40",
+    "superClasses" : [ "39" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/InformationContentEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "An information content entity is an object that requires some background knowledge or procedure to correctly interpret."
+    },
+    "label" : {
+      "IRI-based" : "InformationContentEntity",
+      "undefined" : "information content entity"
+    },
+    "subClasses" : [ "80", "46", "122" ],
+    "attributes" : [ "external" ],
+    "id" : "81",
+    "superClasses" : [ "7" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/DimensionalQuantity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A dimensional quantity is a quantity that has an associated unit."
+    },
+    "label" : {
+      "IRI-based" : "DimensionalQuantity",
+      "undefined" : "dimensional quantity"
+    },
+    "subClasses" : [ "100", "138" ],
+    "attributes" : [ "external" ],
+    "id" : "94",
+    "superClasses" : [ "91" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/MeasurementValue",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A measurement value is a quantitative description that reflects the magnitude of some attribute."
+    },
+    "label" : {
+      "IRI-based" : "MeasurementValue",
+      "undefined" : "measurement value"
+    },
+    "subClasses" : [ "91" ],
+    "attributes" : [ "external" ],
+    "id" : "92",
+    "superClasses" : [ "141" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Virus",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Virus",
+      "undefined" : "virus"
+    },
+    "attributes" : [ "external" ],
+    "id" : "132",
+    "superClasses" : [ "40" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#SelfAttributing",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "SelfAttributing"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Blue",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Blue"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "144"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Namespace",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A namespace is an informational entity that defines a logical container for a set of symbols or identifiers."
+    },
+    "label" : {
+      "IRI-based" : "Namespace",
+      "undefined" : "namespace"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#NamespaceInstance",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "NamespaceInstance"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "83",
+    "superClasses" : [ "80" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Friendly",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Friendly"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Brian",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Brian"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "53"
+  }, {
+    "iri" : "http://semanticscience.org/resource/SpatialQuantity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A spatial quantity is a quantity obtained from measuring the spatial extent of an entity."
+    },
+    "label" : {
+      "IRI-based" : "SpatialQuantity",
+      "undefined" : "spatial quantity"
+    },
+    "subClasses" : [ "96" ],
+    "attributes" : [ "external" ],
+    "id" : "100",
+    "superClasses" : [ "94" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Unliked",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Unliked"
+    },
+    "attributes" : [ "external" ],
+    "id" : "159"
+  }, {
+    "iri" : "http://semanticscience.org/resource/MathematicalEntity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms."
+    },
+    "label" : {
+      "IRI-based" : "MathematicalEntity",
+      "undefined" : "mathematical entity"
+    },
+    "subClasses" : [ "141", "45" ],
+    "attributes" : [ "external" ],
+    "id" : "46",
+    "superClasses" : [ "81" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Polyline",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A polyline is a connected sequence of line segments."
+    },
+    "label" : {
+      "IRI-based" : "Polyline",
+      "undefined" : "polyline"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#PolylineSegment",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "PolylineSegment",
+        "undefined" : "polyline segment "
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "124",
+    "superClasses" : [ "125" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/ChemicalQuality",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "Chemical quality is the quality of a chemical entity."
+    },
+    "label" : {
+      "IRI-based" : "ChemicalQuality",
+      "undefined" : "chemical quality"
+    },
+    "subClasses" : [ "65" ],
+    "attributes" : [ "external" ],
+    "id" : "5",
+    "superClasses" : [ "3" ]
+  }, {
+    "iri" : "http://org.semanticweb.owlapi/error#Error1",
+    "equivalent" : [ "41" ],
+    "baseIri" : "http://org.semanticweb.owlapi/error",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Error1"
+    },
+    "attributes" : [ "equivalent", "external" ],
+    "id" : "162"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Role",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance."
+    },
+    "label" : {
+      "IRI-based" : "Role",
+      "undefined" : "role"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#TeachingRole",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "TeachingRole",
+        "undefined" : "teaching role"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Farmer",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Farmer",
+        "undefined" : "farmer"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#TutoringRole",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "TutoringRole",
+        "undefined" : "tutoring role"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "75",
+    "superClasses" : [ "74" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#DeadlySins",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "DeadlySins",
+      "undefined" : "seven deadly sins"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#SevenDeadlySins",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "SevenDeadlySins"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "78",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Integer",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Integer",
+      "undefined" : "integer"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Ten",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Ten"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "82",
+    "superClasses" : [ "80" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Type",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Type"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Float",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Float"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Tuple",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Tuple"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Boolean",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Boolean"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Integer",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Integer"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Double",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Double"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#String",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "String"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "173"
+  }, {
+    "iri" : "http://semanticscience.org/resource/PolygonVertex",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "PolygonVertex"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#VertexTwo",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "VertexTwo",
+        "undefined" : "vertex two"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#VertexOne",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "VertexOne",
+        "undefined" : "vertex one"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#VertexThree",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "VertexThree",
+        "undefined" : "vertex three"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "174"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Number",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A number is a mathematical object used to count, label, and measure."
+    },
+    "label" : {
+      "IRI-based" : "Number",
+      "undefined" : "number"
+    },
+    "subClasses" : [ "92" ],
+    "attributes" : [ "external" ],
+    "id" : "141",
+    "superClasses" : [ "46" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Dog",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Dog"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Brian",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Brian"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "52"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Identifier",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Identifier"
+    },
+    "attributes" : [ "external" ],
+    "id" : "113"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Process",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists."
+    },
+    "label" : {
+      "IRI-based" : "Process",
+      "undefined" : "process"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Therapy",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Therapy",
+        "undefined" : "therapy"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Step",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Step",
+        "undefined" : "step"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#Workflow",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Workflow",
+        "undefined" : "workflow"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "8",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Polygon",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Polygon"
+    },
+    "subClasses" : [ "101" ],
+    "attributes" : [ "external" ],
+    "id" : "102"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#StudyGroup",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "StudyGroup",
+      "undefined" : "study group"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#StudyGroupInstance",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "StudyGroupInstance"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "79",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Fake",
+    "equivalent" : [ "2" ],
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Fake",
+      "undefined" : "fake"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Hubert",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Hubert",
+        "undefined" : "Hubert"
+      }
+    } ],
+    "attributes" : [ "equivalent", "external" ],
+    "id" : "107"
+  }, {
+    "iri" : "http://semanticscience.org/resource/LineSegment",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A line segment is a line and a part of a curve that is (inclusively) bounded by two terminal points."
+    },
+    "label" : {
+      "IRI-based" : "LineSegment",
+      "undefined" : "line segment"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#LineSegment",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "LineSegment",
+        "undefined" : "line segment "
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#LineSegmentInstance",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "LineSegmentInstance",
+        "undefined" : "line segment instance"
+      }
+    } ],
+    "subClasses" : [ "55", "90" ],
+    "attributes" : [ "external" ],
+    "id" : "19",
+    "superClasses" : [ "18" ]
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "191",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Lobe",
+    "equivalent" : [ "162" ],
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A lobe that is part the brain."
+    },
+    "label" : {
+      "IRI-based" : "Lobe",
+      "undefined" : "lobe"
+    },
+    "attributes" : [ "equivalent", "external" ],
+    "id" : "41",
+    "superClasses" : [ "39" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/DimensionlessQuantity",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A dimensionless quantity is a quantity that has no associated unit."
+    },
+    "label" : {
+      "IRI-based" : "DimensionlessQuantity",
+      "undefined" : "dimensionless quantity"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Efficiency",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Efficiency",
+        "undefined" : "efficiency"
+      }
+    } ],
+    "subClasses" : [ "129" ],
+    "attributes" : [ "external" ],
+    "id" : "93",
+    "superClasses" : [ "91" ]
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#integer",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "199",
+    "label" : {
+      "IRI-based" : "integer"
+    }
+  }, {
+    "iri" : "http://semanticscience.org/resource/Attribute",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "An attribute is a characteristic of some entity."
+    },
+    "label" : {
+      "IRI-based" : "Attribute",
+      "undefined" : "attribute"
+    },
+    "subClasses" : [ "74", "4", "21" ],
+    "attributes" : [ "external" ],
+    "id" : "9",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#Text",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Text"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Question",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Question"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "190"
+  }, {
+    "iri" : "http://semanticscience.org/resource/Quality",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary."
+    },
+    "label" : {
+      "IRI-based" : "Quality",
+      "undefined" : "quality"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#Reliable",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "Reliable",
+        "undefined" : "reliable"
+      }
+    } ],
+    "subClasses" : [ "3", "1" ],
+    "attributes" : [ "external" ],
+    "id" : "4",
+    "superClasses" : [ "9" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/ProbabilityValue",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "A p-value or probability value is the probability of obtaining a test statistic at least as extreme as the one that was actually observed, assuming that the null hypothesis is true"
+    },
+    "label" : {
+      "IRI-based" : "ProbabilityValue",
+      "undefined" : "probability value"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#EffortExerted",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "EffortExerted",
+        "undefined" : "effort exerted"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "130",
+    "superClasses" : [ "129" ]
+  }, {
+    "iri" : "http://semanticscience.org/resource/Age",
+    "baseIri" : "http://semanticscience.org/resource",
+    "instances" : 0,
+    "description" : {
+      "undefined" : "Age is the length of time that a person has lived or a thing has existed."
+    },
+    "label" : {
+      "IRI-based" : "Age",
+      "undefined" : "age"
+    },
+    "individuals" : [ {
+      "iri" : "http://purl.org/ontology/validation/kb#AgeOfPeter",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "AgeOfPeter",
+        "undefined" : "Peter's age"
+      }
+    }, {
+      "iri" : "http://purl.org/ontology/validation/kb#AgeOfSamantha",
+      "baseIri" : "http://purl.org/ontology/validation/kb",
+      "labels" : {
+        "IRI-based" : "AgeOfSamantha",
+        "undefined" : "Samantha's age"
+      }
+    } ],
+    "attributes" : [ "external" ],
+    "id" : "138",
+    "superClasses" : [ "94" ]
+  } ],
+  "property" : [ {
+    "id" : "10",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "14",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "16",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "42",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "56",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "59",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "62",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "61",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "70",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "71",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "76",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "67",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "85",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "86",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "88",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "97",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "99",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "108",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "68",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "15",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "111",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "112",
+    "type" : "owl:allValuesFrom"
+  }, {
+    "id" : "114",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "115",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "116",
+    "type" : "owl:someValuesFrom"
+  }, {
+    "id" : "119",
+    "type" : "owl:someValuesFrom"
+  }, {
+    "id" : "120",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "121",
+    "type" : "owl:someValuesFrom"
+  }, {
+    "id" : "123",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "126",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "127",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "128",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "12",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "131",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "133",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "134",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "135",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "136",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "137",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "139",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "140",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "142",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "143",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "145",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "146",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "147",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "148",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "149",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "150",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "151",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "152",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "153",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "69",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "154",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "155",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "156",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "157",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "158",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "160",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "118",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "89",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "163",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "164",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "165",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "166",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "167",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "168",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "169",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "170",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "171",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "172",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "175",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "176",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "177",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "178",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "179",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "180",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "181",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "182",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "183",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "184",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "185",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "186",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "187",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "188",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "189",
+    "type" : "owl:someValuesFrom"
+  }, {
+    "id" : "192",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "109",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "193",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "194",
+    "type" : "owl:someValuesFrom"
+  }, {
+    "id" : "195",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "196",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "117",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "197",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "198",
+    "type" : "owl:allValuesFrom"
+  }, {
+    "id" : "200",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "201",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "202",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "203",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "204",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "205",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "206",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "207",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "208",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "209",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "210",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "87",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "211",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "212",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "213",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "214",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "215",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "216",
+    "type" : "rdfs:SubClassOf"
+  } ],
+  "propertyAttribute" : [ {
+    "iri" : "http://semanticscience.org/resource/isLocationOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part."
+    },
+    "label" : {
+      "IRI-based" : "isLocationOf",
+      "undefined" : "is location of"
+    },
+    "superproperty" : [ "12" ],
+    "domain" : "11",
+    "subproperty" : [ "13" ],
+    "attributes" : [ "transitive", "object", "external" ],
+    "id" : "10"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasMother",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "hasMother",
+      "undefined" : "has mother"
+    },
+    "superproperty" : [ "15" ],
+    "domain" : "11",
+    "attributes" : [ "object", "external" ],
+    "id" : "14"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasPolynomialRoot",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "17",
+    "label" : {
+      "IRI-based" : "hasPolynomialRoot",
+      "undefined" : "has polynomial root"
+    },
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "16"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasAge",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "43",
+    "label" : {
+      "IRI-based" : "hasAge",
+      "undefined" : "has age"
+    },
+    "maxCardinality" : "1",
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "42"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasName",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "57",
+    "label" : {
+      "IRI-based" : "hasName",
+      "undefined" : "has name"
+    },
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "56"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isUnitOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "60",
+    "description" : {
+      "undefined" : "is unit of is a relation between a unit and a quantity that it is a multiple of."
+    },
+    "label" : {
+      "IRI-based" : "isUnitOf",
+      "undefined" : "is unit of"
+    },
+    "superproperty" : [ "61" ],
+    "domain" : "35",
+    "attributes" : [ "object", "external" ],
+    "id" : "59"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasValue",
+    "equivalent" : [ "64" ],
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "63",
+    "label" : {
+      "IRI-based" : "hasValue",
+      "undefined" : "has value"
+    },
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "62"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isAttributeOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "is attribute of is a relation that associates an attribute with an entity where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type."
+    },
+    "label" : {
+      "IRI-based" : "isAttributeOf",
+      "undefined" : "is attribute of"
+    },
+    "superproperty" : [ "67" ],
+    "domain" : "11",
+    "subproperty" : [ "59", "68", "69" ],
+    "attributes" : [ "object", "external" ],
+    "id" : "61"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isTargetIn",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "isTargetIn",
+      "undefined" : "is target in"
+    },
+    "domain" : "11",
+    "attributes" : [ "object", "external" ],
+    "id" : "70"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasSibling",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "hasSibling",
+      "undefined" : "has sibling"
+    },
+    "domain" : "11",
+    "attributes" : [ "object", "external" ],
+    "id" : "71"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasExactValue",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "77",
+    "label" : {
+      "IRI-based" : "hasExactValue",
+      "undefined" : "has exact value"
+    },
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "76"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isRelatedTo",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "A is related to B iff there is some relation between A and B."
+    },
+    "label" : {
+      "IRI-based" : "isRelatedTo",
+      "undefined" : "is related to"
+    },
+    "domain" : "11",
+    "subproperty" : [ "61", "15", "12" ],
+    "attributes" : [ "object", "external", "symmetric" ],
+    "id" : "67"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isRoleOf",
+    "inverse" : "86",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "is role of is a relation between a role and the entity that it is a property of."
+    },
+    "label" : {
+      "IRI-based" : "isRoleOf",
+      "undefined" : "is role of"
+    },
+    "superproperty" : [ "87" ],
+    "domain" : "75",
+    "attributes" : [ "functional", "object", "external" ],
+    "id" : "85"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasRole",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "has role is a relation between an entity and a role that it bears."
+    },
+    "label" : {
+      "IRI-based" : "hasRole",
+      "undefined" : "has role"
+    },
+    "superproperty" : [ "88" ],
+    "domain" : "11",
+    "attributes" : [ "inverse functional", "object", "external" ],
+    "id" : "86"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasRealizableProperty",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "hasRealizableProperty",
+      "undefined" : "has realizable property"
+    },
+    "superproperty" : [ "89" ],
+    "domain" : "11",
+    "subproperty" : [ "86" ],
+    "attributes" : [ "inverse functional", "object", "external" ],
+    "id" : "88"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasDiameterValue",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "98",
+    "label" : {
+      "IRI-based" : "hasDiameterValue",
+      "undefined" : "has diameter value"
+    },
+    "minCardinality" : "2",
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "97"
+  }, {
+    "range" : "7",
+    "domain" : "25",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "99"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasMember",
+    "inverse" : "69",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "has member is a mereological relation between a collection and an item."
+    },
+    "label" : {
+      "IRI-based" : "hasMember",
+      "undefined" : "has member"
+    },
+    "superproperty" : [ "15" ],
+    "maxCardinality" : "7",
+    "cardinality" : "2",
+    "minCardinality" : "3",
+    "domain" : "11",
+    "attributes" : [ "irreflexive", "object", "external" ],
+    "id" : "108"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isPropertyOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "is property of is a relation betweena  quality, capability or role and the entity that it and it alone bears."
+    },
+    "label" : {
+      "IRI-based" : "isPropertyOf",
+      "undefined" : "is property of"
+    },
+    "superproperty" : [ "61" ],
+    "domain" : "11",
+    "subproperty" : [ "87" ],
+    "attributes" : [ "functional", "object", "external" ],
+    "id" : "68"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasAttribute",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type."
+    },
+    "label" : {
+      "IRI-based" : "hasAttribute",
+      "undefined" : "has attribute"
+    },
+    "superproperty" : [ "67" ],
+    "domain" : "11",
+    "subproperty" : [ "89", "14", "108", "109" ],
+    "attributes" : [ "object", "external" ],
+    "id" : "15"
+  }, {
+    "range" : "33",
+    "domain" : "32",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "111"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasMember",
+    "inverse" : "69",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "113",
+    "description" : {
+      "undefined" : "has member is a mereological relation between a collection and an item."
+    },
+    "label" : {
+      "IRI-based" : "hasMember",
+      "undefined" : "has member"
+    },
+    "superproperty" : [ "15" ],
+    "domain" : "83",
+    "attributes" : [ "irreflexive", "object", "allValues", "external" ],
+    "id" : "112"
+  }, {
+    "range" : "32",
+    "domain" : "2",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "114"
+  }, {
+    "range" : "74",
+    "domain" : "4",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "115"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isPartOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "102",
+    "description" : {
+      "undefined" : "is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole."
+    },
+    "label" : {
+      "IRI-based" : "isPartOf",
+      "undefined" : "is part of"
+    },
+    "superproperty" : [ "117" ],
+    "domain" : "90",
+    "subproperty" : [ "118" ],
+    "attributes" : [ "someValues", "reflexive", "transitive", "object", "external" ],
+    "id" : "116"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasMember",
+    "inverse" : "69",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "31",
+    "description" : {
+      "undefined" : "has member is a mereological relation between a collection and an item."
+    },
+    "label" : {
+      "IRI-based" : "hasMember",
+      "undefined" : "has member"
+    },
+    "superproperty" : [ "15" ],
+    "domain" : "27",
+    "attributes" : [ "someValues", "irreflexive", "object", "external" ],
+    "id" : "119"
+  }, {
+    "range" : "93",
+    "domain" : "94",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "120"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasUnit",
+    "inverse" : "59",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "35",
+    "description" : {
+      "undefined" : "has unit is a relation between a quantity and the unit it is a multiple of."
+    },
+    "label" : {
+      "IRI-based" : "hasUnit",
+      "undefined" : "has unit"
+    },
+    "superproperty" : [ "15" ],
+    "domain" : "94",
+    "attributes" : [ "someValues", "functional", "object", "external" ],
+    "id" : "121"
+  }, {
+    "range" : "125",
+    "domain" : "124",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "123"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasComponentPart",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "hasComponentPart",
+      "undefined" : "has component part"
+    },
+    "domain" : "11",
+    "attributes" : [ "object", "external" ],
+    "id" : "126"
+  }, {
+    "range" : "39",
+    "domain" : "41",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "127"
+  }, {
+    "range" : "39",
+    "domain" : "40",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "128"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isSpatiotemporallyRelatedTo",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "A is spatiotemporally related to B iff A is in the spatial or temporal vicinity of B"
+    },
+    "label" : {
+      "IRI-based" : "isSpatiotemporallyRelatedTo",
+      "undefined" : "is spatiotemporally related to"
+    },
+    "superproperty" : [ "67" ],
+    "domain" : "11",
+    "subproperty" : [ "10", "117" ],
+    "attributes" : [ "object", "external", "symmetric" ],
+    "id" : "12"
+  }, {
+    "range" : "25",
+    "domain" : "26",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "131"
+  }, {
+    "range" : "48",
+    "domain" : "47",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "133"
+  }, {
+    "range" : "36",
+    "domain" : "38",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "134"
+  }, {
+    "range" : "25",
+    "domain" : "24",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "135"
+  }, {
+    "range" : "1",
+    "domain" : "0",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "136"
+  }, {
+    "range" : "29",
+    "domain" : "31",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "137"
+  }, {
+    "range" : "1",
+    "domain" : "33",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "139"
+  }, {
+    "range" : "1",
+    "domain" : "32",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "140"
+  }, {
+    "range" : "24",
+    "domain" : "26",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "142"
+  }, {
+    "range" : "18",
+    "domain" : "19",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "143"
+  }, {
+    "range" : "38",
+    "domain" : "49",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "145"
+  }, {
+    "range" : "6",
+    "domain" : "8",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "146"
+  }, {
+    "range" : "6",
+    "domain" : "7",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "147"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#uniqueUsername",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "104",
+    "label" : {
+      "IRI-based" : "uniqueUsername",
+      "undefined" : "unique username"
+    },
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "148"
+  }, {
+    "range" : "96",
+    "domain" : "95",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "149"
+  }, {
+    "range" : "6",
+    "domain" : "9",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "150"
+  }, {
+    "range" : "0",
+    "domain" : "2",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "151"
+  }, {
+    "range" : "7",
+    "domain" : "81",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "152"
+  }, {
+    "range" : "3",
+    "domain" : "5",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "153"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isMemberOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "is member of is a mereological relation between a item and a collection."
+    },
+    "label" : {
+      "IRI-based" : "isMemberOf",
+      "undefined" : "is member of"
+    },
+    "superproperty" : [ "61" ],
+    "domain" : "11",
+    "attributes" : [ "object", "external" ],
+    "id" : "69"
+  }, {
+    "range" : "35",
+    "domain" : "34",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "154"
+  }, {
+    "range" : "141",
+    "domain" : "92",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "155"
+  }, {
+    "range" : "5",
+    "domain" : "65",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "156"
+  }, {
+    "range" : "21",
+    "domain" : "20",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "157"
+  }, {
+    "range" : "102",
+    "domain" : "101",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "158"
+  }, {
+    "range" : "46",
+    "domain" : "45",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "160"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isProperPartOf",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "is proper part of is an asymmetric, irreflexive (normally transitive) relation between a part and its distinct whole."
+    },
+    "label" : {
+      "IRI-based" : "isProperPartOf",
+      "undefined" : "is proper part of"
+    },
+    "superproperty" : [ "161" ],
+    "domain" : "11",
+    "attributes" : [ "irreflexive", "object", "external", "asymmetric" ],
+    "id" : "118"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasProperty",
+    "inverse" : "68",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "has property is a relation between an entity and the quality, capability or role that it and it alone bears."
+    },
+    "label" : {
+      "IRI-based" : "hasProperty",
+      "undefined" : "has property"
+    },
+    "superproperty" : [ "15" ],
+    "domain" : "11",
+    "subproperty" : [ "88" ],
+    "attributes" : [ "inverse functional", "object", "external" ],
+    "id" : "89"
+  }, {
+    "range" : "46",
+    "domain" : "141",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "163"
+  }, {
+    "range" : "100",
+    "domain" : "96",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "164"
+  }, {
+    "range" : "92",
+    "domain" : "91",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "165"
+  }, {
+    "range" : "94",
+    "domain" : "138",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "166"
+  }, {
+    "range" : "37",
+    "domain" : "36",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "167"
+  }, {
+    "range" : "30",
+    "domain" : "29",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "168"
+  }, {
+    "range" : "81",
+    "domain" : "46",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "169"
+  }, {
+    "range" : "81",
+    "domain" : "80",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "170"
+  }, {
+    "range" : "94",
+    "domain" : "100",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "171"
+  }, {
+    "range" : "81",
+    "domain" : "122",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "172"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#uniqueID",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "105",
+    "label" : {
+      "IRI-based" : "uniqueID",
+      "undefined" : "unique identifier"
+    },
+    "domain" : "11",
+    "attributes" : [ "key", "external", "datatype" ],
+    "id" : "175"
+  }, {
+    "range" : "40",
+    "domain" : "37",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "176"
+  }, {
+    "range" : "40",
+    "domain" : "58",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "177"
+  }, {
+    "range" : "45",
+    "domain" : "28",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "178"
+  }, {
+    "range" : "26",
+    "domain" : "39",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "179"
+  }, {
+    "range" : "122",
+    "domain" : "48",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "180"
+  }, {
+    "range" : "40",
+    "domain" : "132",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "181"
+  }, {
+    "range" : "129",
+    "domain" : "130",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "182"
+  }, {
+    "range" : "91",
+    "domain" : "94",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "183"
+  }, {
+    "range" : "91",
+    "domain" : "35",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "184"
+  }, {
+    "range" : "4",
+    "domain" : "3",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "185"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasFather",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "hasFather",
+      "undefined" : "has father"
+    },
+    "domain" : "11",
+    "attributes" : [ "object", "external" ],
+    "id" : "186"
+  }, {
+    "range" : "91",
+    "domain" : "93",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "187"
+  }, {
+    "range" : "4",
+    "domain" : "1",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "188"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasValue",
+    "equivalent" : [ "62" ],
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "191",
+    "description" : {
+      "undefined" : "A relation between a informational entity and its actual value (numeric, date, text, etc)."
+    },
+    "label" : {
+      "IRI-based" : "hasValue",
+      "undefined" : "has value"
+    },
+    "domain" : "190",
+    "attributes" : [ "someValues", "functional", "external", "datatype" ],
+    "id" : "189"
+  }, {
+    "range" : "58",
+    "domain" : "132",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "192"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasUnit",
+    "inverse" : "59",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "35",
+    "description" : {
+      "undefined" : "has unit is a relation between a quantity and the unit it is a multiple of."
+    },
+    "label" : {
+      "IRI-based" : "hasUnit",
+      "undefined" : "has unit"
+    },
+    "superproperty" : [ "15" ],
+    "domain" : "60",
+    "attributes" : [ "functional", "object", "external" ],
+    "id" : "109"
+  }, {
+    "range" : "37",
+    "domain" : "132",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "193"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasPart",
+    "inverse" : "161",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "101",
+    "description" : {
+      "undefined" : "has part is a transitive, reflexive and antisymmetric relation between a whole and itself or a whole and its part"
+    },
+    "label" : {
+      "IRI-based" : "hasPart",
+      "undefined" : "has part"
+    },
+    "superproperty" : [ "10" ],
+    "domain" : "54",
+    "attributes" : [ "someValues", "reflexive", "transitive", "object", "external" ],
+    "id" : "194"
+  }, {
+    "range" : "7",
+    "domain" : "9",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "195"
+  }, {
+    "range" : "8",
+    "domain" : "9",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "196"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isLocatedIn",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "description" : {
+      "undefined" : "A is located in B iff the spatial region occupied by A is part of the spatial region occupied by B."
+    },
+    "label" : {
+      "IRI-based" : "isLocatedIn",
+      "undefined" : "is located in"
+    },
+    "superproperty" : [ "12" ],
+    "domain" : "11",
+    "subproperty" : [ "161" ],
+    "attributes" : [ "transitive", "object", "external" ],
+    "id" : "117"
+  }, {
+    "range" : "8",
+    "domain" : "7",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "197"
+  }, {
+    "iri" : "http://semanticscience.org/resource/hasValue",
+    "equivalent" : [ "62" ],
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "199",
+    "description" : {
+      "undefined" : "A relation between a informational entity and its actual value (numeric, date, text, etc)."
+    },
+    "label" : {
+      "IRI-based" : "hasValue",
+      "undefined" : "has value"
+    },
+    "domain" : "82",
+    "attributes" : [ "functional", "allValues", "external", "datatype" ],
+    "id" : "198"
+  }, {
+    "range" : "9",
+    "domain" : "74",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "200"
+  }, {
+    "range" : "65",
+    "domain" : "30",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "201"
+  }, {
+    "range" : "9",
+    "domain" : "21",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "202"
+  }, {
+    "range" : "9",
+    "domain" : "4",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "203"
+  }, {
+    "range" : "80",
+    "domain" : "82",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "204"
+  }, {
+    "range" : "55",
+    "domain" : "54",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "205"
+  }, {
+    "range" : "93",
+    "domain" : "129",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "206"
+  }, {
+    "range" : "80",
+    "domain" : "83",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "207"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasBirthYear",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "106",
+    "label" : {
+      "IRI-based" : "hasBirthYear",
+      "undefined" : "has birth year"
+    },
+    "cardinality" : "1",
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "208"
+  }, {
+    "range" : "28",
+    "domain" : "79",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "209"
+  }, {
+    "range" : "28",
+    "domain" : "27",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "210"
+  }, {
+    "iri" : "http://semanticscience.org/resource/isRealizablePropertyOf",
+    "inverse" : "88",
+    "baseIri" : "http://semanticscience.org/resource",
+    "range" : "11",
+    "label" : {
+      "IRI-based" : "isRealizablePropertyOf",
+      "undefined" : "is realizable property of"
+    },
+    "superproperty" : [ "68" ],
+    "domain" : "11",
+    "subproperty" : [ "85" ],
+    "attributes" : [ "functional", "object", "external" ],
+    "id" : "87"
+  }, {
+    "range" : "28",
+    "domain" : "78",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "211"
+  }, {
+    "iri" : "http://purl.org/ontology/validation/ont#hasTeenAge",
+    "baseIri" : "http://purl.org/ontology/validation/ont",
+    "range" : "103",
+    "label" : {
+      "IRI-based" : "hasTeenAge",
+      "undefined" : "has age"
+    },
+    "domain" : "11",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "212"
+  }, {
+    "range" : "19",
+    "domain" : "55",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "213"
+  }, {
+    "range" : "21",
+    "domain" : "22",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "214"
+  }, {
+    "range" : "74",
+    "domain" : "75",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "215"
+  }, {
+    "range" : "19",
+    "domain" : "90",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "216"
+  } ]
+}

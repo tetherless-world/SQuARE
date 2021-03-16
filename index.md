@@ -2314,7 +2314,6 @@ WHERE {
 
 
 **Example**
-
 ```
 sio:hasComponentPart rdf:type owl:ObjectProperty ;
     rdfs:label "has component part" .
@@ -3006,7 +3005,6 @@ WHERE {
 Since _class_ is the intersection of the the members in _list_, and _resource_ is of type each of the members in the list, then we can infer _resource_ is a _class_.
 
 **Example**
-
 ```
 sio:Molecule rdf:type owl:Class ;
     rdfs:label "molecule" .
@@ -3109,7 +3107,7 @@ val-kb:VitalStatusOfPat rdf:type valo:Alive , valo:Dead ;
 val-kb:Pat rdf:type sio:Human ;
     rdfs:label "Pat" .
 ```
-
+A reasoner should infer `val-kb:VitalStatusOfPat rdf:type owl:Nothing` or that an inconsistency occurs.
 ##### Data Complement Of
 **Query**
 ```
@@ -3166,7 +3164,6 @@ WHERE {
 Since _class_ is a subclass of or is equivalent to a class with a complement restriction on the use of _objectProperty_ to have values from _restrictedClass_, and _resource_ is of type _class_, but has the link _objectProperty_ to have values from an instance of _restrictedClass_, an inconsistency occurs.
 
 **Example**
-
 ```
 sio:hasUnit rdf:type owl:ObjectProperty ,
                                 owl:FunctionalProperty;
@@ -3221,7 +3218,7 @@ val-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
 valo:Percentage rdfs:subClassOf sio:UnitOfMeasurement ;
     rdfs:label "percentage" .
 ```
-
+A reasoner should infer `val-kb:Efficiency rdf:type owl:Nothing .`
 ##### Data Property Complement Of
 **Query**
 ```
@@ -3247,8 +3244,28 @@ WHERE {
 
 Since _resource_ is a _class_ which is equivalent to or a subclass of a class that has a complement of restriction on _dataProperty_ to have some values from _datatype_, _resource_ _dataProperty_ _value_, but _value_ has a datatype _datatype_, an inconsistency occurs.
 
+**Example**
+```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
 
+val:NumericalValue rdf:type owl:Class ;
+    rdfs:label "numerical value" ;
+    rdfs:subClassOf sio:ConceptualEntity ;
+    rdfs:subClassOf
+        [ rdf:type owl:Class ;
+            owl:complementOf 
+                [ rdf:type owl:Restriction ;
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:string ] 
+        ] .
 
+val-kb:Number rdf:type val:NumericalValue ;
+    sio:hasValue "Fifty"^^xsd:string .
+```
+A reasoner should infer `val-kb:Number rdf:type owl:Nothing .`
 ### Code
 
 

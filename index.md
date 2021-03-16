@@ -1,3 +1,10 @@
+<div class="sidenav">
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
 # A Validation Ontology for Evaluating Semantic Reasoning Engines*
 *This work is partially supported by IBM Research through the AI Horizons Network.
 

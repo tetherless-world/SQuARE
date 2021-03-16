@@ -1852,19 +1852,44 @@ WHERE {
 Since _resource_ is of type _class_, which has a value restriction on _objectProperty_ to have _object_, we can infer that _resource_ _objectProperty_ _object_.
 
 **Example**
-
 ```
+sio:isRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:label "is related to" ;
+    dct:description "A is related to B iff there is some relation between A and B." .
+
+sio:isSpatiotemporallyRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:subPropertyOf sio:isRelatedTo ;
+    rdfs:label "is spatiotemporally related to" ;
+    dct:description "A is spatiotemporally related to B iff A is in the spatial or temporal vicinity of B" .
+
+sio:isLocationOf rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    rdfs:label "is location of" ;
+    dct:description "A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part." .
+
+sio:hasPart rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ,
+                                owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isLocationOf ;
+    owl:inverseOf sio:isPartOf ;
+    rdfs:label "has part" ;
+    dct:description "has part is a transitive, reflexive and antisymmetric relation between a whole and itself or a whole and its part" .
+
 valo:Vehicle rdf:type owl:Class ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasPart ;
             owl:hasValue val-kb:Wheel ] .
 
-val-kb:Car rdf:type valo:Vehicle ;
-    sio:hasPart val-kb:Mirror .
+val-kb:Car rdf:type ex:Vehicle ;
+    sio:hasPart ex-kb:Mirror .
 
-val-kb:Mirror owl:differentFrom val-kb:Wheel .
+val-kb:Mirror owl:differentFrom ex-kb:Wheel .
 ```
+A reasoner should infer `val-kb:Car sio:hasPart val-kb:Wheel .`
 #### Data Has Value
 **Axiom**
 
@@ -1896,7 +1921,7 @@ valo:Unliked rdf:type owl:Class ;
 
 val-kb:Tom valo:hasAge "23"^^xsd:integer .
 ```
-
+A reasoner should infer `val-kb:Tom rdf:type ex:Unliked .`
 ### Universal Quantification
 #### Object All Values From
 **Axiom**

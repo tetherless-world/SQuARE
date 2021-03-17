@@ -1,7 +1,7 @@
 theme: jekyll-theme-cayman
 title: A Validation Ontology for Semantic Reasoning Engines
-#sidebar:
-#  nav: "docs"
+sidebar:
+  nav: "docs"
 
 defaults:
   # _docs

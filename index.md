@@ -1407,7 +1407,13 @@ CONSTRUCT {
   ?individual ?p ?o .
 }
 WHERE {
-  ?resource owl:sameAs ?individual .
+  {
+    ?resource owl:sameAs ?individual .
+  }
+  UNION
+  {
+    ?individual owl:sameAs ?resource .
+  }
   ?resource ?p ?o .
 }
 ```

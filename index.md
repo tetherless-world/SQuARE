@@ -145,7 +145,6 @@ sio:Entity rdf:type owl:Class ;
 sio:Object rdf:type owl:Class ;
     rdfs:subClassOf sio:Entity ;
     rdfs:label "object" ;
-    #<rdfs:subClassOf rdf:nodeID="arc703eb381"/>
     dct:description "An object is an entity that is wholly identifiable at any instant of time during which it exists." .
 
 sio:MaterialEntity  rdf:type owl:Class ;

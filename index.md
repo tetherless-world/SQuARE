@@ -1442,8 +1442,14 @@ CONSTRUCT {
   ?resource rdf:type owl:Nothing .
 }
 WHERE {
-  ?resource owl:differentFrom ?individual ;
-    owl:sameAs ?individual .
+  {
+    ?resource owl:differentFrom ?individual .
+  }
+  UNION
+  {
+    ?individual owl:differentFrom ?resource .
+  }
+  ?resource owl:sameAs ?individual .
 }
 ```
 **Explanation**

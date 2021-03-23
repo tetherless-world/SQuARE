@@ -1118,7 +1118,7 @@ val-kb:H2O rdf:type ex:MolecularFormula ;
 ```
 A reasoner should infer `val-kb:Water owl:sameAs val-kb:HyrdogenDioxide .`
 ### Domain & Range Restrictions
-#### Domain Restriction
+#### Property Domain
 **Axiom**
 
 **Query**
@@ -1251,7 +1251,7 @@ val-kb:Tim rdf:type sio:Human ;
     rdfs:label "Tim" .
 ```
 A reasoner should infer `val-kb:Mother rdf:type sio:Role .` and/or `val-kb:Sarah sio:hasRole val-kb:Mother .`
-#### Range Restriction
+#### Property Range
 
 **Axiom**
 

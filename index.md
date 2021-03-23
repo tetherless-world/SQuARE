@@ -308,7 +308,7 @@ CONSTRUCT {
   ?resource ?objectProperty ?o .
 }
 WHERE {
-?objectProperty rdf:type owl:ObjectProperty ;
+  ?objectProperty rdf:type owl:ObjectProperty ;
     owl:propertyChainAxiom ?list .
   ?list rdf:first ?prop1 .
   ?list rdf:rest/rdf:first ?prop2 .

@@ -1561,6 +1561,7 @@ val-kb:Reliable rdf:type sio:Quality ;
     rdfs:label "reliable" .
 ```
 A reasoner should infer `val-kb:Reliable rdf:type sio:Attribute , sio:Entity .`
+
 #### Property Assertion
 **Axiom**
 
@@ -1919,6 +1920,7 @@ CONSTRUCT {
 }
 WHERE {
   ?resource ?datatypeProperty ?value.
+  ?datatypeProperty rdf:type owl:DatatypeProperty .
   ?class owl:equivalentClass
     [ rdf:type owl:Restriction ;
       owl:onProperty ?datatypeProperty ;
@@ -1932,6 +1934,15 @@ Since _class_ is equivalent to the restriction on _datatypeProperty_ to have val
 **Example**
 
 ```
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+    
+valo:hasAge rdf:type owl:DatatypeProperty ;
+    rdfs:label "has age" ;
+    rdfs:subPropertyOf sio:hasValue .
+    
 valo:Unliked rdf:type owl:Class ;
     owl:equivalentClass#rdfs:subClassOf
         [ rdf:type owl:Restriction ;

@@ -1262,10 +1262,11 @@ sio:ChemicalEntity  rdf:type owl:Class ;
 valo:Lobe rdf:type owl:Class ;
     rdfs:subClassOf sio:BiologicalEntity ;
     rdfs:label "lobe" ;
-    dct:description "A lobe that is part the brain." .#;
-#    owl:equivalentClass 
-#        [ rdf:type owl:Class ;
-#            owl:disjointUnionOf ( valo:FrontalLobe valo:ParietalLobe valo:TemporalLobe valo:OccipitalLobe valo:LimbicLobe ) ] .
+    dct:description "A lobe that is part the brain." ;
+    owl:equivalentClass valo:LobeDisjointUnionClass .
+
+valo:LobeDisjointUnionClass rdf:type owl:Class ;
+    owl:disjointUnionOf ( ex:FrontalLobe ex:ParietalLobe ex:TemporalLobe ex:OccipitalLobe ex:LimbicLobe ) .
 # -------  Disjoint Union ------->
 
 # <-------  Object Intersection Of -----

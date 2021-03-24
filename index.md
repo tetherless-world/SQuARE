@@ -2952,25 +2952,26 @@ valo:Lobe rdf:type owl:Class ;
     rdfs:subClassOf sio:BiologicalEntity ;
     rdfs:label "lobe" ;
     dct:description "A lobe that is part the brain." ;
-    owl:equivalentClass 
-        [ rdf:type owl:Class ;
-            owl:disjointUnionOf ( valo:FrontalLobe valo:ParietalLobe valo:TemporalLobe valo:OccipitalLobe valo:LimbicLobe ) ] .
+    owl:equivalentClass valo:LobeDisjointUnionClass .
+
+valo:LobeDisjointUnionClass rdf:type owl:Class ;
+    owl:disjointUnionOf ( ex:FrontalLobe ex:ParietalLobe ex:TemporalLobe ex:OccipitalLobe ex:LimbicLobe ) .
 ```
 A reasoner should infer
 ```
-valo:FrontalLobe rdfs:subClassOf valo:Lobe ;
+valo:FrontalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
     owl:disjointWith ex:ParietalLobe , valo:TemporalLobe , valo:OccipitalLobe , valo:LimbicLobe .
 
-valo:ParietalLobe rdfs:subClassOf valo:Lobe ;
+valo:ParietalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
     owl:disjointWith valo:FrontalLobe , valo:TemporalLobe , valo:OccipitalLobe , valo:LimbicLobe .
 
-valo:TemporalLobe rdfs:subClassOf valo:Lobe ;
+valo:TemporalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
     owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:OccipitalLobe , valo:LimbicLobe .
 
-valo:OccipitalLobe rdfs:subClassOf ex:Lobe ;
+valo:OccipitalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
     owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:TemporalLobe , valo:LimbicLobe .
 
-valo:LimbicLobe rdfs:subClassOf valo:Lobe ;
+valo:LimbicLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
     owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:TemporalLobe , valo:OccipitalLobe .
 ```
 ### Intersection

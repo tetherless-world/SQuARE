@@ -883,8 +883,9 @@ val-kb:Face rdf:type owl:Individual ;
 ```
 A reasoner should infer `val-kb:Face rdf:type owl:Nothing .` , `val-kb:Nose rdf:type owl:Nothing .` , and/or that an inconsistency occurs.
 ### Functionality
-#### Functional Object Property
 **Axiom**
+![formula](https://render.githubusercontent.com/render/math?math=\text{T}%20\sqsubseteq%20\leq%201%20R.\text{T})
+#### Functional Object Property
 
 **Query**
 ```

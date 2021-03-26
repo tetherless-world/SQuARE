@@ -1132,7 +1132,7 @@ A reasoner should infer `val-kb:Water owl:sameAs val-kb:HyrdogenDioxide .`
 ### Domain & Range Restrictions
 #### Property Domain
 **Axiom**
-
+![formula](https://render.githubusercontent.com/render/math?math=\exists%20R.\text{T}%20\sqsubseteq%20C)
 **Query**
 ```
 CONSTRUCT {

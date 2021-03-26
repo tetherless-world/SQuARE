@@ -848,7 +848,7 @@ val-kb:Samantha rdf:type sio:Human ;
 A reasoner should infer `val-kb:Samantha sio:isRelatedTo val-kb:Peter .`
 #### Object Property Asymmetry
 **Axiom**
-
+![formula](https://render.githubusercontent.com/render/math?math=R\sqsubseteq%20\neg%20R^-)
 **Query**
 ```
 CONSTRUCT {

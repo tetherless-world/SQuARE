@@ -2007,7 +2007,7 @@ sio:ComputationalEntity rdf:type owl:Class;
 val-kb:NamespaceInstance rdf:type sio:Namespace ;
     sio:hasMember val-kb:NamespaceID .
 ```
-A reasoner should infer \texttt{val-kb:NamespaceID rdf:type sio:Identifier .}
+A reasoner should infer `val-kb:NamespaceID rdf:type sio:Identifier .`
 #### Data All Values From
 **Axiom**
 

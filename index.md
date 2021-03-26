@@ -318,6 +318,19 @@ WHERE {
 
 **Example**
 ```
+sio:isLocatedIn rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    rdfs:label "is located in" ;
+    dct:description "A is located in B iff the spatial region occupied by A is part of the spatial region occupied by B." .
+
+sio:isPartOf rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ,
+                                owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isLocatedIn ;
+    rdfs:label "is part of" ;
+    dct:description "is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole." .
+    
 sio:isRelatedTo rdf:type owl:ObjectProperty ,
                                 owl:SymmetricProperty ;
     rdfs:label "is related to" ;

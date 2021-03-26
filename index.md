@@ -1266,7 +1266,7 @@ A reasoner should infer `val-kb:Mother rdf:type sio:Role .` and/or `val-kb:Sarah
 #### Property Range
 
 **Axiom**
-
+![formula](https://render.githubusercontent.com/render/math?math=\text{T}%20\sqsubseteq%20\forall%20R.C)
 **Query**
 ```
 CONSTRUCT {

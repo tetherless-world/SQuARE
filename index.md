@@ -2677,18 +2677,56 @@ val-kb:DistinctStoogesRestriction rdf:type owl:AllDifferent ;
 **Query**
 ```
 CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
 }
 WHERE {
-
+  ?resource rdf:type ?class ;
+    ?dataProperty ?data .
+  ?dataProperty rdf:type owl:DatatypeProperty .
+  ?class rdf:type owl:Class ; 
+    rdfs:subClassOf|owl:equivalentClass
+      [ rdf:type owl:Restriction ;
+        owl:onProperty ?dataProperty ;
+        owl:cardinality ?cardinalityValue ] .
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?data) AS ?dataCount)
+    WHERE 
+    {
+      ?resource rdf:type ?class ;
+        ?dataProperty ?data .
+      ?dataProperty rdf:type owl:DatatypeProperty .
+      ?class rdf:type owl:Class ;
+        rdfs:subClassOf|owl:equivalentClass
+          [ rdf:type owl:Restriction ;
+            owl:onProperty ?dataProperty ;
+            owl:cardinality ?cardinalityValue ].
+    }
+  }
+  FILTER(?dataCount > ?cardinalityValue)
 }
 ```
 **Explanation**
-
+Since _dataProperty_ is assigned an exact cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _dataCount_ distinct assignments of _dataProperty_ which is greater than _cardinalityValue_, we can conclude that there is an inconsistency associated with _resource_.
 
 **Example**
+```
+valo:hasBirthYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has birth year" .
 
+valo:Person rdf:type owl:Class ;
+    rdfs:label "person" ;
+    rdfs:subClassOf sio:Human ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty ex:hasBirthYear ;
+            owl:cardinality "1"^^xsd:integer ] . 
+
+val-kb:Erik rdf:type valo:Person ;
+    rdfs:label "Erik" ;
+    valo:hasBirthYear "1988"^^xsd:integer , "1998"^^xsd:integer .
 ```
-```
+A reasoner should infer `val-kb:Erik rdf:type owl:Nothing .` or that an inconsistency occurs.
 ##### Object Exact Qualified Cardinality
 **Axiom**
 

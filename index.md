@@ -2229,7 +2229,7 @@ WHERE {
   ?class rdfs:subClassOf|owl:equivalentClass
     [ rdf:type owl:Restriction ;
       owl:onProperty ?objectProperty ;
-      owl:maxCardinality|owl:cardinality ?cardinalityValue ].
+      owl:maxCardinality ?cardinalityValue ].
   FILTER(?objectCount > ?cardinalityValue)
   {
     SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount) ?individual ?concept
@@ -2467,7 +2467,7 @@ WHERE {
   ?class rdfs:subClassOf|owl:equivalentClass
     [ rdf:type owl:Restriction ;
       owl:onProperty ?objectProperty ;
-      owl:minCardinality|owl:cardinality ?cardinalityValue ].
+      owl:minCardinality ?cardinalityValue ].
   FILTER(?objectCount < ?cardinalityValue)
   {
     SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount)
@@ -2479,7 +2479,7 @@ WHERE {
       ?class rdfs:subClassOf|owl:equivalentClass
         [ rdf:type owl:Restriction ;
           owl:onProperty ?objectProperty ;
-          owl:minCardinality|owl:cardinality ?cardinalityValue ].
+          owl:minCardinality ?cardinalityValue ].
     }
   }
 }

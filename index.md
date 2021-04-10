@@ -2241,7 +2241,7 @@ WHERE {
       ?concept rdfs:subClassOf|owl:equivalentClass
         [ rdf:type owl:Restriction ;
           owl:onProperty ?objectProperty ;
-          owl:maxCardinality|owl:cardinality ?cardinalityValue ].
+          owl:maxCardinality ?cardinalityValue ].
     } GROUP BY ?individual ?concept
   }
   BIND(?resource AS ?individual)
@@ -2397,13 +2397,17 @@ val-kb:FirstArrow rdf:type sio:Triangle ;
     rdfs:label "first arrow" .
 
 val-kb:SecondArrow rdf:type sio:Triangle ;
-    rdfs:label "first arrow" .
+    rdfs:label "second arrow" .
 
 val-kb:ThirdArrow rdf:type sio:Triangle ;
-    rdfs:label "first arrow" .
+    rdfs:label "third arrow" .
 
 val-kb:LineSegment rdf:type sio:LineSegment ;
     rdfs:label "line segment " .
+    
+    
+val-kb:DistinctTrianglesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers (ex-kb:FirstArrow ex-kb:SecondArrow ex-kb:ThirdArrow ) .
 ```
 ##### Data Max Qualified Cardinality
 **Axiom**

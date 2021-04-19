@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
-title: A Validation Ontology for Semantic Reasoning Engines
+title: SQuARE: the SPARQL Query Agent-based Reasoning Engine
 sidebar:
   nav: "docs"
 

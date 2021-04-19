@@ -5,10 +5,10 @@
 In order to support potential applications involving hybrid, distributed, or custom reasoning, as well as explainability in reasoning, we introduce SQuARE, the SPARQL Query Agent-based Reasoning Engine. SQuARE is a deductive inference engine implemented by encoding each OWL Description Logic (DL) axiom as a SPARQL CONSTRUCT query. We describe our approach for formulating the queries and implementing SQuARE within an existing knowledge management framework. While earlier work has proposed SPARQL extensions for various purposes, we find that the complete set of queries used in SPARQL-based reasoning methods are not publicly available. Our complete set of DL queries are made open-source along with our extensible test set, enabling reuse for novel applications in which similar approaches may be employed. SETS, the SQuARE Evaluation Test Set, includes example RDF representations for each DL axiom, enabling the testing of reasoning engines at a per axiom basis. Using SETS, we evaluate the DL complexity of existing reasoning engines. The approach described in this paper has benefits related to inference engine customization capabilities and of being able to reason over inconsistent knowledge.
 
 # Table of Contents
-- [Home](#a-validation-ontology-for-evaluating-semantic-reasoning-engines-)
+- [SQuARE: the SPARQL Query Agent-based Reasoning Engine*](#square--the-sparql-query-agent-based-reasoning-engine-)
     + [Abstract](#abstract)
   * [Resources](#resources)
-    + [SQuARE Evaluation Test Set](#square-evaluation-test-set)
+    + [Square Evaulation Test Set](#square-evaulation-test-set)
     + [SPARQL CONSTRUCT Axioms](#sparql-construct-axioms)
     + [Inclusion](#inclusion)
       - [Class Inclusion](#class-inclusion)
@@ -39,9 +39,9 @@ In order to support potential applications involving hybrid, distributed, or cus
     + [Inversion](#inversion)
       - [Object Property Inversion](#object-property-inversion)
         * [Inverse Functional Object Property](#inverse-functional-object-property)
-    + [Domain & Range Restrictions](#domain-&-range-restrictions)
-      - [Domain Restriction](#domain-restriction)
-      - [Range Restriction](#range-restriction)
+    + [Domain & Range Restrictions](#domain---range-restrictions)
+      - [Property Domain](#property-domain)
+      - [Property Range](#property-range)
     + [Datatype](#datatype)
       - [Datatype Restriction](#datatype-restriction)
     + [Assertions](#assertions)
@@ -102,6 +102,7 @@ In order to support potential applications involving hybrid, distributed, or cus
     + [Code](#code)
       - [Deductor Agent](#deductor-agent)
       - [Backtracer Agent](#backtracer-agent)
+    + [Support or Contact](#support-or-contact)
 
 ## Resources
 

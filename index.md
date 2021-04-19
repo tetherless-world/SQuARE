@@ -8,7 +8,7 @@ In order to support potential applications involving hybrid, distributed, or cus
 - [SQuARE: the SPARQL Query Agent-based Reasoning Engine*](#square--the-sparql-query-agent-based-reasoning-engine-)
     + [Abstract](#abstract)
   * [Resources](#resources)
-    + [Square Evaulation Test Set](#square-evaulation-test-set)
+    + [Square Evaulation Test Set](#square-evaluation-test-set)
     + [SPARQL CONSTRUCT Axioms](#sparql-construct-axioms)
     + [Inclusion](#inclusion)
       - [Class Inclusion](#class-inclusion)
@@ -106,7 +106,7 @@ In order to support potential applications involving hybrid, distributed, or cus
 
 ## Resources
 
-### Square Evaulation Test Set
+### Square Evaluation Test Set
 The documentation for the test set is available [here](documentation.html).
 
 The consistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo.ttl).

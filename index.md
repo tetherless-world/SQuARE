@@ -1,14 +1,14 @@
-# A Validation Ontology for Evaluating Semantic Reasoning Engines*
+# SQuARE: the SPARQL Query Agent-based Reasoning Engine*
 *This work is partially supported by IBM Research through the AI Horizons Network.
 
 ### Abstract
-We describe an approach for building a deductive inference engine by encoding each OWL Description Logic (DL) axiom as a SPARQL CONSTRUCT query. While earlier work has proposed SPARQL extensions for various purposes, we find that the complete queries used in SPARQL-based reasoning methods are not publicly available. We were also unable to find a similar approach in the literature in which the OWL DL axioms are represented as SPARQL CONSTRUCT queries. We make openly available the queries, software, and the validation ontology that we use for our methodology. Encoded in this validation ontology are RDF examples for each OWL-DL axiom, allowing for the testing of our reasoning engine at a per axiom basis. We describe our approach in terms of implementation, query formulation, and validation. We evaluate the extent to which we are able to encode DL axioms and discuss the implications of the results. We further discuss future research directions that we are pursuing. The approach described in this paper has benefits related to inference engine customization capabilities and of being able to reason over inconsistent knowledge. This work is motivated by potential applications involving hybrid reasoning, distributed reasoning, and explainability in reasoning by embedding provenance in the form of nanopublications.
+In order to support potential applications involving hybrid, distributed, or custom reasoning, as well as explainability in reasoning, we introduce SQuARE, the SPARQL Query Agent-based Reasoning Engine. SQuARE is a deductive inference engine implemented by encoding each OWL Description Logic (DL) axiom as a SPARQL CONSTRUCT query. We describe our approach for formulating the queries and implementing SQuARE within an existing knowledge management framework. While earlier work has proposed SPARQL extensions for various purposes, we find that the complete set of queries used in SPARQL-based reasoning methods are not publicly available. Our complete set of DL queries are made open-source along with our extensible test set, enabling reuse for novel applications in which similar approaches may be employed. SETS, the SQuARE Evaluation Test Set, includes example RDF representations for each DL axiom, enabling the testing of reasoning engines at a per axiom basis. Using SETS, we evaluate the DL complexity of existing reasoning engines. The approach described in this paper has benefits related to inference engine customization capabilities and of being able to reason over inconsistent knowledge.
 
 # Table of Contents
 - [Home](#a-validation-ontology-for-evaluating-semantic-reasoning-engines-)
     + [Abstract](#abstract)
   * [Resources](#resources)
-    + [Ontology](#ontology)
+    + [SQuARE Evaluation Test Set](#square-evaluation-test-set)
     + [SPARQL CONSTRUCT Axioms](#sparql-construct-axioms)
     + [Inclusion](#inclusion)
       - [Class Inclusion](#class-inclusion)
@@ -105,12 +105,12 @@ We describe an approach for building a deductive inference engine by encoding ea
 
 ## Resources
 
-### Ontology
-The documentation for the ontology is available [here](documentation.html).
+### Square Evaulation Test Set
+The documentation for the test set is available [here](documentation.html).
 
-The consistent version of the ontology is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo.ttl).
+The consistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo.ttl).
 
-The inconsistent version of the ontology is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo_inconsistent.ttl).
+The inconsistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo_inconsistent.ttl).
 
 ### SPARQL CONSTRUCT Axioms
 ### Inclusion 

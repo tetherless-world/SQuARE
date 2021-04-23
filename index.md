@@ -2231,7 +2231,6 @@ WHERE {
     [ rdf:type owl:Restriction ;
       owl:onProperty ?objectProperty ;
       owl:maxCardinality ?cardinalityValue ].
-  FILTER(?objectCount > ?cardinalityValue)
   {
     SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount) ?individual ?concept
     WHERE 
@@ -2247,6 +2246,7 @@ WHERE {
   }
   BIND(?resource AS ?individual)
   BIND(?class AS ?concept)
+  FILTER(?objectCount > ?cardinalityValue)
 }
 ```
 **Explanation**
@@ -2260,7 +2260,7 @@ valo:DeadlySins rdf:type owl:Class ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
-            owl:maxCardinality "7"^^xsd:integer ] ; #Set to 8 instead of 7 to keep ontology consistent
+            owl:maxCardinality "7"^^xsd:integer ] ;
     rdfs:label "seven deadly sins" .
 
 val-kb:SevenDeadlySins rdf:type valo:DeadlySins ;
@@ -2345,12 +2345,40 @@ val-kb:Katie rdf:type valo:Person ;
 **Query**
 ```
 CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
 }
 WHERE {
+  ?resource rdf:type ?class ;
+    ?objectProperty ?object .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?object rdf:type ?restrictedClass .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:onClass ?restrictedClass ;
+      owl:maxQualifiedCardinality ?cardinalityValue ].
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount) ?individual ?concept
+    WHERE 
+    {
+      ?individual rdf:type ?concept ;
+        ?objectProperty ?object .
+      ?object rdf:type ?restrictedClass .
+      ?objectProperty rdf:type owl:ObjectProperty .
+      ?concept rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ;
+          owl:onClass ?restrictedClass ;
+          owl:maxQualifiedCardinality ?cardinalityValue ].
+    } GROUP BY ?individual ?concept
+  }
+  BIND(?resource AS ?individual)
+  BIND(?class AS ?concept)
+  FILTER(?objectCount > ?cardinalityValue)
 }
 ```
 **Explanation**
-
+Since _class_ is constrained with a qualified max cardinality restriction on property \texttt{objectProperty} to have a max of _value_ objects of type class _restrictedClass_, and _resource_ is a _class_ but has _objectCount_ objects assigned to _objectProperty_ which is more than _value_, we can infer that an inconsistency occurs.
 
 **Example**
 ```
@@ -2406,7 +2434,6 @@ val-kb:ThirdArrow rdf:type sio:Triangle ;
 val-kb:LineSegment rdf:type sio:LineSegment ;
     rdfs:label "line segment " .
     
-    
 val-kb:DistinctTrianglesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers (ex-kb:FirstArrow ex-kb:SecondArrow ex-kb:ThirdArrow ) .
 ```
@@ -2416,12 +2443,33 @@ val-kb:DistinctTrianglesRestriction rdf:type owl:AllDifferent ;
 **Query**
 ```
 CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
 }
 WHERE {
+  ?resource ?datatypeProperty ?value .
+  ?datatypeProperty rdf:type owl:DatatypeProperty .
+  ?restriction rdf:type owl:Restriction ;
+    owl:onProperty ?datatypeProperty ;
+    owl:maxQualifiedCardinality ?cardinalityValue ;
+    owl:onDataRange ?datatype .
+  {
+    SELECT (COUNT(DISTINCT ?value) AS ?valueCount) ?individual WHERE
+    {
+      ?individual ?datatypeProperty ?value .
+      ?datatypeProperty rdf:type owl:DatatypeProperty .
+      ?restriction rdf:type owl:Restriction ;
+        owl:onProperty ?datatypeProperty ;
+        owl:maxQualifiedCardinality ?cardinalityValue ;
+        owl:onDataRange ?datatype .
+    } GROUP BY ?individual
+  }
+  BIND(?resource AS ?individual)
+  FILTER(DATATYPE(?value) = ?datatype)
+  FILTER(?valueCount > ?cardinalityValue)
 }
 ```
 **Explanation**
-
+Since _datatypeProperty_ is constrained with a qualified max cardinality restriction on datatype _datatype_ to have a max of _cardinalityValue_ values, and _resource_ has _valueCount_ values of type _datatype_ for property _datatypeProperty_, an inconsistency occurs.
 
 **Example**
 
@@ -2459,7 +2507,9 @@ val-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
 **Query**
 ```
 CONSTRUCT {
-  ?resource ?objectProperty [ rdf:type owl:Individual ] .
+  ?resource ?objectProperty 
+    [ rdf:type owl:Individual ; 
+      owl:differentFrom ?object ] .
 }
 WHERE {
   ?resource rdf:type ?class ;
@@ -2469,7 +2519,6 @@ WHERE {
     [ rdf:type owl:Restriction ;
       owl:onProperty ?objectProperty ;
       owl:minCardinality ?cardinalityValue ].
-  FILTER(?objectCount < ?cardinalityValue)
   {
     SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount)
     WHERE 
@@ -2483,6 +2532,7 @@ WHERE {
           owl:minCardinality ?cardinalityValue ].
     }
   }
+  FILTER(?objectCount < ?cardinalityValue)
 }
 ```
 **Explanation**
@@ -2580,12 +2630,41 @@ val-kb:Erik rdf:type valo:Person ;
 
 ```
 CONSTRUCT {
+  ?resource ?objectProperty 
+    [ rdf:type owl:Individual ; 
+      owl:differentFrom ?object ] .
 }
 WHERE {
+  ?resource rdf:type ?class ;
+    ?objectProperty ?object .
+  ?object rdf:type ?restrictedClass .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ; 
+      owl:minQualifiedCardinality ?value ;
+        owl:onClass ?restrictedClass ] .
+  {
+    SELECT (COUNT(DISTINCT ?object) AS ?objectCount) ?individual ?concept WHERE 
+    {          
+      ?individual rdf:type ?concept ;
+        ?objectProperty ?object .
+      ?object rdf:type ?restrictedClass .
+      ?objectProperty rdf:type owl:ObjectProperty .
+      ?concept rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ; 
+          owl:minQualifiedCardinality ?value ;
+          owl:onClass ?restrictedClass ] .
+    } GROUP BY ?individual ?concept
+  }
+  BIND(?resource AS ?individual)
+  BIND(?class AS ?concept)
+  FILTER(?objectCount < ?value)
 }
 ```
 **Explanation**
-
+Since _class_ is constrained with a qualified min cardinality restriction on property _objectProperty_ to have a min of _value_ objects of type class _restrictedClass_, and _resource_ is a _class_ but has _objectCount_ objects assigned to _objectProperty_ which is less than _value_, we can infer the existence of another object.
 
 **Example**
 ```
@@ -2612,12 +2691,33 @@ val-kb:LineSegmentInstance rdf:type sio:LineSegment ;
 **Query**
 ```
 CONSTRUCT {
+  ?resource ?datatypeProperty [ rdf:type rdfs:Datatype ] .
 }
 WHERE {
+  ?resource ?datatypeProperty ?value .
+  ?datatypeProperty rdf:type owl:DatatypeProperty .
+  ?restriction rdf:type owl:Restriction ;
+    owl:onProperty ?datatypeProperty ;
+    owl:minQualifiedCardinality ?cardinalityValue ;
+    owl:onDataRange ?datatype .
+  {
+    SELECT (COUNT(DISTINCT ?value) AS ?valueCount) ?individual WHERE
+    {
+      ?individual ?datatypeProperty ?value .
+      ?datatypeProperty rdf:type owl:DatatypeProperty .
+      ?restriction rdf:type owl:Restriction ;
+        owl:onProperty ?datatypeProperty ;
+        owl:minQualifiedCardinality ?cardinalityValue ;
+        owl:onDataRange ?datatype .
+    } GROUP BY ?individual
+  }
+  BIND(?resource AS ?individual)
+  FILTER(DATATYPE(?value) = ?datatype)
+  FILTER(?valueCount < ?cardinalityValue)
 }
 ```
 **Explanation**
-
+Since _datatypeProperty_ is constrained with a qualified min cardinality restriction on datatype _datatype_ to have a min of _cardinalityValue_ values, and _resource_ has _valueCount_ values of type _datatype_ for property _datatypeProperty_, we can infer the existence of at least one more additional value.
 
 **Example**
 ```
@@ -2645,14 +2745,35 @@ val-kb:Jackson rdf:type sio:Human ;
 **Query**
 ```
 CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
 }
 WHERE {
-
+  ?resource rdf:type ?class ;
+    ?objectProperty ?object .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:cardinality ?cardinalityValue ].
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount)
+    WHERE 
+    {
+      ?individual rdf:type ?class ;
+        ?objectProperty ?object .
+      ?objectProperty rdf:type owl:ObjectProperty .
+      ?class rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ;
+          owl:cardinality ?cardinalityValue ].
+    } GROUP BY ?individual
+  }
+  FILTER(?objectCount > ?cardinalityValue)
+  BIND(?resource AS ?individual)
 }
 ```
-% Still need to check distinctness of object -- This is currently only accounting for max. Need to account for min as well
 **Explanation**
-
+Since _objectProperty_ is assigned an exact cardinality of _cardinalityValue_ for class _class_, _resource_ _rdf:type_ _class_, and _resource_ has _objectCount_ distinct assignments of _objectProperty_ which is greater than _cardinalityValue_, we can conclude that there is an inconsistency associated with _resource_.
 
 **Example**
 ```
@@ -2739,12 +2860,40 @@ A reasoner should infer `val-kb:Erik rdf:type owl:Nothing .` or that an inconsis
 **Query**
 ```
 CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
 }
 WHERE {
+  ?resource rdf:type ?class ;
+    ?objectProperty ?object .
+  ?objectProperty rdf:type owl:ObjectProperty .
+  ?object rdf:type ?restrictedClass .
+  ?class rdfs:subClassOf|owl:equivalentClass
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ?objectProperty ;
+      owl:onClass ?restrictedClass ;
+      owl:qualifiedCardinality ?cardinalityValue ].
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?object) AS ?objectCount) ?individual ?concept
+    WHERE 
+    {
+      ?individual rdf:type ?concept ;
+        ?objectProperty ?object .
+      ?object rdf:type ?restrictedClass .
+      ?objectProperty rdf:type owl:ObjectProperty .
+      ?concept rdfs:subClassOf|owl:equivalentClass
+        [ rdf:type owl:Restriction ;
+          owl:onProperty ?objectProperty ;
+          owl:onClass ?restrictedClass ;
+          owl:qualifiedCardinality ?cardinalityValue ].
+    } GROUP BY ?individual ?concept
+  }
+  BIND(?resource AS ?individual)
+  BIND(?class AS ?concept)
+  FILTER(?objectCount > ?cardinalityValue)
 }
 ```
 **Explanation**
-
+Since _class_ is constrained with a qualified cardinality restriction on property _objectProperty_ to have _value_ objects of type class _restrictedClass_, and _resource_ is a _class_ but has _objectCount_ objects assigned to _objectProperty_, an inconsistency occurs.
 
 **Example**
 ```
@@ -2785,12 +2934,33 @@ val-kb:VertexThree rdf:type sio:PolygonVertex ;
 **Query**
 ```
 CONSTRUCT {
+  ?resource rdf:type owl:Nothing .
 }
 WHERE {
+  ?resource ?datatypeProperty ?value .
+  ?datatypeProperty rdf:type owl:DatatypeProperty .
+  ?restriction rdf:type owl:Restriction ;
+    owl:onProperty ?datatypeProperty ;
+    owl:onDataRange ?datatype ;
+    owl:qualifiedCardinality ?cardinalityValue .
+  {
+    SELECT DISTINCT (COUNT(DISTINCT ?value) AS ?valueCount) ?individual WHERE
+    {
+      ?individual ?datatypeProperty ?value .
+      ?datatypeProperty rdf:type owl:DatatypeProperty .
+      ?restriction rdf:type owl:Restriction ;
+        owl:onProperty ?datatypeProperty ;
+        owl:onDataRange ?datatype ;
+        owl:qualifiedCardinality ?cardinalityValue .
+    } GROUP BY ?individual
+  }
+  BIND(?resource AS ?individual)
+  FILTER(DATATYPE(?value) = ?datatype)
+  FILTER(?valueCount > ?cardinalityValue)
 }
 ```
 **Explanation**
-
+Since _datatypeProperty_ is constrained with a qualified cardinality restriction on datatype _datatype_ to have _cardinalityValue_ values, and _resource_ has _valueCount_ values of type _datatype_ for property _datatypeProperty_, an inconsistency occurs.
 
 **Example**
 ```

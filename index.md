@@ -3382,7 +3382,19 @@ Since _datatype_ is the complement of _complement_, _dataProperty_ has range _da
 **Example**
 
 ```
+sets:nonTextValue rdf:type owl:DatatypeProperty ;
+    rdfs:subClassOf sio:hasValue ;
+    rdfs:label "non-text value" ;
+    rdfs:range ex:NotAString .
+
+sets:NotAString rdf:type rdfs:Datatype ; 
+    owl:datatypeComplementOf xsd:string .
+
+sets-kb:SamplePhrase rdf:type sio:TextualEntity ;
+    rdfs:label "sample phrase" ;
+    sets:nonTextValue "To be, or not to be?"^^xsd:string .
 ```
+A reasoner should infer `sets-kb:SamplePhrase rdf:type owl:Nothing .` or that an inconsistency occurs.
 
 ##### Object Property Complement Of
 **Query**

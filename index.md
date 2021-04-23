@@ -846,6 +846,7 @@ A reasoner should infer `sets-kb:Samantha sio:isRelatedTo sets-kb:Peter .`
 #### Object Property Asymmetry
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=R\sqsubseteq%20\neg%20R^-)
+
 **Query**
 ```
 CONSTRUCT {
@@ -882,6 +883,7 @@ A reasoner should infer `sets-kb:Face rdf:type owl:Nothing .` , `sets-kb:Nose rd
 ### Functionality
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=\text{T}%20\sqsubseteq%20\leq%201%20R.\text{T})
+
 #### Functional Object Property
 
 **Query**

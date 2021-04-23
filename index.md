@@ -2378,7 +2378,7 @@ WHERE {
 }
 ```
 **Explanation**
-Since _class_ is constrained with a qualified max cardinality restriction on property \texttt{objectProperty} to have a max of _value_ objects of type class _restrictedClass_, and _resource_ is a _class_ but has _objectCount_ objects assigned to _objectProperty_ which is more than _value_, we can infer that an inconsistency occurs.
+Since _class_ is constrained with a qualified max cardinality restriction on property _objectProperty_ to have a max of _value_ objects of type class _restrictedClass_, and _resource_ is a _class_ but has _objectCount_ objects assigned to _objectProperty_ which is more than _value_, we can infer that an inconsistency occurs.
 
 **Example**
 ```
@@ -3010,7 +3010,6 @@ Since the class _resource_ has a subclass or equivalent class relation with a cl
 ```
 sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Object ;
-#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 

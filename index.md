@@ -353,11 +353,11 @@ sio:overlapsWith rdf:type owl:ObjectProperty ,
 
 sets-kb:Rug rdf:type sio:Object ;
     rdfs:label "rug" ;
-    sio:overlapsWith ex-kb:FloorPanel .
+    sio:overlapsWith sets-kb:FloorPanel .
 
 sets-kb:FloorPanel rdf:type sio:Object ;
     rdfs:label "floor panel" ;
-    sio:isPartOf ex-kb:Floor .
+    sio:isPartOf sets-kb:Floor .
 
 sets-kb:Floor rdf:type sio:Object ;
     rdfs:label "floor" .
@@ -1121,13 +1121,13 @@ sio:Symbol rdf:type owl:Class ;
 sets:MolecularFormula rdfs:subClassOf sio:Symbol ;
     rdfs:label "molecular formula" .
 
-sets-kb:Water sio:hasProperty ex-kb:H2O ;
+sets-kb:Water sio:hasProperty sets-kb:H2O ;
     rdfs:label "water" .
 
-sets-kb:HyrdogenDioxide sio:hasProperty ex-kb:H2O ;
+sets-kb:HyrdogenDioxide sio:hasProperty sets-kb:H2O ;
     rdfs:label "hydrogen dioxide" .
 
-sets-kb:H2O rdf:type ex:MolecularFormula ;
+sets-kb:H2O rdf:type sets:MolecularFormula ;
     rdfs:label "H2O" .
 ```
 A reasoner should infer `sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .`
@@ -1668,17 +1668,17 @@ sio:hasUnit rdf:type owl:ObjectProperty ,
     rdfs:subPropertyOf sio:hasAttribute ;
     dct:description "has unit is a relation between a quantity and the unit it is a multiple of." .
 
-ex-kb:AgeOfSamantha rdf:type sio:Age ;
+sets-kb:AgeOfSamantha rdf:type sio:Age ;
     rdfs:label "Samantha's age" .
 
-ex-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
-    owl:sourceIndividual ex-kb:AgeOfSamantha ; 
+sets-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual sets-kb:AgeOfSamantha ; 
     owl:assertionProperty sio:hasUnit ; 
-    owl:targetIndividual ex-kb:Meter .
+    owl:targetIndividual sets-kb:Meter .
 
-ex-kb:AgeOfSamantha sio:hasUnit ex-kb:Meter .
+sets-kb:AgeOfSamantha sio:hasUnit sets-kb:Meter .
 ```
-A reasoner should infer `ex-kb:AgeOfSamantha rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:AgeOfSamantha rdf:type owl:Nothing .` or that an inconsistency occurs.
 
 ##### Negative Data Property Assertion
 **Axiom**
@@ -1918,10 +1918,10 @@ sets:Vehicle rdf:type owl:Class ;
             owl:onProperty sio:hasPart ;
             owl:hasValue sets-kb:Wheel ] .
 
-sets-kb:Car rdf:type ex:Vehicle ;
-    sio:hasPart ex-kb:Mirror .
+sets-kb:Car rdf:type sets:Vehicle ;
+    sio:hasPart sets-kb:Mirror .
 
-sets-kb:Mirror owl:differentFrom ex-kb:Wheel .
+sets-kb:Mirror owl:differentFrom sets-kb:Wheel .
 ```
 A reasoner should infer `sets-kb:Car sio:hasPart sets-kb:Wheel .`
 #### Data Has Value
@@ -1965,7 +1965,7 @@ sets:Unliked rdf:type owl:Class ;
 
 sets-kb:Tom sets:hasAge "23"^^xsd:integer .
 ```
-A reasoner should infer `sets-kb:Tom rdf:type ex:Unliked .`
+A reasoner should infer `sets-kb:Tom rdf:type sets:Unliked .`
 ### Universal Quantification
 #### Object All Values From
 **Axiom**
@@ -2435,7 +2435,7 @@ sets-kb:LineSegment rdf:type sio:LineSegment ;
     rdfs:label "line segment " .
     
 sets-kb:DistinctTrianglesRestriction rdf:type owl:AllDifferent ;
-    owl:distinctMembers (ex-kb:FirstArrow ex-kb:SecondArrow ex-kb:ThirdArrow ) .
+    owl:distinctMembers (sets-kb:FirstArrow sets-kb:SecondArrow sets-kb:ThirdArrow ) .
 ```
 ##### Data Max Qualified Cardinality
 **Axiom**
@@ -2845,7 +2845,7 @@ sets:Person rdf:type owl:Class ;
     rdfs:subClassOf sio:Human ;
     rdfs:subClassOf
         [ rdf:type owl:Restriction ;
-            owl:onProperty ex:hasBirthYear ;
+            owl:onProperty sets:hasBirthYear ;
             owl:cardinality "1"^^xsd:integer ] . 
 
 sets-kb:Erik rdf:type sets:Person ;
@@ -3182,12 +3182,12 @@ sets:Lobe rdf:type owl:Class ;
     owl:equivalentClass sets:LobeDisjointUnionClass .
 
 sets:LobeDisjointUnionClass rdf:type owl:Class ;
-    owl:disjointUnionOf ( ex:FrontalLobe ex:ParietalLobe ex:TemporalLobe ex:OccipitalLobe ex:LimbicLobe ) .
+    owl:disjointUnionOf ( sets:FrontalLobe sets:ParietalLobe sets:TemporalLobe sets:OccipitalLobe sets:LimbicLobe ) .
 ```
 A reasoner should infer
 ```
 sets:FrontalLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
-    owl:disjointWith ex:ParietalLobe , sets:TemporalLobe , sets:OccipitalLobe , sets:LimbicLobe .
+    owl:disjointWith sets:ParietalLobe , sets:TemporalLobe , sets:OccipitalLobe , sets:LimbicLobe .
 
 sets:ParietalLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
     owl:disjointWith sets:FrontalLobe , sets:TemporalLobe , sets:OccipitalLobe , sets:LimbicLobe .

@@ -390,7 +390,7 @@ sets:Fake rdf:type owl:Class ;
 sets-kb:Hubert rdf:type sets:Fake ;
     rdfs:label "Hubert" .
 ```
-A reasoner should infer `{sets-kb:Hubert rdf:type sio:Fictional .`
+A reasoner should infer `sets-kb:Hubert rdf:type sio:Fictional .`
 #### Property Equivalence
 **Axiom**
 

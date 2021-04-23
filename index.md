@@ -206,11 +206,6 @@ WHERE {
 
 Any subject and object related by the property _p_ is also related by _superProperty_. Therefore, since _resource_ _p_ _o_, it is implied that _resource_ _superProperty_ _o_.
 
-**Example**
-
-```
-```
-A reasoner should infer ` `
 ##### Object Property Inclusion
 
 **Query**

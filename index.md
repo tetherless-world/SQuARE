@@ -1133,6 +1133,7 @@ A reasoner should infer `sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .`
 #### Property Domain
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=\exists%20R.\text{T}%20\sqsubseteq%20C)
+
 **Query**
 ```
 CONSTRUCT {
@@ -1267,6 +1268,7 @@ A reasoner should infer `sets-kb:Mother rdf:type sio:Role .` and/or `sets-kb:Sar
 
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=\text{T}%20\sqsubseteq%20\forall%20R.C)
+
 **Query**
 ```
 CONSTRUCT {

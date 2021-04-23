@@ -813,6 +813,7 @@ A reasoner should infer `sets-kb:Group rdf:type owl:Nothing .` or that an incons
 #### Object Property Symmetry
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=R\sqsubseteq%20R^-)
+
 **Query**
 ```
 CONSTRUCT {

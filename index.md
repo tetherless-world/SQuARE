@@ -182,10 +182,10 @@ sio:Role rdf:type owl:Class ;
     rdfs:subClassOf sio:RealizableEntity ;
     dct:description "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance." .
 
-val-kb:Farmer rdf:type sio:Role ;
+sets-kb:Farmer rdf:type sio:Role ;
     rdfs:label "farmer" .
 ```
-A reasoner should infer `val-kb:Farmer rdf:type sio:RealizableEntity .`
+A reasoner should infer `sets-kb:Farmer rdf:type sio:RealizableEntity .`
 #### Property Inclusion
 **Axiom**
 
@@ -265,12 +265,12 @@ sio:Number rdf:type owl:Class ;
     rdfs:subClassOf sio:MathematicalEntity ;
     dct:description "A number is a mathematical object used to count, label, and measure." .
 
-val-kb:Samantha sio:hasProperty val-kb:AgeOfSamantha .
+sets-kb:Samantha sio:hasProperty sets-kb:AgeOfSamantha .
 
-val-kb:AgeOfSamantha rdf:type sio:Age ;
+sets-kb:AgeOfSamantha rdf:type sio:Age ;
     rdfs:label "Samantha's age" .
 ```
-A reasoner should infer `val-kb:Samantha sio:hasAttribute val-kb:AgeOfSamantha .`
+A reasoner should infer `sets-kb:Samantha sio:hasAttribute sets-kb:AgeOfSamantha .`
 ##### Data Property Inclusion
 
 **Query**
@@ -292,13 +292,13 @@ Any subject and object related by the property _p_ is also related by _superProp
 **Example**
 
 ```
-valo:hasExactValue rdf:type owl:DatatypeProperty ;
+sets:hasExactValue rdf:type owl:DatatypeProperty ;
     rdfs:label "has exact value" ;
     rdfs:subPropertyOf sio:hasValue .
 
-val-kb:AgeOfSamantha valo:hasExactValue "25.82"^^xsd:decimal .
+sets-kb:AgeOfSamantha sets:hasExactValue "25.82"^^xsd:decimal .
 ```
-A reasoner should infer `val-kb:AgeOfSamantha sio:hasValue 25.82 .`
+A reasoner should infer `sets-kb:AgeOfSamantha sio:hasValue 25.82 .`
 #### Object Property Chain Inclusion
 
 **Query**
@@ -351,18 +351,18 @@ sio:overlapsWith rdf:type owl:ObjectProperty ,
     dct:description "A overlaps with B iff there is some C that is part of both A and B." ;
     rdfs:label "overlaps with" .
 
-val-kb:Rug rdf:type sio:Object ;
+sets-kb:Rug rdf:type sio:Object ;
     rdfs:label "rug" ;
     sio:overlapsWith ex-kb:FloorPanel .
 
-val-kb:FloorPanel rdf:type sio:Object ;
+sets-kb:FloorPanel rdf:type sio:Object ;
     rdfs:label "floor panel" ;
     sio:isPartOf ex-kb:Floor .
 
-val-kb:Floor rdf:type sio:Object ;
+sets-kb:Floor rdf:type sio:Object ;
     rdfs:label "floor" .
 ```
-A reasoner should infer `val-kb:Rug sio:overlapsWith val-kb:Floor .`
+A reasoner should infer `sets-kb:Rug sio:overlapsWith sets-kb:Floor .`
 ### Equivalence
 #### Class Equivalence
 **Axiom**
@@ -388,14 +388,14 @@ _superClass_ is equivalent to _equivClass_, so since _resource_ is a _superClass
 
 **Example**
 ```
-valo:Fake rdf:type owl:Class ;
+sets:Fake rdf:type owl:Class ;
     owl:equivalentClass sio:Fictional ;
     rdfs:label "fake" .
 
-val-kb:Hubert rdf:type valo:Fake ;
+sets-kb:Hubert rdf:type sets:Fake ;
     rdfs:label "Hubert" .
 ```
-A reasoner should infer `{val-kb:Hubert rdf:type sio:Fictional .`
+A reasoner should infer `{sets-kb:Hubert rdf:type sio:Fictional .`
 #### Property Equivalence
 **Axiom**
 
@@ -424,15 +424,15 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
     rdfs:label "has value" ;
     dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
 
-val-kb:AgeOfSamantha rdf:type sio:Age ;
+sets-kb:AgeOfSamantha rdf:type sio:Age ;
     rdfs:label "Samantha's age" ;
     sio:hasValue "25.82"^^xsd:decimal .
 
-valo:hasValue rdf:type owl:DatatypeProperty ;
+sets:hasValue rdf:type owl:DatatypeProperty ;
     rdfs:label "has value" ;
     owl:equivalentProperty sio:hasValue .
 ```
-A reasoner should infer `val-kb:AgeOfSamantha valo:hasValue 25.82 .`
+A reasoner should infer `sets-kb:AgeOfSamantha sets:hasValue 25.82 .`
 ### Disjointness
 #### Class Disjointness
 **Axiom**
@@ -505,12 +505,12 @@ sio:Fictional rdf:type owl:Class ;
     dct:description "fictional is the quality of an entity that exists only in a creative work of fiction." ;
     rdfs:label "fictional" .
 
-val-kb:ImaginaryFriend
+sets-kb:ImaginaryFriend
     rdfs:label "my imaginary friend" ;
     rdf:type sio:Real ;
     rdf:type sio:Fictional .
 ```
-A reasoner should infer `val-kb:ImaginaryFriend rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:ImaginaryFriend rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### Property Disjointness
 **Axiom**
 
@@ -535,23 +535,23 @@ Since properties _p1_ and _p2_ are disjoint, _resource_ having both _p2_ _o2_ as
 
 **Example**
 ```
-valo:hasMother rdf:type owl:ObjectProperty ;
+sets:hasMother rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf sio:hasAttribute ;
     rdfs:label "has mother" ;
-    owl:propertyDisjointWith valo:hasFather .
+    owl:propertyDisjointWith sets:hasFather .
 
-valo:hasFather rdf:type owl:ObjectProperty ;
+sets:hasFather rdf:type owl:ObjectProperty ;
     rdfs:label "has father" .
 
-val-kb:Jordan rdf:type sio:Human ;
+sets-kb:Jordan rdf:type sio:Human ;
     rdfs:label "Jordan" .
 
-val-kb:Susan rdf:type sio:Human ;
+sets-kb:Susan rdf:type sio:Human ;
     rdfs:label "Susan" ;
-    valo:hasFather val-kb:Jordan ;
-    valo:hasMother val-kb:Jordan .
+    sets:hasFather sets-kb:Jordan ;
+    sets:hasMother sets-kb:Jordan .
 ```
-A reasoner should infer `val-kb:Susan rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Susan rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### All Disjoint Classes
 **Axiom**
 
@@ -636,19 +636,19 @@ Since _restriction_ is an all disjoint properties restriction with properties li
 
 **Example**
 ```
-val-kb:DisjointPropertiesRestriction rdf:type owl:AllDisjointProperties ;
-    owl:members ( valo:hasMother valo:hasFather valo:hasSibling ) .
+sets-kb:DisjointPropertiesRestriction rdf:type owl:AllDisjointProperties ;
+    owl:members ( sets:hasMother sets:hasFather sets:hasSibling ) .
 
-valo:hasMother rdf:type owl:ObjectProperty ;
+sets:hasMother rdf:type owl:ObjectProperty ;
     rdfs:label "has mother" .
 
-valo:hasFather rdf:type owl:ObjectProperty ;
+sets:hasFather rdf:type owl:ObjectProperty ;
     rdfs:label "has father" .
 
-valo:hasSibling rdf:type owl:ObjectProperty ;
+sets:hasSibling rdf:type owl:ObjectProperty ;
     rdfs:label "has sibling" .
 ```
-A reasoner should infer `valo:hasMother owl:propertyDisjointWith valo:hasFather , valo:hasSibling . valo:hasFather owl:propertyDisjointWith valo:hasMother , valo:hasSibling . valo:hasSibling owl:propertyDisjointWith valo:hasMother , valo:hasFather .`
+A reasoner should infer `sets:hasMother owl:propertyDisjointWith sets:hasFather , sets:hasSibling . sets:hasFather owl:propertyDisjointWith sets:hasMother , sets:hasSibling . sets:hasSibling owl:propertyDisjointWith sets:hasMother , sets:hasFather .`
 ### Transitivity
 #### Object Property Transitivity
 **Axiom**
@@ -710,18 +710,18 @@ sio:isPartOf rdf:type owl:ObjectProperty ,
     rdfs:label "is part of" ;
     dct:description "is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole." .
 
-val-kb:Fingernail rdf:type owl:Individual ;
+sets-kb:Fingernail rdf:type owl:Individual ;
     rdfs:label "finger nail" ;
-    sio:isPartOf val-kb:Finger .
+    sio:isPartOf sets-kb:Finger .
 
-val-kb:Finger rdf:type owl:Individual ;
+sets-kb:Finger rdf:type owl:Individual ;
     rdfs:label "finger" ;
-    sio:isPartOf val-kb:Hand . 
+    sio:isPartOf sets-kb:Hand . 
 
-val-kb:Hand rdf:type owl:Individual ;
+sets-kb:Hand rdf:type owl:Individual ;
     rdfs:label "hand" .
 ```
-A reasoner should infer `val-kb:Fingernail sio:isPartOf val-kb:Hand .`
+A reasoner should infer `sets-kb:Fingernail sio:isPartOf sets-kb:Hand .`
 ### Reflexivity
 #### Object Property Reflexivity
 **Axiom**
@@ -749,14 +749,14 @@ sio:Process rdf:type owl:Class ;
     dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
     rdfs:label "process" .
 
-val-kb:Workflow rdf:type sio:Process ;
+sets-kb:Workflow rdf:type sio:Process ;
     rdfs:label "workflow" ;
-    sio:hasPart val-kb:Step .
+    sio:hasPart sets-kb:Step .
 
-val-kb:Step rdf:type sio:Process ;
+sets-kb:Step rdf:type sio:Process ;
     rdfs:label "step" .
 ```
-A reasoner should infer `val-kb:Workflow sio:hasPart val-kb:Workflow .`
+A reasoner should infer `sets-kb:Workflow sio:hasPart sets-kb:Workflow .`
 #### Object Property Irreflexivity
 **Axiom**
 
@@ -809,11 +809,11 @@ sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
-val-kb:Group rdf:type sio:Collection ;
+sets-kb:Group rdf:type sio:Collection ;
     rdfs:label "group" ;
-    sio:hasMember val-kb:Group .
+    sio:hasMember sets-kb:Group .
 ```
-A reasoner should infer `val-kb:Group rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Group rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Symmetry
 #### Object Property Symmetry
 **Axiom**
@@ -839,14 +839,14 @@ sio:isRelatedTo rdf:type owl:ObjectProperty ,
     rdfs:label "is related to" ;
     dct:description "A is related to B iff there is some relation between A and B." .
 
-val-kb:Peter rdf:type sio:Human ;
+sets-kb:Peter rdf:type sio:Human ;
     rdfs:label "Peter" ;
-    sio:isRelatedTo val-kb:Samantha .
+    sio:isRelatedTo sets-kb:Samantha .
 
-val-kb:Samantha rdf:type sio:Human ;
+sets-kb:Samantha rdf:type sio:Human ;
     rdfs:label "Samantha" .
 ```
-A reasoner should infer `val-kb:Samantha sio:isRelatedTo val-kb:Peter .`
+A reasoner should infer `sets-kb:Samantha sio:isRelatedTo sets-kb:Peter .`
 #### Object Property Asymmetry
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=R\sqsubseteq%20\neg%20R^-)
@@ -874,15 +874,15 @@ sio:isProperPartOf rdf:type owl:ObjectProperty ,
     rdfs:subPropertyOf sio:isPartOf ;
     dct:description "is proper part of is an asymmetric, irreflexive (normally transitive) relation between a part and its distinct whole." .
 
-val-kb:Nose rdf:type owl:Individual ;
+sets-kb:Nose rdf:type owl:Individual ;
     rdfs:label "nose" ;
-    sio:isProperPartOf val-kb:Face .
+    sio:isProperPartOf sets-kb:Face .
 
-val-kb:Face rdf:type owl:Individual ;
-    sio:isProperPartOf val-kb:Nose ;
+sets-kb:Face rdf:type owl:Individual ;
+    sio:isProperPartOf sets-kb:Nose ;
     rdfs:label "face" .
 ```
-A reasoner should infer `val-kb:Face rdf:type owl:Nothing .` , `val-kb:Nose rdf:type owl:Nothing .` , and/or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Face rdf:type owl:Nothing .` , `sets-kb:Nose rdf:type owl:Nothing .` , and/or that an inconsistency occurs.
 ### Functionality
 **Axiom**
 ![formula](https://render.githubusercontent.com/render/math?math=\text{T}%20\sqsubseteq%20\leq%201%20R.\text{T})
@@ -954,18 +954,18 @@ sio:isRoleOf rdf:type owl:ObjectProperty ,
     dct:description "is role of is a relation between a role and the entity that it is a property of." ;
     owl:inverseOf sio:hasRole .
     
-val-kb:Tutor rdf:type sio:Human ;
+sets-kb:Tutor rdf:type sio:Human ;
     rdfs:label "tutor" .
 
-val-kb:TeachingRole rdf:type sio:Role ;
+sets-kb:TeachingRole rdf:type sio:Role ;
     rdfs:label "teaching role" ;
-    sio:isRoleOf val-kb:Tutor .
+    sio:isRoleOf sets-kb:Tutor .
 
-val-kb:TutoringRole rdf:type sio:Role ;
+sets-kb:TutoringRole rdf:type sio:Role ;
     rdfs:label "tutoring role" ;
-    sio:isRoleOf val-kb:Tutor .
+    sio:isRoleOf sets-kb:Tutor .
 ```
-A reasoner should infer `val-kb:TeachingRole owl:sameAs val-kb:TutoringRole .`
+A reasoner should infer `sets-kb:TeachingRole owl:sameAs sets-kb:TutoringRole .`
 #### Functional Data Property
 **Axiom**
 
@@ -993,10 +993,10 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
     rdfs:label "has value" ;
     dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
 
-val-kb:HeightOfTom sio:hasValue "5"^^xsd:integer .
-val-kb:HeightOfTom sio:hasValue "6"^^xsd:integer .
+sets-kb:HeightOfTom sio:hasValue "5"^^xsd:integer .
+sets-kb:HeightOfTom sio:hasValue "6"^^xsd:integer .
 ```
-A reasoner should infer `val-kb:HeightOfTom rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:HeightOfTom rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Inversion
 #### Object Property Inversion
 **Axiom**
@@ -1047,19 +1047,19 @@ sio:Representation rdf:type owl:Class ;
     dct:description "A representation is a entity that in some way represents another entity (or attribute thereof)." ;
     rdfs:label "representation" .
 
-valo:MolecularFormula rdfs:subClassOf sio:Symbol ;
+sets:MolecularFormula rdfs:subClassOf sio:Symbol ;
     rdfs:label "molecular formula" .
 
-val-kb:Water sio:hasAttribute val-kb:H2O ;
+sets-kb:Water sio:hasAttribute sets-kb:H2O ;
     rdfs:label "water" .
 
-val-kb:HyrdogenDioxide sio:hasAttribute val-kb:H2O ;
+sets-kb:HyrdogenDioxide sio:hasAttribute sets-kb:H2O ;
     rdfs:label "hydrogen dioxide" .
 
-val-kb:H2O rdf:type valo:MolecularFormula ;
+sets-kb:H2O rdf:type sets:MolecularFormula ;
     rdfs:label "H2O" .
 ```
-A reasoner should infer `val-kb:Water owl:sameAs val-kb:HyrdogenDioxide .`
+A reasoner should infer `sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .`
 ##### Inverse Functional Object Property
 **Axiom**
 
@@ -1118,19 +1118,19 @@ sio:Symbol rdf:type owl:Class ;
     dct:description "A symbol is a proposition about what an entity represents." ;
     rdfs:label "symbol" .
 
-valo:MolecularFormula rdfs:subClassOf sio:Symbol ;
+sets:MolecularFormula rdfs:subClassOf sio:Symbol ;
     rdfs:label "molecular formula" .
 
-val-kb:Water sio:hasProperty ex-kb:H2O ;
+sets-kb:Water sio:hasProperty ex-kb:H2O ;
     rdfs:label "water" .
 
-val-kb:HyrdogenDioxide sio:hasProperty ex-kb:H2O ;
+sets-kb:HyrdogenDioxide sio:hasProperty ex-kb:H2O ;
     rdfs:label "hydrogen dioxide" .
 
-val-kb:H2O rdf:type ex:MolecularFormula ;
+sets-kb:H2O rdf:type ex:MolecularFormula ;
     rdfs:label "H2O" .
 ```
-A reasoner should infer `val-kb:Water owl:sameAs val-kb:HyrdogenDioxide .`
+A reasoner should infer `sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .`
 ### Domain & Range Restrictions
 #### Property Domain
 **Axiom**
@@ -1253,18 +1253,18 @@ sio:ChemicalEntity  rdf:type owl:Class ;
     rdfs:subClassOf sio:MaterialEntity ;
     dct:description "A chemical entity is a material entity that pertains to chemistry." .
 
-val-kb:Mother rdf:type owl:Individual ;
+sets-kb:Mother rdf:type owl:Individual ;
     rdfs:label "mother" ;
-    sio:isRoleOf val-kb:Sarah ;
-    sio:inRelationTo val-kb:Tim .
+    sio:isRoleOf sets-kb:Sarah ;
+    sio:inRelationTo sets-kb:Tim .
 
-val-kb:Sarah rdf:type sio:Human ;
+sets-kb:Sarah rdf:type sio:Human ;
     rdfs:label "Sarah" .
 
-val-kb:Tim rdf:type sio:Human ;
+sets-kb:Tim rdf:type sio:Human ;
     rdfs:label "Tim" .
 ```
-A reasoner should infer `val-kb:Mother rdf:type sio:Role .` and/or `val-kb:Sarah sio:hasRole val-kb:Mother .`
+A reasoner should infer `sets-kb:Mother rdf:type sio:Role .` and/or `sets-kb:Sarah sio:hasRole sets-kb:Mother .`
 #### Property Range
 
 **Axiom**
@@ -1327,17 +1327,17 @@ sio:DimensionalQuantity rdf:type owl:Class ;
             owl:someValuesFrom sio:UnitOfMeasurement ] ;
     dct:description "A dimensional quantity is a quantity that has an associated unit." .
 
-val-kb:Tom rdf:type sio:Human ;
+sets-kb:Tom rdf:type sio:Human ;
     rdfs:label "Tom" ;
-    sio:hasAttribute val-kb:HeightOfTom .
+    sio:hasAttribute sets-kb:HeightOfTom .
 
-val-kb:HeightOfTom rdf:type sio:Height ;
-    sio:hasUnit val-kb:Meter .
+sets-kb:HeightOfTom rdf:type sio:Height ;
+    sio:hasUnit sets-kb:Meter .
 
-val-kb:Meter rdf:type owl:Individual ;
+sets-kb:Meter rdf:type owl:Individual ;
     rdfs:label "meter" .
 ```
-A reasoner should infer `val-kb:Meter rdf:type sio:UnitOfMeasurement .`
+A reasoner should infer `sets-kb:Meter rdf:type sio:UnitOfMeasurement .`
 ### Datatype
 #### Datatype Restriction
 **Axiom**
@@ -1406,11 +1406,11 @@ sio:ProbabilityValue rdf:type owl:Class ;
     #<sio:hasSynonym xml:lang="en">p-value</sio:hasSynonym>
     rdfs:label "probability value" .
 
-val-kb:EffortExerted rdf:type sio:ProbabilityValue ;
+sets-kb:EffortExerted rdf:type sio:ProbabilityValue ;
     rdfs:label "effort exerted" ;
     sio:hasValue "1.1"^^xsd:double .
 ```
-A reasoner should infer `val-kb:EffortExerted rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:EffortExerted rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Assertions
 #### Same Individual
 **Axiom**
@@ -1437,16 +1437,16 @@ Since _resource_ is the same as _individual_, they share the same properties.
 
 **Example**
 ```
-val-kb:Peter rdf:type sio:Human ;
+sets-kb:Peter rdf:type sio:Human ;
     rdfs:label "Peter" ;
-    sio:isRelatedTo val-kb:Samantha .
+    sio:isRelatedTo sets-kb:Samantha .
 
-val-kb:Samantha rdf:type sio:Human ;
+sets-kb:Samantha rdf:type sio:Human ;
     rdfs:label "Samantha" .
 
-val-kb:Peter owl:sameAs val-kb:Pete .
+sets-kb:Peter owl:sameAs sets-kb:Pete .
 ```
-A reasoner should infer `val-kb:Pete rdf:type sio:Human ; rdfs:label "Peter" ; sio:isRelatedTo val-kb:Samantha .`
+A reasoner should infer `sets-kb:Pete rdf:type sio:Human ; rdfs:label "Peter" ; sio:isRelatedTo sets-kb:Samantha .`
 #### Different Individuals
 **Axiom**
 
@@ -1472,10 +1472,10 @@ Since _resource_ is asserted as being different from _individual_, the assertion
 
 **Example**
 ```
-val-kb:Sam owl:differentFrom val-kb:Samantha .
-val-kb:Sam owl:sameAs val-kb:Samantha .
+sets-kb:Sam owl:differentFrom sets-kb:Samantha .
+sets-kb:Sam owl:sameAs sets-kb:Samantha .
 ```
-A reasoner should infer `val-kb:Sam rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Sam rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### All Different Individuals
 **Axiom**
 
@@ -1506,30 +1506,30 @@ Since _restriction_ is an all different restriction with individuals listed in _
 
 **Example**
 ```
-val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
-        ( val-kb:Integer
-        val-kb:String 
-        val-kb:Boolean
-        val-kb:Double 
-        val-kb:Float 
-        val-kb:Tuple 
+        ( sets-kb:Integer
+        sets-kb:String 
+        sets-kb:Boolean
+        sets-kb:Double 
+        sets-kb:Float 
+        sets-kb:Tuple 
         ) .
 ```
 A reasoner should infer
 ```
-val-kb:Integer owl:differentFrom 
-    val-kb:String , val-kb:Boolean, val-kb:Double , val-kb:Float , val-kb:Tuple .
-val-kb:String owl:differentFrom 
-    val-kb:Integer , val-kb:Boolean, val-kb:Double, val-kb:Float , val-kb:Tuple .
-val-kb:Boolean owl:differentFrom 
-    val-kb:Integer , val-kb:String, val-kb:Double, val-kb:Float , val-kb:Tuple .
-val-kb:Double owl:differentFrom 
-    val-kb:Integer , val-kb:String , val-kb:Boolean, val-kb:Float , val-kb:Tuple .
-val-kb:Float owl:differentFrom 
-    val-kb:Integer , val-kb:String , val-kb:Boolean, val-kb:Double , val-kb:Tuple .
-val-kb:Tuple owl:differentFrom 
-    val-kb:Integer , val-kb:String , val-kb:Boolean, val-kb:Double, val-kb:Float .
+sets-kb:Integer owl:differentFrom 
+    sets-kb:String , sets-kb:Boolean, sets-kb:Double , sets-kb:Float , sets-kb:Tuple .
+sets-kb:String owl:differentFrom 
+    sets-kb:Integer , sets-kb:Boolean, sets-kb:Double, sets-kb:Float , sets-kb:Tuple .
+sets-kb:Boolean owl:differentFrom 
+    sets-kb:Integer , sets-kb:String, sets-kb:Double, sets-kb:Float , sets-kb:Tuple .
+sets-kb:Double owl:differentFrom 
+    sets-kb:Integer , sets-kb:String , sets-kb:Boolean, sets-kb:Float , sets-kb:Tuple .
+sets-kb:Float owl:differentFrom 
+    sets-kb:Integer , sets-kb:String , sets-kb:Boolean, sets-kb:Double , sets-kb:Tuple .
+sets-kb:Tuple owl:differentFrom 
+    sets-kb:Integer , sets-kb:String , sets-kb:Boolean, sets-kb:Double, sets-kb:Float .
 ```
 #### Class Assertion
 **Axiom**
@@ -1571,10 +1571,10 @@ sio:Quality rdf:type owl:Class ;
     dct:description "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary." ;
     rdfs:label "quality" .
     
-val-kb:Reliable rdf:type sio:Quality ;
+sets-kb:Reliable rdf:type sio:Quality ;
     rdfs:label "reliable" .
 ```
-A reasoner should infer `val-kb:Reliable rdf:type sio:Attribute , sio:Entity .`
+A reasoner should infer `sets-kb:Reliable rdf:type sio:Attribute , sio:Entity .`
 
 #### Property Assertion
 **Axiom**
@@ -1704,16 +1704,16 @@ Since a negative datatype property assertion was made with source _resource_, da
 
 **Example**
 ```
-val-kb:NDPA rdf:type owl:NegativePropertyAssertion ; 
-    owl:sourceIndividual val-kb:AgeOfPeter ; 
+sets-kb:NDPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual sets-kb:AgeOfPeter ; 
     owl:assertionProperty sio:hasValue ; 
     owl:targetValue "10" .
 
-val-kb:AgeOfPeter rdf:type sio:Age;
+sets-kb:AgeOfPeter rdf:type sio:Age;
     rdfs:label "Peter's age" ;
     sio:hasValue "10" .
 ```
-A reasoner should infer `val-kb:AgeOfPeter rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:AgeOfPeter rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Keys
 **Axiom**
 
@@ -1737,23 +1737,23 @@ Since _class_ has key _keyProperty_, _resource_ and _individual_ are both of typ
 
 **Example**
 ```
-valo:uniqueID rdf:type owl:DatatypeProperty ;
+sets:uniqueID rdf:type owl:DatatypeProperty ;
     rdfs:label "unique identifier" .
 
-valo:Person rdf:type owl:Class ;
+sets:Person rdf:type owl:Class ;
     rdfs:subClassOf sio:Human ;
     rdfs:label "person" ;
-    owl:hasKey ( valo:uniqueID ) .
+    owl:hasKey ( sets:uniqueID ) .
 
-val-kb:John rdf:type valo:Person ;
+sets-kb:John rdf:type sets:Person ;
     rdfs:label "John" ;
-    valo:uniqueID "101D" .
+    sets:uniqueID "101D" .
 
-val-kb:Jack rdf:type valo:Person ;
+sets-kb:Jack rdf:type sets:Person ;
     rdfs:label "Jack" ;
-    valo:uniqueID "101D" .
+    sets:uniqueID "101D" .
 ```
-A reasoner should infer `val-kb:John owl:sameAs val-kb:Jack .`
+A reasoner should infer `sets-kb:John owl:sameAs sets-kb:Jack .`
 ### Existential Quantification
 #### Object Some Values From
 **Axiom**
@@ -1820,13 +1820,13 @@ sio:ObjectQuality rdf:type owl:Class ;
     rdfs:label "object quality" ;
     dct:description "An object quality is quality of an object." .
 
-val-kb:MolecularCollection rdf:type owl:Individual ;
+sets-kb:MolecularCollection rdf:type owl:Individual ;
     rdfs:label "molecular collection" ;
-    sio:hasMember val-kb:WaterMolecule .
+    sio:hasMember sets-kb:WaterMolecule .
 
-val-kb:WaterMolecule rdf:type sio:3dStructureModel  .
+sets-kb:WaterMolecule rdf:type sio:3dStructureModel  .
 ```
-A reasoner should infer `val-kb:MolecularCollection rdf:type sio:CollectionOf3dMolecularStructureModels .`
+A reasoner should infer `sets-kb:MolecularCollection rdf:type sio:CollectionOf3dMolecularStructureModels .`
 #### Data Some Values From
 
 **Axiom**
@@ -1854,16 +1854,16 @@ _resource_ _datatypeProperty_ _val_, but _val_ does not have the same datatype _
 
 **Example**
 ```
-valo:Text rdf:type owl:Class ;
+sets:Text rdf:type owl:Class ;
     rdfs:subClassOf
         [ rdf:type owl:Restriction ;
         owl:onProperty sio:hasValue  ;
         owl:someValuesFrom xsd:string ] .
 
-val-kb:Question rdf:type valo:Text ;
+sets-kb:Question rdf:type sets:Text ;
     sio:hasValue "4"^^xsd:integer .
 ```
-A reasoner should infer `val-kb:Question rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Question rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### Object Has Value
 **Axiom**
 
@@ -1912,18 +1912,18 @@ sio:hasPart rdf:type owl:ObjectProperty ,
     rdfs:label "has part" ;
     dct:description "has part is a transitive, reflexive and antisymmetric relation between a whole and itself or a whole and its part" .
 
-valo:Vehicle rdf:type owl:Class ;
+sets:Vehicle rdf:type owl:Class ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasPart ;
-            owl:hasValue val-kb:Wheel ] .
+            owl:hasValue sets-kb:Wheel ] .
 
-val-kb:Car rdf:type ex:Vehicle ;
+sets-kb:Car rdf:type ex:Vehicle ;
     sio:hasPart ex-kb:Mirror .
 
-val-kb:Mirror owl:differentFrom ex-kb:Wheel .
+sets-kb:Mirror owl:differentFrom ex-kb:Wheel .
 ```
-A reasoner should infer `val-kb:Car sio:hasPart val-kb:Wheel .`
+A reasoner should infer `sets-kb:Car sio:hasPart sets-kb:Wheel .`
 #### Data Has Value
 **Axiom**
 
@@ -1953,19 +1953,19 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
     rdfs:label "has value" ;
     dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
     
-valo:hasAge rdf:type owl:DatatypeProperty ;
+sets:hasAge rdf:type owl:DatatypeProperty ;
     rdfs:label "has age" ;
     rdfs:subPropertyOf sio:hasValue .
     
-valo:Unliked rdf:type owl:Class ;
+sets:Unliked rdf:type owl:Class ;
     owl:equivalentClass#rdfs:subClassOf
         [ rdf:type owl:Restriction ;
-            owl:onProperty valo:hasAge ;
+            owl:onProperty sets:hasAge ;
             owl:hasValue "23"^^xsd:integer ] .
 
-val-kb:Tom valo:hasAge "23"^^xsd:integer .
+sets-kb:Tom sets:hasAge "23"^^xsd:integer .
 ```
-A reasoner should infer `val-kb:Tom rdf:type ex:Unliked .`
+A reasoner should infer `sets-kb:Tom rdf:type ex:Unliked .`
 ### Universal Quantification
 #### Object All Values From
 **Axiom**
@@ -2006,10 +2006,10 @@ sio:ComputationalEntity rdf:type owl:Class;
     rdfs:label "computational entity" ;
     dct:description "A computational entity is an information content entity operated on using some computational system." .
 
-val-kb:NamespaceInstance rdf:type sio:Namespace ;
-    sio:hasMember val-kb:NamespaceID .
+sets-kb:NamespaceInstance rdf:type sio:Namespace ;
+    sio:hasMember sets-kb:NamespaceID .
 ```
-A reasoner should infer `val-kb:NamespaceID rdf:type sio:Identifier .`
+A reasoner should infer `sets-kb:NamespaceID rdf:type sio:Identifier .`
 #### Data All Values From
 **Axiom**
 
@@ -2036,17 +2036,17 @@ _resource_ _datatypeProperty_ _val_, but _val_ does not have the same datatype _
 
 **Example**
 ```
-valo:Integer rdf:type owl:Class ;
+sets:Integer rdf:type owl:Class ;
     rdfs:subClassOf sio:ComputationalEntity ,
         [ rdf:type owl:Restriction ;
         owl:onProperty sio:hasValue ;
         owl:allValuesFrom xsd:integer ] ;
     rdfs:label "integer" .
 
-val-kb:Ten rdf:type valo:Integer ;
+sets-kb:Ten rdf:type sets:Integer ;
     sio:hasValue "10.1"^^xsd:float .
 ```
-A reasoner should infer `val-kb:Ten rdf:type owl:Nothing .` or than an inconsistency occurs.
+A reasoner should infer `sets-kb:Ten rdf:type owl:Nothing .` or than an inconsistency occurs.
 ### Self Restriction
 #### Object Has Self
 **Axiom**
@@ -2072,15 +2072,15 @@ _resource_ is of type _class_, which has a self restriction on the property _obj
 **Example**
 
 ```
-valo:SelfAttributing rdf:type owl:Class ;
+sets:SelfAttributing rdf:type owl:Class ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasAttribute ;
             owl:hasSelf "true"^^xsd:boolean ] .
 
-val-kb:Blue rdf:type valo:SelfAttributing .
+sets-kb:Blue rdf:type sets:SelfAttributing .
 ```
-A reasoner should infer `val-kb:Blue sio:hasAttribute val-kb:Blue .`
+A reasoner should infer `sets-kb:Blue sio:hasAttribute sets-kb:Blue .`
 ### Individual Enumeration
 #### Object One Of
 **Axiom**
@@ -2105,20 +2105,20 @@ Since _resource_ has a one of relationship with _list_, the member _member_ in _
 
 **Example**
 ```
-valo:Type rdf:type owl:Class ;
-    owl:oneOf (val-kb:Integer val-kb:String val-kb:Boolean val-kb:Double val-kb:Float) .
+sets:Type rdf:type owl:Class ;
+    owl:oneOf (sets-kb:Integer sets-kb:String sets-kb:Boolean sets-kb:Double sets-kb:Float) .
 
-val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
-        ( val-kb:Integer
-        val-kb:String 
-        val-kb:Boolean
-        val-kb:Double 
-        val-kb:Float 
-        val-kb:Tuple 
+        ( sets-kb:Integer
+        sets-kb:String 
+        sets-kb:Boolean
+        sets-kb:Double 
+        sets-kb:Float 
+        sets-kb:Tuple 
         ) .
 ```
-A reasoner should infer `val-kb:Integer rdf:type valo:Type . val-kb:String rdf:type valo:Type . val-kb:Boolean rdf:type valo:Type . val-kb:Double rdf:type valo:Type . val-kb:Float rdf:type valo:Type .`
+A reasoner should infer `sets-kb:Integer rdf:type sets:Type . sets-kb:String rdf:type sets:Type . sets-kb:Boolean rdf:type sets:Type . sets-kb:Double rdf:type sets:Type . sets-kb:Float rdf:type sets:Type .`
 ##### Object One Of Inconsistency
 **Query**
 ```
@@ -2150,22 +2150,22 @@ Since _class_ has a one of relationship with _list_, and _resource_ is not in _l
 
 **Example**
 ```
-valo:Type rdf:type owl:Class ;
-    owl:oneOf (val-kb:Integer val-kb:String val-kb:Boolean val-kb:Double val-kb:Float) .
+sets:Type rdf:type owl:Class ;
+    owl:oneOf (sets-kb:Integer sets-kb:String sets-kb:Boolean sets-kb:Double sets-kb:Float) .
 
-val-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
-        ( val-kb:Integer
-        val-kb:String 
-        val-kb:Boolean
-        val-kb:Double 
-        val-kb:Float 
-        val-kb:Tuple 
+        ( sets-kb:Integer
+        sets-kb:String 
+        sets-kb:Boolean
+        sets-kb:Double 
+        sets-kb:Float 
+        sets-kb:Tuple 
         ) .
 
-val-kb:Tuple rdf:type valo:Type .
+sets-kb:Tuple rdf:type sets:Type .
 ```
-A reasoner should infer `val-kb:Tuple rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Tuple rdf:type owl:Nothing .` or that an inconsistency occurs.
 #### Data One Of
 **Axiom**
 
@@ -2202,14 +2202,14 @@ Since _datatypeProperty_ is restricted to have a value from _list_, and _resourc
 
 **Example**
 ```
-valo:hasTeenAge rdf:type owl:DatatypeProperty ;
+sets:hasTeenAge rdf:type owl:DatatypeProperty ;
     rdfs:label "has age" ;
     rdfs:range [ rdf:type owl:DataRange ;
         owl:oneOf ("13"^^xsd:integer "14"^^xsd:integer "15"^^xsd:integer "16"^^xsd:integer "17"^^xsd:integer "18"^^xsd:integer "19"^^xsd:integer )].
 
-val-kb:Sarah valo:hasTeenAge "12"^^xsd:integer .
+sets-kb:Sarah sets:hasTeenAge "12"^^xsd:integer .
 ```
-A reasoner should infer `val-kb:Sarah rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Sarah rdf:type owl:Nothing .` or that an inconsistency occurs.
 ### Cardinality
 #### Max Cardinality
 **Axiom**
@@ -2255,7 +2255,7 @@ Since _objectProperty_ is assigned a maximum cardinality of _cardinalityValue_ f
 
 **Example**
 ```
-valo:DeadlySins rdf:type owl:Class ;
+sets:DeadlySins rdf:type owl:Class ;
     rdfs:subClassOf sio:Collection ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
@@ -2263,27 +2263,27 @@ valo:DeadlySins rdf:type owl:Class ;
             owl:maxCardinality "7"^^xsd:integer ] ;
     rdfs:label "seven deadly sins" .
 
-val-kb:SevenDeadlySins rdf:type valo:DeadlySins ;
+sets-kb:SevenDeadlySins rdf:type sets:DeadlySins ;
     sio:hasMember 
-        val-kb:Pride ,
-        val-kb:Envy ,
-        val-kb:Gluttony ,
-        val-kb:Greed ,
-        val-kb:Lust ,
-        val-kb:Sloth ,
-        val-kb:Wrath ,
-        val-kb:Redundancy .
+        sets-kb:Pride ,
+        sets-kb:Envy ,
+        sets-kb:Gluttony ,
+        sets-kb:Greed ,
+        sets-kb:Lust ,
+        sets-kb:Sloth ,
+        sets-kb:Wrath ,
+        sets-kb:Redundancy .
 
-val-kb:DistinctSinsRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctSinsRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
-        (val-kb:Pride 
-        val-kb:Envy 
-        val-kb:Gluttony 
-        val-kb:Greed 
-        val-kb:Lust 
-        val-kb:Sloth 
-        val-kb:Wrath 
-        val-kb:Redundancy ) .
+        (sets-kb:Pride 
+        sets-kb:Envy 
+        sets-kb:Gluttony 
+        sets-kb:Greed 
+        sets-kb:Lust 
+        sets-kb:Sloth 
+        sets-kb:Wrath 
+        sets-kb:Redundancy ) .
 ```
 ##### Data Max Cardinality
 
@@ -2323,20 +2323,20 @@ Since _datatypeProperty_ is assigned a maximum cardinality of _cardinalityValue_
 
 **Example**
 ```
-valo:hasAge rdf:type owl:DatatypeProperty ;
+sets:hasAge rdf:type owl:DatatypeProperty ;
     rdfs:label "has age" ;
     rdfs:subPropertyOf sio:hasValue .
 
-valo:Person rdf:type owl:Class ;
+sets:Person rdf:type owl:Class ;
     rdfs:label "person" ;
     rdfs:subClassOf
         [ rdf:type owl:Restriction ;
-            owl:onProperty valo:hasAge ;
+            owl:onProperty sets:hasAge ;
             owl:maxCardinality "1"^^xsd:integer ] . 
 
-val-kb:Katie rdf:type valo:Person ;
+sets-kb:Katie rdf:type sets:Person ;
     rdfs:label "Katie" ;
-    valo:hasAge "31"^^xsd:integer , "34"^^xsd:integer .
+    sets:hasAge "31"^^xsd:integer , "34"^^xsd:integer .
 ```
 ##### Object Max Qualified Cardinality
 **Axiom**
@@ -2414,27 +2414,27 @@ sio:ArrowedLineSegment rdf:type owl:Class ;
     dct:description "An arrowed line is a directed line segment in which one or both endpoints is tangentially part of a triangle that bisects the line." ;
     rdfs:label "arrowed line segment" .
 
-val-kb:TripleArrowLineSegment rdf:type sio:ArrowedLineSegment ;
+sets-kb:TripleArrowLineSegment rdf:type sio:ArrowedLineSegment ;
     rdfs:label "triple arrow line segment" ;
     sio:hasComponentPart
-        val-kb:LineSegment ,
-        val-kb:FirstArrow ,
-        val-kb:SecondArrow ,
-        val-kb:ThirdArrow .
+        sets-kb:LineSegment ,
+        sets-kb:FirstArrow ,
+        sets-kb:SecondArrow ,
+        sets-kb:ThirdArrow .
 
-val-kb:FirstArrow rdf:type sio:Triangle ;
+sets-kb:FirstArrow rdf:type sio:Triangle ;
     rdfs:label "first arrow" .
 
-val-kb:SecondArrow rdf:type sio:Triangle ;
+sets-kb:SecondArrow rdf:type sio:Triangle ;
     rdfs:label "second arrow" .
 
-val-kb:ThirdArrow rdf:type sio:Triangle ;
+sets-kb:ThirdArrow rdf:type sio:Triangle ;
     rdfs:label "third arrow" .
 
-val-kb:LineSegment rdf:type sio:LineSegment ;
+sets-kb:LineSegment rdf:type sio:LineSegment ;
     rdfs:label "line segment " .
     
-val-kb:DistinctTrianglesRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctTrianglesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers (ex-kb:FirstArrow ex-kb:SecondArrow ex-kb:ThirdArrow ) .
 ```
 ##### Data Max Qualified Cardinality
@@ -2484,18 +2484,18 @@ sio:MathematicalEntity rdf:type owl:Class ;
     rdfs:label "mathematical entity" ;
     dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
 
-valo:hasPolynomialRoot rdf:type owl:DatatypeProperty ;
+sets:hasPolynomialRoot rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "has polynomial root" .
 
-val-kb:QuadraticPolynomialRootRestriction rdf:type owl:Restriction ;
-    owl:onProperty valo:hasPolynomialRoot ;
+sets-kb:QuadraticPolynomialRootRestriction rdf:type owl:Restriction ;
+    owl:onProperty sets:hasPolynomialRoot ;
     owl:maxQualifiedCardinality "2"^^xsd:integer ;
     owl:onDataRange xsd:decimal .
 
-val-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
+sets-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
     rdfs:label "quadratic polynomial instance" ;
-    valo:hasPolynomialRoot "1.23"^^xsd:decimal , "3.45"^^xsd:decimal , "5.67"^^xsd:decimal .
+    sets:hasPolynomialRoot "1.23"^^xsd:decimal , "3.45"^^xsd:decimal , "5.67"^^xsd:decimal .
 ```
 #### Min Cardinality
 **Axiom**
@@ -2541,27 +2541,27 @@ Since _objectProperty_ is assigned a minimum cardinality of _cardinalityValue_ f
 
 **Example**
 ```
-valo:StudyGroup rdf:type owl:Class ;
+sets:StudyGroup rdf:type owl:Class ;
     rdfs:subClassOf sio:Collection ,
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
             owl:minCardinality "3"^^xsd:integer ] ; 
     rdfs:label "study group" .
 
-val-kb:StudyGroupInstance rdf:type valo:StudyGroup ;
+sets-kb:StudyGroupInstance rdf:type sets:StudyGroup ;
     sio:hasMember 
-        val-kb:Steve ,
-        val-kb:Ali .
+        sets-kb:Steve ,
+        sets-kb:Ali .
 
-val-kb:Steve rdf:type sio:Human .
-val-kb:Luis rdf:type sio:Human .
-val-kb:Ali rdf:type sio:Human .
+sets-kb:Steve rdf:type sio:Human .
+sets-kb:Luis rdf:type sio:Human .
+sets-kb:Ali rdf:type sio:Human .
 
-val-kb:DistinctStudentsRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctStudentsRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
-        (val-kb:Steve 
-        val-kb:Luis 
-        val-kb:Ali ) .
+        (sets-kb:Steve 
+        sets-kb:Luis 
+        sets-kb:Ali ) .
 ```
 
 ##### Data Min Cardinality
@@ -2605,21 +2605,21 @@ Since _dataProperty_ is assigned a minimum cardinality of _cardinalityValue_ for
 
 **Example**
 ```
-valo:hasBirthYear rdf:type owl:DatatypeProperty ;
+sets:hasBirthYear rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "has birth year" .
 
-valo:Person rdf:type owl:Class ;
+sets:Person rdf:type owl:Class ;
     rdfs:label "person" ;
     rdfs:subClassOf sio:Human ;
     rdfs:subClassOf
         [ rdf:type owl:Restriction ;
-            owl:onProperty valo:hasBirthYear ;
+            owl:onProperty sets:hasBirthYear ;
             owl:cardinality "1"^^xsd:integer ] . 
 
-val-kb:Erik rdf:type valo:Person ;
+sets-kb:Erik rdf:type sets:Person ;
     rdfs:label "Erik" ;
-    valo:hasBirthYear "1988"^^xsd:integer , "1998"^^xsd:integer .
+    sets:hasBirthYear "1988"^^xsd:integer , "1998"^^xsd:integer .
 ```
 
 ##### Object Min Qualified Cardinality
@@ -2678,11 +2678,11 @@ sio:Polyline rdf:type owl:Class ;
     dct:description "A polyline is a connected sequence of line segments." ;
     rdfs:label "polyline" .
 
-val-kb:PolylineSegment rdf:type sio:Polyline ;
+sets-kb:PolylineSegment rdf:type sio:Polyline ;
     rdfs:label "polyline segment " ;
-    sio:hasComponentPart val-kb:LineSegmentInstance .
+    sio:hasComponentPart sets-kb:LineSegmentInstance .
 
-val-kb:LineSegmentInstance rdf:type sio:LineSegment ;
+sets-kb:LineSegmentInstance rdf:type sio:LineSegment ;
     rdfs:label "line segment instance" .
 ```
 ##### Data Min Qualified Cardinality
@@ -2721,18 +2721,18 @@ Since _datatypeProperty_ is constrained with a qualified min cardinality restric
 
 **Example**
 ```
-valo:hasName rdf:type owl:DatatypeProperty ;
+sets:hasName rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasName ;
     rdfs:label "has name" .
 
-val-kb:NameRestriction rdf:type owl:Restriction ;
-    owl:onProperty valo:hasName ;
+sets-kb:NameRestriction rdf:type owl:Restriction ;
+    owl:onProperty sets:hasName ;
     owl:minQualifiedCardinality "2"^^xsd:integer ;
     owl:onDataRange xsd:string .
 
-val-kb:Jackson rdf:type sio:Human ;
+sets-kb:Jackson rdf:type sio:Human ;
     rdfs:label "Jackson" ;
-    valo:hasName "Jackson"^^xsd:string .
+    sets:hasName "Jackson"^^xsd:string .
 ```
 
 #### Exact Cardinality
@@ -2777,24 +2777,24 @@ Since _objectProperty_ is assigned an exact cardinality of _cardinalityValue_ fo
 
 **Example**
 ```
-valo:Trio rdf:type owl:Class ;
+sets:Trio rdf:type owl:Class ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
             owl:cardinality "2"^^xsd:integer
         ] .
 
-val-kb:Stooges rdf:type valo:Trio ;
+sets-kb:Stooges rdf:type sets:Trio ;
     sio:hasMember 
-        val-kb:Larry ,
-        val-kb:Moe ,
-        val-kb:Curly .
+        sets-kb:Larry ,
+        sets-kb:Moe ,
+        sets-kb:Curly .
 
-val-kb:DistinctStoogesRestriction rdf:type owl:AllDifferent ;
+sets-kb:DistinctStoogesRestriction rdf:type owl:AllDifferent ;
     owl:distinctMembers
-        ( val-kb:Larry 
-        val-kb:Moe 
-        val-kb:Curly ) .
+        ( sets-kb:Larry 
+        sets-kb:Moe 
+        sets-kb:Curly ) .
 ```
 ##### Data Exact Cardinality
 **Axiom**
@@ -2836,11 +2836,11 @@ Since _dataProperty_ is assigned an exact cardinality of _cardinalityValue_ for 
 
 **Example**
 ```
-valo:hasBirthYear rdf:type owl:DatatypeProperty ;
+sets:hasBirthYear rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "has birth year" .
 
-valo:Person rdf:type owl:Class ;
+sets:Person rdf:type owl:Class ;
     rdfs:label "person" ;
     rdfs:subClassOf sio:Human ;
     rdfs:subClassOf
@@ -2848,11 +2848,11 @@ valo:Person rdf:type owl:Class ;
             owl:onProperty ex:hasBirthYear ;
             owl:cardinality "1"^^xsd:integer ] . 
 
-val-kb:Erik rdf:type valo:Person ;
+sets-kb:Erik rdf:type sets:Person ;
     rdfs:label "Erik" ;
-    valo:hasBirthYear "1988"^^xsd:integer , "1998"^^xsd:integer .
+    sets:hasBirthYear "1988"^^xsd:integer , "1998"^^xsd:integer .
 ```
-A reasoner should infer `val-kb:Erik rdf:type owl:Nothing .` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:Erik rdf:type owl:Nothing .` or that an inconsistency occurs.
 ##### Object Exact Qualified Cardinality
 **Axiom**
 
@@ -2914,17 +2914,17 @@ sio:PolygonEdge rdf:type owl:Class ;
     dct:description "A polygon edge is a line segment joining two polygon vertices." ;
     rdfs:label "polygon edge" .
 
-val-kb:TripleVertexedPolyEdge rdf:type sio:PolygonEdge ;
+sets-kb:TripleVertexedPolyEdge rdf:type sio:PolygonEdge ;
     rdfs:label "triple vertexed polygon edge" ;
-    sio:hasComponentPart val-kb:VertexOne , val-kb:VertexTwo , val-kb:VertexThree .
+    sio:hasComponentPart sets-kb:VertexOne , sets-kb:VertexTwo , sets-kb:VertexThree .
 
-val-kb:VertexOne rdf:type sio:PolygonVertex ;
+sets-kb:VertexOne rdf:type sio:PolygonVertex ;
     rdfs:label "vertex one" .
 
-val-kb:VertexTwo rdf:type sio:PolygonVertex ;
+sets-kb:VertexTwo rdf:type sio:PolygonVertex ;
     rdfs:label "vertex two" .
 
-val-kb:VertexThree rdf:type sio:PolygonVertex ;
+sets-kb:VertexThree rdf:type sio:PolygonVertex ;
     rdfs:label "vertex three" .
 ```
 ##### Data Exact Qualified Cardinality
@@ -2969,18 +2969,18 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
     rdfs:label "has value" ;
     dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
 
-valo:uniqueUsername rdf:type owl:DatatypeProperty ;
+sets:uniqueUsername rdf:type owl:DatatypeProperty ;
     rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "unique username" .
 
-val-kb:UsernameRestriction rdf:type owl:Restriction ;
-    owl:onProperty valo:uniqueUsername ;
+sets-kb:UsernameRestriction rdf:type owl:Restriction ;
+    owl:onProperty sets:uniqueUsername ;
     owl:qualifiedCardinality "1"^^xsd:integer ;
     owl:onDataRange xsd:string .
 
-val-kb:Steve rdf:type sio:Human ;
+sets-kb:Steve rdf:type sio:Human ;
     rdfs:label "Steve" ;
-    valo:uniqueUsername "SteveTheGamer"^^xsd:string , "ScubaSteve508"^^xsd:string .
+    sets:uniqueUsername "SteveTheGamer"^^xsd:string , "ScubaSteve508"^^xsd:string .
 ```
 
 ### Disjunction
@@ -3102,23 +3102,23 @@ sio:MeasurementValue rdf:type owl:Class ;
             ) ] ;
     dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
 
-val-kb:DateTimeMeasurement rdf:type owl:Individual ;
+sets-kb:DateTimeMeasurement rdf:type owl:Individual ;
     rdfs:label "date time measurement" ;
     sio:hasValue "1990-10-14T21:32:52"^^xsd:dateTime .
 
-val-kb:IntegerMeasurement rdf:type owl:Individual ;
+sets-kb:IntegerMeasurement rdf:type owl:Individual ;
     rdfs:label "integer measurement" ;
     sio:hasValue "12"^^xsd:integer .
 
-val-kb:DoubleMeasurement rdf:type owl:Individual ;
+sets-kb:DoubleMeasurement rdf:type owl:Individual ;
     rdfs:label "double measurement" ;
     sio:hasValue "6.34"^^xsd:double .
 
-val-kb:FloatMeasurement rdf:type owl:Individual ;
+sets-kb:FloatMeasurement rdf:type owl:Individual ;
     rdfs:label "float measurement" ;
     sio:hasValue "3.14"^^xsd:float .
 ```
-A reasoner should infer `val-kb:DateTimeMeasurement rdf:type sio:MeasurementValue . val-kb:IntegerMeasurement rdf:type sio:MeasurementValue . val-kb:DoubleMeasurement rdf:type sio:MeasurementValue . val-kb:FloatMeasurement rdf:type sio:MeasurementValue .`
+A reasoner should infer `sets-kb:DateTimeMeasurement rdf:type sio:MeasurementValue . sets-kb:IntegerMeasurement rdf:type sio:MeasurementValue . sets-kb:DoubleMeasurement rdf:type sio:MeasurementValue . sets-kb:FloatMeasurement rdf:type sio:MeasurementValue .`
 #### Disjoint Union
 **Axiom**
 
@@ -3175,31 +3175,31 @@ sio:ChemicalEntity  rdf:type owl:Class ;
     rdfs:subClassOf sio:MaterialEntity ;
     dct:description "A chemical entity is a material entity that pertains to chemistry." .
 
-valo:Lobe rdf:type owl:Class ;
+sets:Lobe rdf:type owl:Class ;
     rdfs:subClassOf sio:BiologicalEntity ;
     rdfs:label "lobe" ;
     dct:description "A lobe that is part the brain." ;
-    owl:equivalentClass valo:LobeDisjointUnionClass .
+    owl:equivalentClass sets:LobeDisjointUnionClass .
 
-valo:LobeDisjointUnionClass rdf:type owl:Class ;
+sets:LobeDisjointUnionClass rdf:type owl:Class ;
     owl:disjointUnionOf ( ex:FrontalLobe ex:ParietalLobe ex:TemporalLobe ex:OccipitalLobe ex:LimbicLobe ) .
 ```
 A reasoner should infer
 ```
-valo:FrontalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
-    owl:disjointWith ex:ParietalLobe , valo:TemporalLobe , valo:OccipitalLobe , valo:LimbicLobe .
+sets:FrontalLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
+    owl:disjointWith ex:ParietalLobe , sets:TemporalLobe , sets:OccipitalLobe , sets:LimbicLobe .
 
-valo:ParietalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
-    owl:disjointWith valo:FrontalLobe , valo:TemporalLobe , valo:OccipitalLobe , valo:LimbicLobe .
+sets:ParietalLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
+    owl:disjointWith sets:FrontalLobe , sets:TemporalLobe , sets:OccipitalLobe , sets:LimbicLobe .
 
-valo:TemporalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
-    owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:OccipitalLobe , valo:LimbicLobe .
+sets:TemporalLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
+    owl:disjointWith sets:FrontalLobe , sets:ParietalLobe , sets:OccipitalLobe , sets:LimbicLobe .
 
-valo:OccipitalLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
-    owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:TemporalLobe , valo:LimbicLobe .
+sets:OccipitalLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
+    owl:disjointWith sets:FrontalLobe , sets:ParietalLobe , sets:TemporalLobe , sets:LimbicLobe .
 
-valo:LimbicLobe rdfs:subClassOf valo:LobeDisjointUnionClass , valo:Lobe ;
-    owl:disjointWith valo:FrontalLobe , valo:ParietalLobe , valo:TemporalLobe , valo:OccipitalLobe .
+sets:LimbicLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
+    owl:disjointWith sets:FrontalLobe , sets:ParietalLobe , sets:TemporalLobe , sets:OccipitalLobe .
 ```
 ### Intersection
 #### Object Intersection Of
@@ -3272,25 +3272,25 @@ sio:Target rdf:type owl:Class  ;
             owl:someValuesFrom sio:Process ] ) ;
     rdfs:label "target" .
 
-val-kb:ProteinReceptor rdf:type sio:Molecule ;
+sets-kb:ProteinReceptor rdf:type sio:Molecule ;
     rdfs:label "protein receptor" ;
-    sio:isTargetIn val-kb:Therapy .
+    sio:isTargetIn sets-kb:Therapy .
 
-val-kb:Therapy rdf:type sio:Process ;
+sets-kb:Therapy rdf:type sio:Process ;
     rdfs:label "therapy" .
 ```
-A reasoner should infer `val-kb:ProteinReceptor rdf:type sio:Target .`
+A reasoner should infer `sets-kb:ProteinReceptor rdf:type sio:Target .`
 ```
-val-kb:Brian rdf:type valo:CanTalk , valo:Dog , valo:Friendly .
+sets-kb:Brian rdf:type sets:CanTalk , sets:Dog , sets:Friendly .
 
-valo:CanTalk rdf:type owl:Class .
-valo:Dog rdf:type owl:Class .
-valo:Friendly rdf:type owl:Class .
+sets:CanTalk rdf:type owl:Class .
+sets:Dog rdf:type owl:Class .
+sets:Friendly rdf:type owl:Class .
 
-valo:FriendlyTalkingDog rdf:type owl:Class ;
-    owl:intersectionOf (valo:CanTalk valo:Dog valo:Friendly) .
+sets:FriendlyTalkingDog rdf:type owl:Class ;
+    owl:intersectionOf (sets:CanTalk sets:Dog sets:Friendly) .
 ```
-A reasoner should infer `val-kb:Brian rdf:type valo:FriendlyTalkingDog .`
+A reasoner should infer `sets-kb:Brian rdf:type sets:FriendlyTalkingDog .`
 #### Data Intersection Of
 **Axiom**
 
@@ -3340,26 +3340,26 @@ Since _class_ and _complementClass_ are complementary, _resource_ being of type 
 **Example**
 
 ```
-valo:VitalStatus rdfs:subClassOf sio:Attribute ;
+sets:VitalStatus rdfs:subClassOf sio:Attribute ;
     rdfs:label "vital status" .
 
-valo:Dead rdf:type owl:Class ;
-    rdfs:subClassOf valo:VitalStatus ;
+sets:Dead rdf:type owl:Class ;
+    rdfs:subClassOf sets:VitalStatus ;
     rdfs:label "dead" .
 
-valo:Alive rdf:type owl:Class ;
-    rdfs:subClassOf valo:VitalStatus ;
+sets:Alive rdf:type owl:Class ;
+    rdfs:subClassOf sets:VitalStatus ;
     rdfs:label "alive" ;
-    owl:complementOf valo:Dead .
+    owl:complementOf sets:Dead .
 
-val-kb:VitalStatusOfPat rdf:type valo:Alive , valo:Dead ;
+sets-kb:VitalStatusOfPat rdf:type sets:Alive , sets:Dead ;
     rdfs:label "Pat's Vital Status" ;
-    sio:isAttributeOf val-kb:Pat .
+    sio:isAttributeOf sets-kb:Pat .
 
-val-kb:Pat rdf:type sio:Human ;
+sets-kb:Pat rdf:type sio:Human ;
     rdfs:label "Pat" .
 ```
-A reasoner should infer `val-kb:VitalStatusOfPat rdf:type owl:Nothing` or that an inconsistency occurs.
+A reasoner should infer `sets-kb:VitalStatusOfPat rdf:type owl:Nothing` or that an inconsistency occurs.
 ##### Data Complement Of
 **Query**
 ```
@@ -3463,14 +3463,14 @@ sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
-val-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
-    sio:hasUnit [ rdf:type valo:Percentage ] ;
+sets-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
+    sio:hasUnit [ rdf:type sets:Percentage ] ;
     rdfs:label "efficiency" .
 
-valo:Percentage rdfs:subClassOf sio:UnitOfMeasurement ;
+sets:Percentage rdfs:subClassOf sio:UnitOfMeasurement ;
     rdfs:label "percentage" .
 ```
-A reasoner should infer `val-kb:Efficiency rdf:type owl:Nothing .`
+A reasoner should infer `sets-kb:Efficiency rdf:type owl:Nothing .`
 ##### Data Property Complement Of
 **Query**
 ```
@@ -3514,10 +3514,10 @@ val:NumericalValue rdf:type owl:Class ;
                     owl:someValuesFrom xsd:string ] 
         ] .
 
-val-kb:Number rdf:type val:NumericalValue ;
+sets-kb:Number rdf:type val:NumericalValue ;
     sio:hasValue "Fifty"^^xsd:string .
 ```
-A reasoner should infer `val-kb:Number rdf:type owl:Nothing .`
+A reasoner should infer `sets-kb:Number rdf:type owl:Nothing .`
 ### Code
 #### Deductor Agent
 ```python

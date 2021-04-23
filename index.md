@@ -3205,6 +3205,7 @@ sets:LimbicLobe rdfs:subClassOf sets:LobeDisjointUnionClass , sets:Lobe ;
 **Axiom**
 
 ![formula](https://render.githubusercontent.com/render/math?math=C_1%20\sqcap%20\dots%20\sqcap%20C_n)
+
 **Query**
 ```
 CONSTRUCT {

@@ -761,14 +761,13 @@ CONSTRUCT {
   ?resource rdf:type owl:Nothing .
 }
 WHERE {
-  ?resource ?irreflexiveProperty ?o .
   ?irreflexiveProperty rdf:type owl:IrreflexiveProperty .
   ?resource ?irreflexiveProperty ?resource .
 }
 ```
 **Explanation**
 
-Since _resource_ has a _irreflexiveProperty_ assertion, and _irreflexiveProperty_ is a irreflexive property, we can infer that the relationship _resource_ _irreflexiveProperty_ _resource_ does not exist.
+Since _resource_ has an _irreflexiveProperty_ assertion pointing to itself, and _irreflexiveProperty_ is a irreflexive property, we can infer that there is an inconsistency associated with _resource_.
 
 **Example**
 ```

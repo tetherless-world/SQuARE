@@ -1020,6 +1020,7 @@ The object properties _p_ and _inverseProperty_ are inversely related to eachoth
 sio:hasAttribute rdf:type owl:ObjectProperty ;
     rdfs:label "has attribute" ;
     dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    owl:inverseOf sio:isAttributeOf ;
     rdfs:subPropertyOf sio:isRelatedTo .
 
 sio:hasProperty rdf:type owl:ObjectProperty ,
@@ -1056,7 +1057,7 @@ sets-kb:HyrdogenDioxide sio:hasAttribute sets-kb:H2O ;
 sets-kb:H2O rdf:type sets:MolecularFormula ;
     rdfs:label "H2O" .
 ```
-A reasoner should infer `sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .`
+A reasoner should infer `sets-kb:H2O sio:isAttributeOf sets-kb:Water .`
 ##### Inverse Functional Object Property
 **Axiom**
 

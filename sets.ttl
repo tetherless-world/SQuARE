@@ -1,0 +1,1476 @@
+@prefix uo: <http://purl.obolibrary.org/obo/UO_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sio: <http://semanticscience.org/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sets: <http://purl.org/ontology/sets/ont#> .
+@prefix sets-kb: <http://purl.org/ontology/sets/kb#> .
+
+<http://purl.org/ontology/sets.ttl>
+    rdf:type owl:Ontology ;
+    dct:title "SQuARE Evaluation Test Set"^^xsd:string ;
+    dct:creator "Sabbir M. Rashid"^^xsd:string ;
+    dct:created "2020-05-01T12:00:00"^^xsd:dateTime ;
+    dct:modified "2020-8-01T14:30:00"^^xsd:dateTime ;
+    dct:contributor "Amar K. Das"^^xsd:string ;
+    dct:contributor "Jamie P. McCusker"^^xsd:string ;
+    dct:contributor "Daniel Gruen"^^xsd:string ;
+    dct:contributor "Oshani Seneviratne"^^xsd:string ;
+    dct:contributor "Deborah L. McGuinness"^^xsd:string ;
+    dct:description "The validation ontology include example test cases for each OWL DL axiom. It leverages the Semanticscience Integrated Ontology for existing rule examples, and incorporates its own classes when necessary. For examples that result in inconsistencies, the inconsistencies are commented out in order for the ontology to load properly. The user is recommended to manually uncomment inconsistencies if they wish to test the corresponding axiom."^^xsd:string ;
+    #owl:imports <http://semanticscience.org/ontology/sio.owl> ;
+    dct:license <http://www.apache.org/licenses/LICENSE-2.0> ;
+    owl:versionIRI <http://purl.org/ontology/validation/ont/0.9> .
+
+# <------- Class Disjointness -------
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Attribute rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "attribute" ;
+    #<rdfs:subClassOf rdf:nodeID="arc0158b301"/>
+    dct:description "An attribute is a characteristic of some entity." .
+
+sio:RealizableEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Attribute ;
+    #<rdfs:subClassOf rdf:nodeID="arc0158b179"/>
+    #<rdfs:subClassOf rdf:nodeID="arc0158b180"/>
+    dct:description "A realizable entity is an attribute that is exhibited under some condition and is realized in some process." ;
+    rdfs:label "realizable entity" .
+
+sio:Quality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Attribute ;
+    owl:disjointWith sio:RealizableEntity ;
+    #<rdfs:subClassOf rdf:nodeID="arc0158b16"/>
+    dct:description "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary." ;
+    rdfs:label "quality" .
+
+sio:ExistenceQuality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Quality ;
+    dct:description "existence quality is the quality of an entity that describe in what environment it is known to exist." ;
+    rdfs:label "existence quality" .
+
+sio:Virtual rdf:type owl:Class ;
+    rdfs:subClassOf sio:ExistenceQuality ;
+    dct:description "virtual is the quality of an entity that exists only in a virtual setting such as a simulation or game environment." ;
+    rdfs:label "virtual" .
+
+sio:Real rdf:type owl:Class ;
+    rdfs:subClassOf sio:ExistenceQuality ;
+    owl:disjointWith sio:Fictional ;
+    owl:disjointWith sio:Virtual ;
+    dct:description "real is the quality of an entity that exists in real space and time." ;
+    rdfs:label "real" .
+
+sio:Hypothetical rdf:type owl:Class ;
+    rdfs:subClassOf sio:ExistenceQuality ;
+    dct:description "hypothetical is the quality of an entity that is conjectured to exist." ;
+    rdfs:label "hypothetical" .
+
+sio:Fictional rdf:type owl:Class ;
+    rdfs:subClassOf sio:Hypothetical ;
+    dct:description "fictional is the quality of an entity that exists only in a creative work of fiction." ;
+    rdfs:label "fictional" .
+
+#sets-kb:ImaginaryFriend
+#    rdfs:label "my imaginary friend" ;
+#    rdf:type sio:Real ;
+#    rdf:type sio:Fictional .
+
+# Throws error as expected
+
+# ------- Class Disjointness ------->
+
+# <------- Object Property Transitivity -------
+
+sio:isRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:label "is related to" ;
+    dct:description "A is related to B iff there is some relation between A and B." .
+
+sio:isSpatiotemporallyRelatedTo rdf:type owl:ObjectProperty ,
+                                owl:SymmetricProperty ;
+    rdfs:subPropertyOf sio:isRelatedTo ;
+    rdfs:label "is spatiotemporally related to" ;
+    dct:description "A is spatiotemporally related to B iff A is in the spatial or temporal vicinity of B" .
+
+sio:isLocationOf rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    rdfs:label "is location of" ;
+    dct:description "A is location of B iff the spatial region occupied by A has the spatial region occupied by B as a part." .
+
+sio:hasPart rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ,
+                                owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isLocationOf ;
+    owl:inverseOf sio:isPartOf ;
+    rdfs:label "has part" ;
+    dct:description "has part is a transitive, reflexive and antisymmetric relation between a whole and itself or a whole and its part" .
+
+sio:isLocatedIn rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ;
+    rdfs:subPropertyOf sio:isSpatiotemporallyRelatedTo ;
+    rdfs:label "is located in" ;
+    dct:description "A is located in B iff the spatial region occupied by A is part of the spatial region occupied by B." .
+
+sio:isPartOf rdf:type owl:ObjectProperty ,
+                                owl:TransitiveProperty ,
+                                owl:ReflexiveProperty ;
+    rdfs:subPropertyOf sio:isLocatedIn ;
+    rdfs:label "is part of" ;
+    dct:description "is part of is a transitive, reflexive and anti-symmetric mereological relation between a whole and itself or a part and its whole." .
+
+sets-kb:Fingernail rdf:type owl:Individual ;
+    rdfs:label "finger nail" ;
+    sio:isPartOf sets-kb:Finger .
+
+sets-kb:Finger rdf:type owl:Individual ;
+    rdfs:label "finger" ;
+    sio:isPartOf sets-kb:Hand . 
+
+sets-kb:Hand rdf:type owl:Individual ;
+    rdfs:label "hand" .
+
+# confirmed that "sets-kb:Fingernail sio:isPartOf sets-kb:Hand ." is returned by Hermit
+# Confirmed whyis deductor added "sets-kb:Fingernail http://semanticscience.org/resource/isPartOf sets-kb:Hand"
+# ------- Object Property Transitivity ------->
+# <------- Object Property Reflexivity  -------
+sio:Process rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b17"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b18"/>
+    dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
+    rdfs:label "process" .
+
+sets-kb:Workflow rdf:type sio:Process ;
+    rdfs:label "workflow" ;
+    sio:hasPart sets-kb:Step .
+
+sets-kb:Step rdf:type sio:Process ;
+    rdfs:label "step" .
+
+# Confirmed that "sets-kb:Workflow sio:hasPart sets-kb:Workflow ." is returned
+# ------- Object Property Reflexivity  ------->
+
+# <------- Object Property Irreflexivity  -------
+sio:hasMember rdf:type owl:ObjectProperty ,
+                                owl:IrreflexiveProperty ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    owl:inverseOf sio:isMemberOf ;
+    rdfs:label "has member" ;
+    dct:description "has member is a mereological relation between a collection and an item." .
+
+sio:isMemberOf rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sio:isAttributeOf ;
+    rdfs:label "is member of" ;
+    dct:description "is member of is a mereological relation between a item and a collection." .
+
+sio:Collection rdf:type owl:Class ;
+    rdfs:subClassOf sio:Set ;
+    rdfs:label "collection" ;
+    dct:description "A collection is a set for which there exists at least one member, although any member need not to exist at any point in the collection's existence." .
+
+sio:Set rdf:type owl:Class ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    rdfs:label "set" ;
+    dct:description "A set is a collection of entities, for which there may be zero members." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+#sets-kb:Group rdf:type sio:Collection ;
+#    rdfs:label "group" ;
+#    sio:hasMember sets-kb:Group .
+
+#Throws error as expected
+
+# ------- Object Property Irreflexivity  ------->
+
+# <------- Property Domain -------   
+sio:Role rdf:type owl:Class ;
+    rdfs:label "role" ;
+    rdfs:subClassOf sio:RealizableEntity ;
+    dct:description "A role is a realizable entity that describes behaviours, rights and obligations of an entity in some particular circumstance." .
+
+sio:isAttributeOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is attribute of" ;
+    dct:description "is attribute of is a relation that associates an attribute with an entity where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:isPropertyOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is property of" ;
+    dct:description "is property of is a relation betweena  quality, capability or role and the entity that it and it alone bears." ;
+    rdfs:subPropertyOf sio:isAttributeOf .
+
+sio:hasProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has property" ;
+    owl:inverseOf sio:isPropertyOf ;
+    dct:description "has property is a relation between an entity and the quality, capability or role that it and it alone bears." ;
+    rdfs:subPropertyOf sio:hasAttribute .
+
+sio:hasRealizableProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has realizable property" ;
+    rdfs:subPropertyOf sio:hasProperty .
+
+sio:isRealizablePropertyOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is realizable property of" ;
+    rdfs:subPropertyOf sio:isPropertyOf ;
+    owl:inverseOf sio:hasRealizableProperty .
+
+sio:isRoleOf rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "is role of" ;
+    rdfs:domain sio:Role ;
+    rdfs:subPropertyOf sio:isRealizablePropertyOf ;
+    dct:description "is role of is a relation between a role and the entity that it is a property of." ;
+    owl:inverseOf sio:hasRole .
+
+sio:hasRole rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has role" ;
+    rdfs:subPropertyOf sio:hasRealizableProperty ;
+    dct:description "has role is a relation between an entity and a role that it bears." .
+
+sio:Human  rdf:type owl:Class ;
+    rdfs:label "human" ;
+    rdfs:subClassOf sio:MulticellularOrganism ;
+    dct:description "A human is a primates of the family Hominidae and are characterized by having a large brain relative to body size, with a well developed neocortex, prefrontal cortex and temporal lobes, making them capable of abstract reasoning, language, introspection, problem solving and culture through social learning." .
+
+sio:MulticellularOrganism  rdf:type owl:Class ;
+    rdfs:label "multicellular organism" ;
+    rdfs:subClassOf sio:CellularOrganism ;
+    dct:description "A multi-cellular organism is an organism that consists of more than one cell." .
+
+sio:CellularOrganism  rdf:type owl:Class ;
+    rdfs:label "cellular organism" ;
+    rdfs:subClassOf sio:Organism ;
+#    <owl:disjointWith rdf:resource="http://semanticscience.org/resource/Non-cellularOrganism"/>
+    dct:description "A cellular organism is an organism that contains one or more cells." .
+
+sio:Non-cellularOrganism  rdf:type owl:Class ;
+    rdfs:label "non-cellular organism" ;
+    rdfs:subClassOf sio:Organism ;
+    dct:description "A non-cellular organism is an organism that does not contain a cell." .
+
+sio:Organism rdf:type owl:Class ;
+    owl:equivalentClass 
+        [   rdf:type owl:Class ;
+            owl:unionOf ( sio:CellularOrganism sio:Non-cellularOrganism ) ] ;
+    rdfs:subClassOf sio:BiologicalEntity ;
+    dct:description "A biological organisn is a biological entity that consists of one or more cells and is capable of genomic replication (independently or not)." ;
+    rdfs:label "organism" .
+
+sio:BiologicalEntity  rdf:type owl:Class ;
+    rdfs:label "biological entity" ;
+    rdfs:subClassOf sio:HeterogeneousSubstance ;
+    dct:description "A biological entity is a heterogeneous substance that contains genomic material or is the product of a biological process." .
+
+sio:HeterogeneousSubstance  rdf:type owl:Class ;
+    rdfs:label "heterogeneous substance" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+    rdfs:subClassOf sio:ChemicalEntity ;
+#    <owl:disjointWith rdf:resource="http://semanticscience.org/resource/HomogeneousSubstance"/>
+    dct:description "A heterogeneous substance is a chemical substance that is composed of more than one different kind of component." .
+
+sio:MaterialEntity  rdf:type owl:Class ;
+    rdfs:label "material entity" ;
+    rdfs:subClassOf sio:Object ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b11"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b12"/>
+    dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
+
+sio:ChemicalEntity  rdf:type owl:Class ;
+    rdfs:label "chemical entity" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+#    <sio:equivalentTo>CHEBI:23367</sio:equivalentTo>
+    dct:description "A chemical entity is a material entity that pertains to chemistry." .
+
+sets-kb:Mother rdf:type owl:Individual ;
+    rdfs:label "mother" ;
+    sio:isRoleOf sets-kb:Sarah ;
+    sio:inRelationTo sets-kb:Tim .
+
+sets-kb:Sarah rdf:type sio:Human ;
+    rdfs:label "Sarah" .
+
+sets-kb:Tim rdf:type sio:Human ;
+    rdfs:label "Tim" .
+
+# confirmed that "sets-kb:Sarah sio:hasRole sets-kb:Mother ." is returned
+# confirmed that "sets-kb:Mother rdf:type sio:Role ." is returned
+# confirmed whyis deductor adds "sets-kb:Mother http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/Role"
+# confirmed whyis deductor adds "sets-kb:Sarah http://semanticscience.org/resource/hasRole sets-kb:Mother"
+# ------- Property Domain ------->
+
+
+# <------- Functional Object Property -------
+sets-kb:Tutor rdf:type sio:Human ;
+    rdfs:label "tutor" .
+
+sets-kb:TeachingRole rdf:type sio:Role ;
+    rdfs:label "teaching role" ;
+    sio:isRoleOf sets-kb:Tutor .
+
+sets-kb:TutoringRole rdf:type sio:Role ;
+    rdfs:label "tutoring role" ;
+    sio:isRoleOf sets-kb:Tutor .
+
+# Should expect sets-kb:TeachingRole owl:sameAs sets-kb:TutoringRole 
+# ------- Functional Object Property ------->
+
+# <------- Inverse Functional Object Property -------
+sio:hasAttribute rdf:type owl:ObjectProperty ;
+    rdfs:label "has attribute" ;
+    dct:description "has attribute is a relation that associates a entity with an attribute where an attribute is an intrinsic characteristic such as a quality, capability, disposition, function, or is an externally derived attribute determined from some descriptor (e.g. a quantity, position, label/identifier) either directly or indirectly through generalization of entities of the same type." ;
+    rdfs:subPropertyOf sio:isRelatedTo .
+
+sio:hasProperty rdf:type owl:ObjectProperty ,
+                                owl:InverseFunctionalProperty;
+    rdfs:label "has property" ;
+    owl:inverseOf sio:isPropertyOf ;
+    dct:description "has property is a relation between an entity and the quality, capability or role that it and it alone bears." ;
+    rdfs:subPropertyOf sio:hasAttribute .
+
+sio:Symbol rdf:type owl:Class ;
+    rdfs:subClassOf sio:Representation ;
+#    <rdfs:subClassOf rdf:nodeID="arc703eb86"/>
+#    <rdfs:subClassOf rdf:nodeID="arc703eb87"/>
+    dct:description "A symbol is a proposition about what an entity represents." ;
+    rdfs:label "symbol" .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:Representation rdf:type owl:Class ;
+#    <owl:equivalentClass rdf:nodeID="arc703eb296"/>
+    rdfs:subClassOf sio:InformationContentEntity ;
+#    <rdfs:subClassOf rdf:nodeID="arc703eb300"/>
+    dct:description "A representation is a entity that in some way represents another entity (or attribute thereof)." ;
+    rdfs:label "representation" .
+
+sets:MolecularFormula rdfs:subClassOf sio:Symbol ;
+    rdfs:label "molecular formula" .
+
+sets-kb:Water sio:hasAttribute sets-kb:H2O ;
+    rdfs:label "water" .
+
+sets-kb:HyrdogenDioxide sio:hasAttribute sets-kb:H2O ;
+    rdfs:label "hydrogen dioxide" .
+
+sets-kb:H2O rdf:type sets:MolecularFormula ;
+    rdfs:label "H2O" .
+# Should return sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .
+# ------- Inverse Functional Object Property ------->
+
+# <-------Range Restriction -------
+sio:UnitOfMeasurement rdf:type owl:Class ;
+    rdfs:label "unit of measurement" ;
+    rdfs:subClassOf sio:Quantity ;
+    dct:description "A unit of measurement is a definite magnitude of a physical quantity, defined and adopted by convention and/or by law, that is used as a standard for measurement of the same physical quantity." .
+
+sio:hasUnit rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has unit" ;
+    owl:inverseOf sio:isUnitOf ;
+    rdfs:range sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    dct:description "has unit is a relation between a quantity and the unit it is a multiple of." .
+
+sio:isUnitOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is unit of" ;
+    rdfs:domain sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:isAttributeOf ;
+    dct:description "is unit of is a relation between a unit and a quantity that it is a multiple of." .
+
+sio:Height rdf:type owl:Class ;
+    rdfs:label "height" ;
+    rdfs:subClassOf sio:1DExtentQuantity ;
+    dct:description "Height is the one dimensional extent along the vertical projection of a 3D object from a base plane of reference." .
+
+sio:1DExtentQuantity rdf:type owl:Class ;
+    rdfs:label "1D extent quantity" ;
+    rdfs:subClassOf sio:SpatialQuantity ;
+    dct:description "A quantity that extends in single dimension." .
+
+sio:SpatialQuantity rdf:type owl:Class ;
+    rdfs:label "spatial quantity" ;
+    rdfs:subClassOf sio:DimensionalQuantity ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b33"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b34"/>
+#    <sio:hasSynonym xml:lang="en">physical dimensional quantity</sio:hasSynonym>
+    dct:description "A spatial quantity is a quantity obtained from measuring the spatial extent of an entity." .
+
+sio:DimensionalQuantity rdf:type owl:Class ;
+    rdfs:label "dimensional quantity" ;
+    rdfs:subClassOf sio:Quantity ,
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasUnit ;
+            owl:someValuesFrom sio:UnitOfMeasurement ] ;
+    dct:description "A dimensional quantity is a quantity that has an associated unit." .
+
+sets-kb:Tom rdf:type sio:Human ;
+    rdfs:label "Tom" ;
+    sio:hasAttribute sets-kb:HeightOfTom .
+
+sets-kb:HeightOfTom rdf:type sio:Height ;
+    sio:hasUnit sets-kb:Meter .
+
+sets-kb:Meter rdf:type owl:Individual ;
+    rdfs:label "meter" .
+
+# confirmed that "sets-kb:Meter rdf:type sio:UnitOfMeasurement" is returned
+# confirmed whyis returns "sets-kb:Meter http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/UnitOfMeasurement"
+# ------- Range Restriction ------->
+
+# <------- Functional Data Property -------
+
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+sets-kb:HeightOfTom sio:hasValue "5"^^xsd:integer .
+#sets-kb:HeightOfTom sio:hasValue "6"^^xsd:integer .
+
+# Throws error as expected
+
+# ------- Functional Data Property ------->
+
+# <------- Property Disjointness -------
+sets:hasMother rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    rdfs:label "has mother" ;
+    owl:propertyDisjointWith sets:hasFather .
+
+sets:hasFather rdf:type owl:ObjectProperty ;
+    rdfs:label "has father" .
+
+sets-kb:Jordan rdf:type sio:Human ;
+    rdfs:label "Jordan" .
+
+#sets-kb:Susan rdf:type sio:Human ;
+#    rdfs:label "Susan" ;
+#    sets:hasFather sets-kb:Jordan ;
+#    sets:hasMother sets-kb:Jordan .
+
+#Throws error as expected
+
+# ------- Property Disjointness ------->
+
+# <------- Object Property Symmetry -------
+sets-kb:Peter rdf:type sio:Human ;
+    rdfs:label "Peter" ;
+    sio:isRelatedTo sets-kb:Samantha .
+
+sets-kb:Samantha rdf:type sio:Human ;
+    rdfs:label "Samantha" .
+
+# confirmed that "sets-kb:Samantha sio:isRelatedTo sets-kb:Peter ." is returned by Hermit
+#confirmed whyis also adds "sets-kb:Samantha http://semanticscience.org/resource/isRelatedTo sets-kb:Peter"
+# ------- Object Property Symmetry ------->
+
+# <------- Object Property Asymmetry -------
+sio:isProperPartOf rdf:type owl:ObjectProperty ,
+                                owl:AsymmetricProperty ,
+                                owl:IrreflexiveProperty ;
+    rdfs:label "is proper part of" ;
+    rdfs:subPropertyOf sio:isPartOf ;
+    dct:description "is proper part of is an asymmetric, irreflexive (normally transitive) relation between a part and its distinct whole." .
+
+sets-kb:Nose rdf:type owl:Individual ;
+    rdfs:label "nose" ;
+    sio:isProperPartOf sets-kb:Face .
+
+sets-kb:Face rdf:type owl:Individual ;
+#    sio:isProperPartOf sets-kb:Nose ;
+    rdfs:label "face" .
+
+#Throws error as expected
+
+# ------- Object Property Asymmetry ------->
+
+# <------- Class Inclusion -------
+# sio:ExistenceQuality is a subclass of sio:Quality which is a subclass of sio:Attribute . (Defined above)
+# We should get "sio:ExistenceQuality rdfs:subClassOf sio:Attribute ." This isn't explicitly inferred in protege, but is apparent from the hierarchy
+# ------- Class Inclusion ------->
+
+# <------- Property Inclusion -------
+# <------- Object Property Inclusion -------
+sio:Age rdf:type owl:Class ;
+    rdfs:label "age" ;
+    rdfs:subClassOf sio:DimensionalQuantity ;
+    dct:description "Age is the length of time that a person has lived or a thing has existed." .
+
+sio:DimensionlessQuantity rdf:type owl:Class ;
+    rdfs:label "dimensionless quantity" ;
+    rdfs:subClassOf sio:Quantity ,
+        [ rdf:type owl:Class ;
+            owl:complementOf [ rdf:type owl:Restriction ;
+                owl:onProperty sio:hasUnit ;
+                owl:someValuesFrom sio:UnitOfMeasurement ] ];
+    owl:disjointWith sio:DimensionalQuantity ;
+    dct:description "A dimensionless quantity is a quantity that has no associated unit." .
+
+sio:Quantity rdf:type owl:Class ;
+    rdfs:label "quantity" ;
+    owl:equivalentClass 
+        [ rdf:type owl:Class ; 
+            owl:unionOf (sio:DimensionlessQuantity sio:DimensionalQuantity) ] ;
+    rdfs:subClassOf sio:MeasurementValue ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b38"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b39"/>
+    dct:description "A quantity is an informational entity that gives the magnitude of a property." .
+
+sio:MeasurementValue rdf:type owl:Class ;
+    rdfs:label "measurement value" ;
+    rdfs:subClassOf sio:Number ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b47"/>
+    dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
+
+sio:Number rdf:type owl:Class ;
+    rdfs:label "number" ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    dct:description "A number is a mathematical object used to count, label, and measure." .
+
+sets-kb:Samantha sio:hasProperty sets-kb:AgeOfSamantha .
+
+sets-kb:AgeOfSamantha rdf:type sio:Age ;
+    rdfs:label "Samantha's age" .
+
+# Confirmed that "sets-kb:Samantha sio:hasAttribute sets-kb:AgeOfSamantha ." is returned
+# Confirmed whyis adds "sets-kb:Samantha http://semanticscience.org/resource/hasAttribute sets-kb:AgeOfSamantha"
+# ------- Object Property Inclusion ------->
+
+# <------- Data Property Inclusion -------
+sets:hasExactValue rdf:type owl:DatatypeProperty ;
+    rdfs:label "has exact value" ;
+    rdfs:subPropertyOf sio:hasValue .
+
+sets-kb:AgeOfSamantha sets:hasExactValue "25.82"^^xsd:decimal .
+
+# Confirmed that "sets-kb:AgeOfSamantha sio:hasValue 25.82 ." is returned
+# Confirmed whyis adds "sets-kb:AgeOfSamantha http://semanticscience.org/resource/hasValue 25.82"
+# ------- Data Property Inclusion ------->
+# ------- Property Inclusion ------->
+
+# <------- Class Equivalence -------
+sets:Fake rdf:type owl:Class ;
+    owl:equivalentClass sio:Fictional ;
+    rdfs:label "fake" .
+
+sets-kb:Hubert rdf:type sets:Fake ;
+    rdfs:label "Hubert" .
+
+# Confirmed that "sets-kb:Hubert rdf:type sio:Fictional ." is returned
+# Confirmed that whyis adds "sets-kb:Hubert http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/Fictional"
+# ------- Class Equivalence ------->
+
+# <------- Property Equivalence -------
+sets:hasValue rdf:type owl:DatatypeProperty ;
+    rdfs:label "has value" ;
+    owl:equivalentProperty sio:hasValue .
+# Confirmed that "sets-kb:AgeOfSamantha sets:hasValue 25.82"  is returned
+# Don't think this worked in whyis, need to revist
+# ------- Property Equivalence ------->
+
+# <------- Individual Inclusion -------
+sets-kb:Farmer rdf:type sio:Role ;
+    rdfs:label "farmer" .
+
+# Confirmed that "sets-kb:Farmer rdf:type sio:RealizableEntity ." is returned
+# Confirmed that "sets-kb:Farmer http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/RealizableEntity" is returned by whyis
+# ------- Individual Inclusion ------->
+
+# <------- Object Property Inversion -------
+# Confirmed that "sets-kb:Finger sio:hasPart sets-kb:Fingernail ." is returned
+# Can't confirm this is the case in whyis
+# ------- Object Property Inversion ------->
+
+# ------- Assertions -------
+# <-------  Same Individual -------
+sets-kb:Peter owl:sameAs sets-kb:Pete .
+# Confirmed that "sets-kb:Pete rdf:type sio:Human ; rdfs:label "Peter" ; sio:isRelatedTo sets-kb:Samantha ." is returned. Essentially, sets-kb:Pete points to the same individual as sets-kb:Peter in protege.
+# Confirmed that whyis adds "sets-kb:Pete http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/Human . sets-kb:Pete http://www.w3.org/2000/01/rdf-schema#label Peter . sets-kb:Pete http://semanticscience.org/resource/isRelatedTo sets-kb:Samantha ."
+# -------  Same Individual ------->
+
+# <-------  Different Individuals ------- 
+sets-kb:Sam owl:differentFrom sets-kb:Samantha .
+#sets-kb:Sam owl:sameAs sets-kb:Samantha .
+
+#Throws error as expected
+# -------  Different Individuals ------->
+
+# <-------  Class Assertion -------
+sets-kb:Reliable rdf:type sio:Quality ;
+    rdfs:label "reliable" .
+
+# Should expect sets-kb:Reliable rdf:type sio:Attribute, sio:Entity .
+# -------  Class Assertion ------->
+# <-------  Object Property Assertion ------- 
+# Above assertions already confirmed that this works
+# -------  Object Property Assertion -------> 
+# <-------  Data Property Assertion -------
+# Above assertions already confirmed that this works
+# -------  Data Property Assertion ------->
+
+# <-------  NegativeObjectPropertyAssertion -------
+sets-kb:NOPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual sets-kb:AgeOfSamantha ; 
+    owl:assertionProperty sio:hasUnit ; 
+    owl:targetIndividual sets-kb:Meter .
+
+#sets-kb:AgeOfSamantha sio:hasUnit sets-kb:Meter .
+#Throws error as expected
+
+# -------  NegativeObjectPropertyAssertion ------->
+# <-------  NegativeDataPropertyAssertion -------
+
+sets-kb:NDPA rdf:type owl:NegativePropertyAssertion ; 
+    owl:sourceIndividual sets-kb:AgeOfPeter ; 
+    owl:assertionProperty sio:hasValue ; 
+    owl:targetValue "10" .
+
+#sets-kb:AgeOfPeter rdf:type sio:Age;
+#    rdfs:label "Peter's age" ;
+#    sio:hasValue "10" .
+#Throws error as expected
+# -------  NegativeDataPropertyAssertion ------->
+
+# <------- Keys -------
+sets:uniqueID rdf:type owl:DatatypeProperty ;
+    rdfs:label "unique identifier" .
+
+sets:Person rdf:type owl:Class ;
+    rdfs:subClassOf sio:Human ;
+    rdfs:label "person" ;
+    owl:hasKey ( sets:uniqueID ) .
+
+sets-kb:John rdf:type sets:Person ;
+    rdfs:label "John" ;
+    sets:uniqueID "101D" .
+
+sets-kb:Jack rdf:type sets:Person ;
+    rdfs:label "Jack" ;
+    sets:uniqueID "101D" .
+
+#sets-kb:John owl:differentFrom sets-kb:Jack .
+#Throws error as expected
+# ------- Keys ------->
+
+# -------------- Class Existential Quantification -------
+# <-------  Object Some Values From -------
+sio:CollectionOf3dMolecularStructureModels rdf:type owl:Class ;
+    rdfs:subClassOf sio:Collection ,
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasMember ;
+        owl:someValuesFrom sio:3dStructureModel ] ;
+    rdfs:label "collection of 3d molecular structure models" ;
+    dct:description "A collection of 3D molecular structure models is just that." .
+
+sio:3dStructureModel rdf:type owl:Class ;
+    rdfs:subClassOf sio:TertiaryStructureDescriptor ;
+    rdfs:label "3d structure model" ;
+    dct:description "A 3D structure model is a representation of the spatial arrangement of one or more chemical entities." .
+
+sio:TertiaryStructureDescriptor rdf:type owl:Class ;
+    rdfs:subClassOf sio:BiomolecularStructureDescriptor ;
+    rdfs:label "tertiary structure descriptor" ;
+    dct:description "A tertiary structure descriptor describes 3D topological patterns in a biopolymer." .
+
+sio:BiomolecularStructureDescriptor rdf:type owl:Class ;
+    rdfs:subClassOf sio:MolecularStructureDescriptor ;
+    rdfs:label "biomolecular structure descriptor" ;
+    dct:description "A biomolecular structure descriptor is structure description for organic compounds." .
+
+sio:MolecularStructureDescriptor rdf:type owl:Class ;
+    rdfs:subClassOf sio:ChemicalQuality ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b921"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b922"/>
+    rdfs:label "molecular structure descriptor" ;
+    dct:description "A molecular structure descriptor is data that describes some aspect of the molecular structure (composition) and is about some chemical entity." .
+
+sio:ChemicalQuality rdf:type owl:Class ;
+    rdfs:subClassOf sio:ObjectQuality ;
+    rdfs:label "chemical quality" ;
+    dct:description "Chemical quality is the quality of a chemical entity." .
+
+sio:ObjectQuality rdf:type owl:Class ;
+    rdfs:subClassOf sio:Quality ;
+    rdfs:label "object quality" ;
+    dct:description "An object quality is quality of an object." .
+
+sets-kb:MolecularCollection rdf:type owl:Individual ;
+    rdfs:label "molecular collection" ;
+    sio:hasMember sets-kb:WaterMolecule .
+
+sets-kb:WaterMolecule rdf:type sio:3dStructureModel  .
+# Should result in "sets-kb:MolecularCollection rdf:type sio:CollectionOf3dMolecularStructureModels ." ? Not getting this in protege. what should we be actually expecting?
+# Confirmed that current implementation returns "sets-kb:MolecularCollection http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://semanticscience.org/resource/CollectionOf3dMolecularStructureModels" in whyis
+# -------  Object Some Values From ------->
+
+# <-------  DataSomeValuesFrom -------
+sets:Text rdf:type owl:Class ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasValue  ;
+        owl:someValuesFrom xsd:string ] .
+
+sets-kb:Question rdf:type sets:Text ;
+    sio:hasValue "How?"^^xsd:string . #"4"^^xsd:integer .
+# setting to int leads to error as expected. 
+# -------  DataSomeValuesFrom ------->
+
+# -------------- Self Restriction -------
+# <-------  ObjectHasSelf -------
+sets:SelfAttributing rdf:type owl:Class ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasAttribute ;
+            owl:hasSelf "true"^^xsd:boolean ] .
+
+sets-kb:Blue rdf:type sets:SelfAttributing .
+
+# Confirmed that "sets-kb:Blue sio:hasAttribute sets-kb:Blue" is returned in protege
+# Whyis also returns "sets-kb:Blue http://semanticscience.org/resource/hasAttribute sets-kb:Blue"
+# -------  Object Has Self ------->
+# -------------- Individual Existential Quantification -------
+# <-------  Object Has Value -------
+sets:Vehicle rdf:type owl:Class ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasPart ;
+            owl:hasValue sets-kb:Wheel ] .
+
+sets-kb:Car rdf:type sets:Vehicle ;
+    sio:hasPart sets-kb:Mirror .
+
+sets-kb:Mirror owl:differentFrom sets-kb:Wheel .
+# Infers that sets-kb:Car sio:hasPart sets-kb:Wheel . Does not return error if another part is assigned.
+# Confirmed in whyis that we get "sets-kb:Mirror http://semanticscience.org/resource/isPartOf sets-kb:Car" but not seeing car haspart mirror..
+# -------  Object Has Value ------->
+
+# <-------  Data Has Value -------
+sets:Unliked rdf:type owl:Class ;
+    owl:equivalentClass#rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sets:hasAge ;
+            owl:hasValue "23"^^xsd:integer ] .
+
+sets-kb:Tom sets:hasAge "23"^^xsd:integer .
+# Results in "sets-kb:Tom rdf:type sets:Unliked" if owl:equivalentClass is used (necessary and sufficient condition) but not if rdfs:subClassOf is used
+# Can't confirm that this is returned in whyis
+# -------  Data Has Value ------->
+
+# -------------- Individual Enumeration -------
+# <-------  Object One Of -------
+sets:Type rdf:type owl:Class ;
+    owl:oneOf (sets-kb:Integer sets-kb:String sets-kb:Boolean sets-kb:Double sets-kb:Float) .
+
+# confirmed that each individual in the list is inferred to have type sets:Type
+
+sets-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( sets-kb:Integer
+        sets-kb:String 
+        sets-kb:Boolean
+        sets-kb:Double 
+        sets-kb:Float 
+        sets-kb:Tuple 
+        ) .
+
+#sets-kb:Tuple rdf:type sets:Type .
+# Uncommenting the above line leads to an error as expected
+# -------  Object One Of ------->
+
+# <-------  Data One Of -------
+sets:hasTeenAge rdf:type owl:DatatypeProperty ;
+    rdfs:label "has age" ;
+    rdfs:range [ rdf:type owl:DataRange ;
+        owl:oneOf ("13"^^xsd:integer "14"^^xsd:integer "15"^^xsd:integer "16"^^xsd:integer "17"^^xsd:integer "18"^^xsd:integer "19"^^xsd:integer )].
+
+sets-kb:Sarah sets:hasTeenAge "13"^^xsd:integer .
+# Setting age to 12 or 20 leads to an error as expected
+# Note that we need to update range rule to account for data ranges
+# -------  Data One Of ------->
+# -------------- Class Universal Quantification -------
+# <-------  Object All Values From -------
+sio:Namespace rdf:type owl:Class ;
+    rdfs:subClassOf sio:ComputationalEntity ,
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasMember ;
+        owl:allValuesFrom sio:Identifier ] ;
+    rdfs:label "namespace" ;
+    dct:description "A namespace is an informational entity that defines a logical container for a set of symbols or identifiers." .
+
+sio:ComputationalEntity rdf:type owl:Class;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "computational entity" ;
+    dct:description "A computational entity is an information content entity operated on using some computational system." .
+
+sets-kb:NamespaceInstance rdf:type sio:Namespace ;
+    sio:hasMember sets-kb:NamespaceID .
+
+# confirmed that "sets-kb:NamespaceID rdf:type sio:Identifier ." is returned
+# -------  Object All ValuesFrom ------->
+
+# <-------  Data All Values From -------
+sets:Integer rdf:type owl:Class ;
+    rdfs:subClassOf sio:ComputationalEntity ,
+        [ rdf:type owl:Restriction ;
+        owl:onProperty sio:hasValue ;
+        owl:allValuesFrom xsd:integer ] ;
+    rdfs:label "integer" .
+
+sets-kb:Ten rdf:type sets:Integer ;
+    sio:hasValue "10"^^xsd:integer .#"10.1"^^xsd:float . #"ten"^^xsd:string .
+# Anything other than an integer leads to an inconsistency as expected.
+# -------  Data All Values From ------->
+
+# -------------- Cardinality Restriction -------
+# <-------  Object Max Cardinality -------
+sets:DeadlySins rdf:type owl:Class ;
+    rdfs:subClassOf sio:Collection ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasMember ;
+            owl:maxCardinality "8"^^xsd:integer ] ; #Set to 8 instead of 7 to keep ontology consistent
+    rdfs:label "seven deadly sins" .
+
+sets-kb:SevenDeadlySins rdf:type sets:DeadlySins ;
+    sio:hasMember 
+        sets-kb:Pride ,
+        sets-kb:Envy ,
+        sets-kb:Gluttony ,
+        sets-kb:Greed ,
+        sets-kb:Lust ,
+        sets-kb:Sloth ,
+        sets-kb:Wrath ,
+        sets-kb:Redundancy .
+
+sets-kb:DistinctSinsRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        (sets-kb:Pride 
+        sets-kb:Envy 
+        sets-kb:Gluttony 
+        sets-kb:Greed 
+        sets-kb:Lust 
+        sets-kb:Sloth 
+        sets-kb:Wrath 
+        sets-kb:Redundancy ) .
+
+# Setting cardinality above to 7 results in an error as expected .
+# -------  Object Max Cardinality ------->
+
+# <-------  Object Min Cardinality -------
+sets:StudyGroup rdf:type owl:Class ;
+    rdfs:subClassOf sio:Collection ,
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasMember ;
+            owl:minCardinality "3"^^xsd:integer ] ; 
+    rdfs:label "study group" .
+
+sets-kb:StudyGroupInstance rdf:type sets:StudyGroup ;
+    sio:hasMember 
+        sets-kb:Steve ,
+#        sets-kb:Luis ,
+        sets-kb:Ali .
+
+sets-kb:Steve rdf:type sio:Human .
+sets-kb:Luis rdf:type sio:Human .
+sets-kb:Ali rdf:type sio:Human .
+
+sets-kb:DistinctStudentsRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        (sets-kb:Steve 
+        sets-kb:Luis 
+        sets-kb:Ali ) .
+# reasoner does not throw an exception when one of the members are commented out. Also, can't find evidence in protege that a blank node was created
+# -------  Object Min Cardinality ------->
+
+# <-------  Object Exact Cardinality -------
+sets:Trio rdf:type owl:Class ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasMember ;
+            owl:cardinality "3"^^xsd:integer
+        ] .
+
+sets-kb:Stooges rdf:type sets:Trio ;
+    sio:hasMember 
+        sets-kb:Larry ,
+        sets-kb:Moe ,
+        sets-kb:Curly .
+
+sets-kb:DistinctStoogesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( sets-kb:Larry 
+        sets-kb:Moe 
+        sets-kb:Curly ) .
+
+# Setting cardinality above to 2 results in an error as expected .
+# Setting to 4 does not result in an error or a blank node being referenced
+# -------  Object Exact Cardinality ------->
+
+# <-------  Data Max Cardinality -------
+sets:hasAge rdf:type owl:DatatypeProperty ;
+    rdfs:label "has age" ;
+    rdfs:subPropertyOf sio:hasValue .
+
+sets:Person rdf:type owl:Class ;
+    rdfs:label "person" ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sets:hasAge ;
+            owl:maxCardinality "1"^^xsd:integer ] . 
+
+sets-kb:Katie rdf:type sets:Person ;
+    rdfs:label "Katie" ;
+    sets:hasAge "31"^^xsd:integer . # , "34"^^xsd:integer .
+# Confirmed that having multiple ages leads to an error as expected
+# -------  Data Max Cardinality ------->
+
+# <-------  Data Min Cardinality -------
+# Need to come back to this
+sets:hasDiameterValue rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has diameter value" .
+
+sets:ConicalCylinder rdf:type owl:Class ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sets:hasDiameterValue ;
+            owl:minCardinality "2"^^xsd:integer ] ;
+    rdfs:label "conical cylinder" .
+
+sets-kb:CoffeeContainer rdf:type sets:ConicalCylinder ;
+    sets:hasDiameterValue "1"^^xsd:integer ;#, "2"^^xsd:integer  ;
+    rdfs:label "coffee container" .
+# -------  Data Min Cardinality ------->
+
+# <-------  Data Exact Cardinality -------
+sets:hasBirthYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has birth year" .
+
+sets:Person rdf:type owl:Class ;
+    rdfs:label "person" ;
+    rdfs:subClassOf sio:Human ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sets:hasBirthYear ;
+            owl:cardinality "1"^^xsd:integer ] . 
+
+sets-kb:Erik rdf:type sets:Person ;
+    rdfs:label "Erik" ;
+    sets:hasBirthYear "1988"^^xsd:integer .#, "1998"^^xsd:integer .
+# Confirmed that not having the property assigned does not lead to an inconsistency, but having multiple values for the property does. Does not give error if the two values are the same.
+# -------  Data Exact Cardinality ------->
+
+# minInclusive, maxInclusive, intersectionOf, union, complementOf, owl:AllDisjointClasses,
+## Disjunction  (ObjectUnionOf, DisjointUnion, and DataUnionOf)
+# <-------  Object Complement Of ------- complement of comes from set theory.. are complements of lists supported in RDF? Do i need to encode this.
+sets:VitalStatus rdfs:subClassOf sio:Attribute ;
+    rdfs:label "vital status" .
+
+sets:Dead rdf:type owl:Class ;
+    rdfs:subClassOf sets:VitalStatus ;
+    rdfs:label "dead" .
+
+sets:Alive rdf:type owl:Class ;
+    rdfs:subClassOf sets:VitalStatus ;
+    rdfs:label "alive" ;
+    owl:complementOf sets:Dead .
+
+sets-kb:VitalStatusOfPat rdf:type sets:Alive ;#, sets:Dead ;
+    rdfs:label "Pat's Vital Status" ;
+    sio:isAttributeOf sets-kb:Pat .
+
+sets-kb:Pat rdf:type sio:Human ;
+    rdfs:label "Pat" .
+# Typing both vital statuses leads to a error in HermiT as expected
+# -------  Object Complement Of ------->
+
+# <-------  Object Property Complement Of ------- 
+sio:hasUnit rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has unit" ;
+    owl:inverseOf sio:isUnitOf ;
+    rdfs:range sio:UnitOfMeasurement ;
+    rdfs:subPropertyOf sio:hasAttribute ;
+    dct:description "has unit is a relation between a quantity and the unit it is a multiple of." .
+
+sio:DimensionlessQuantity rdf:type owl:Class ;
+    rdfs:label "dimensionless quantity" ;
+    rdfs:subClassOf sio:Quantity ,
+        [ rdf:type owl:Class ;
+            owl:complementOf [ rdf:type owl:Restriction ;
+                owl:onProperty sio:hasUnit ;
+                owl:someValuesFrom sio:UnitOfMeasurement ] ];
+    owl:disjointWith sio:DimensionalQuantity ;
+    dct:description "A dimensionless quantity is a quantity that has no associated unit." .
+
+sio:Quantity rdf:type owl:Class ;
+    rdfs:label "quantity" ;
+    owl:equivalentClass 
+        [ rdf:type owl:Class ; 
+            owl:unionOf (sio:DimensionlessQuantity sio:DimensionalQuantity) ] ;
+    rdfs:subClassOf sio:MeasurementValue ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b38"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b39"/>
+    dct:description "A quantity is an informational entity that gives the magnitude of a property." .
+
+sio:MeasurementValue rdf:type owl:Class ;
+    rdfs:label "measurement value" ;
+    rdfs:subClassOf sio:Number ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b47"/>
+    dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
+
+sio:Number rdf:type owl:Class ;
+    rdfs:label "number" ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    dct:description "A number is a mathematical object used to count, label, and measure." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sets-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
+    sio:hasUnit [ rdf:type sets:Percentage ] ;
+    rdfs:label "efficiency" .
+
+sets:Percentage rdfs:subClassOf sio:UnitOfMeasurement ;
+    rdfs:label "percentage" .
+# -------  Object Property Complement Of ------->
+
+# <------- Data Complement Of -------
+# need to come back to this
+# ------- Data Complement Of ------->
+
+# <------- Datatype Restriction -------
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+sio:ProbabilityMeasure rdf:type owl:Class ;
+    rdfs:subClassOf sio:DimensionlessQuantity ;
+    dct:description "A probability measure is quantity of how likely it is that some event will occur." ;
+    rdfs:label "probability measure" .
+
+sio:ProbabilityValue rdf:type owl:Class ;
+    rdfs:subClassOf sio:ProbabilityMeasure ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasValue ;
+            owl:someValuesFrom 
+                [ rdf:type rdfs:Datatype ;
+                    owl:onDatatype xsd:double ;
+                    owl:withRestrictions ( [ xsd:minInclusive "0.0"^^xsd:double ] [ xsd:maxInclusive "1.0"^^xsd:double ] ) 
+                ]
+        ] ;
+    dct:description "A p-value or probability value is the probability of obtaining a test statistic at least as extreme as the one that was actually observed, assuming that the null hypothesis is true" ;
+    #<sio:hasSynonym xml:lang="en">p-value</sio:hasSynonym>
+    rdfs:label "probability value" .
+
+sets-kb:EffortExerted rdf:type sio:ProbabilityValue ;
+    rdfs:label "effort exerted" ;
+    sio:hasValue "0.9"^^xsd:double .#"1.1"^^xsd:double .
+# ------- Datatype Restriction ------->
+
+
+# <------- All Disjoint Classes -------
+sio:Entity rdf:type owl:Class ;
+    rdfs:label "entity" ;
+    dct:description "Every thing is an entity." .
+
+sio:Process rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b17"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b18"/>
+    dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
+    rdfs:label "process" .
+
+sio:Attribute rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "attribute" ;
+    dct:description "An attribute is a characteristic of some entity." .
+
+sio:Object rdf:type owl:Class ;
+    rdfs:subClassOf sio:Entity ;
+    rdfs:label "object" ;
+    #<rdfs:subClassOf rdf:nodeID="arc703eb381"/>
+    dct:description "An object is an entity that is wholly identifiable at any instant of time during which it exists." .
+
+[ rdf:type owl:AllDisjointClasses ;
+    owl:members ( sio:Process sio:Attribute sio:Object ) ] .
+# ------- All Disjoint Classes ------->
+
+# <-------  All Disjoint Properties-------
+sets-kb:DisjointPropertiesRestriction rdf:type owl:AllDisjointProperties ;
+    owl:members ( sets:hasMother sets:hasFather sets:hasSibling ) .
+
+sets:hasMother rdf:type owl:ObjectProperty ;
+    rdfs:label "has mother" .
+
+sets:hasFather rdf:type owl:ObjectProperty ;
+    rdfs:label "has father" .
+
+sets:hasSibling rdf:type owl:ObjectProperty ;
+    rdfs:label "has sibling" .
+# -------  All Disjoint Properties ------->
+
+# <------- All Different Individuals -------
+sets-kb:DistinctTypesRestriction rdf:type owl:AllDifferent ;
+    owl:distinctMembers
+        ( sets-kb:Integer
+        sets-kb:String 
+        sets-kb:Boolean
+        sets-kb:Double 
+        sets-kb:Float 
+        sets-kb:Tuple 
+        ) .
+# ------- All Different Individuals ------->
+
+# <-------  Object Union Of -------
+sets:Virus rdf:type owl:Class ;
+    rdfs:label "virus" ;
+    rdfs:subClassOf sio:Organism ;
+    owl:disjointWith sio:CellularOrganism , sio:Non-cellularOrganism .
+# -------  Object Union Of ------->
+# <-------  Data Union Of -------
+# Need to come back to this.. not sure reasoning logic is correct
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sio:Number rdf:type owl:Class ;
+    rdfs:label "number" ;
+    rdfs:subClassOf sio:MathematicalEntity ;
+    dct:description "A number is a mathematical object used to count, label, and measure." .
+
+sio:MeasurementValue rdf:type owl:Class ;
+    rdfs:label "measurement value" ;
+    rdfs:subClassOf sio:Number ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Class ;
+            owl:unionOf ( 
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:dateTime ] 
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:double ]
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:float ]
+                [ rdf:type owl:Restriction ; 
+                    owl:onProperty sio:hasValue ;
+                    owl:someValuesFrom xsd:integer ]
+            ) ] ;
+    dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
+
+sets-kb:DateTimeMeasurement rdf:type owl:Individual ;
+    rdfs:label "date time measurement" ;
+    sio:hasValue "1990-10-14T09:00:00"^^xsd:dateTime .
+
+sets-kb:IntegerMeasurement rdf:type owl:Individual ;
+    rdfs:label "integer measurement" ;
+    sio:hasValue "12"^^xsd:integer .
+
+sets-kb:DoubleMeasurement rdf:type owl:Individual ;
+    rdfs:label "double measurement" ;
+    sio:hasValue "6.34"^^xsd:double .
+
+sets-kb:FloatMeasurement rdf:type owl:Individual ;
+    rdfs:label "float measurement" ;
+    sio:hasValue "3.14"^^xsd:float .
+# -------  Data Union Of ------->
+# <-------  Disjoint Union -----
+sio:BiologicalEntity  rdf:type owl:Class ;
+    rdfs:label "biological entity" ;
+    rdfs:subClassOf sio:HeterogeneousSubstance ;
+    dct:description "A biological entity is a heterogeneous substance that contains genomic material or is the product of a biological process." .
+
+sio:HeterogeneousSubstance  rdf:type owl:Class ;
+    rdfs:label "heterogeneous substance" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+    rdfs:subClassOf sio:ChemicalEntity ;
+#    <owl:disjointWith rdf:resource="http://semanticscience.org/resource/HomogeneousSubstance"/>
+    dct:description "A heterogeneous substance is a chemical substance that is composed of more than one different kind of component." .
+
+sio:MaterialEntity  rdf:type owl:Class ;
+    rdfs:label "material entity" ;
+    rdfs:subClassOf sio:Object ;
+#    <rdfs:subClassOf rdf:nodeID="arc0158b11"/>
+#    <rdfs:subClassOf rdf:nodeID="arc0158b12"/>
+    dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
+
+sio:ChemicalEntity  rdf:type owl:Class ;
+    rdfs:label "chemical entity" ;
+    rdfs:subClassOf sio:MaterialEntity ;
+#    <sio:equivalentTo>CHEBI:23367</sio:equivalentTo>
+    dct:description "A chemical entity is a material entity that pertains to chemistry." .
+
+sets:Lobe rdf:type owl:Class ;
+    rdfs:subClassOf sio:BiologicalEntity ;
+    rdfs:label "lobe" ;
+    dct:description "A lobe that is part the brain." ;
+    owl:equivalentClass sets:LobeDisjointUnionClass .
+
+sets:LobeDisjointUnionClass rdf:type owl:Class ;
+    owl:disjointUnionOf ( ex:FrontalLobe ex:ParietalLobe ex:TemporalLobe ex:OccipitalLobe ex:LimbicLobe ) .
+# -------  Disjoint Union ------->
+
+# <-------  Object Intersection Of -----
+sio:Molecule rdf:type owl:Class ;
+    rdfs:label "molecule" .
+
+sio:isTargetIn rdf:type owl:ObjectProperty ;
+    rdfs:label "is target in" .
+
+sio:Target rdf:type owl:Class  ;
+    owl:intersectionOf ( 
+        sio:Molecule 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:isTargetIn ;
+            owl:someValuesFrom sio:Process ] ) ;
+    rdfs:label "target" .
+
+sets-kb:ProteinReceptor rdf:type sio:Molecule ;
+    rdfs:label "protein receptor" ;
+    sio:isTargetIn sets-kb:Therapy .
+
+sets-kb:Therapy rdf:type sio:Process ;
+    rdfs:label "therapy" .
+
+# update following example. using it for testing for now
+sets-kb:Brian rdf:type sets:CanTalk , sets:Dog , sets:Friendly .
+
+sets:CanTalk rdf:type owl:Class .
+sets:Dog rdf:type owl:Class .
+sets:Friendly rdf:type owl:Class .
+
+sets:FriendlyTalkingDog rdf:type owl:Class ;
+    owl:intersectionOf (sets:CanTalk sets:Dog sets:Friendly) .
+# -------  Object Intersection Of ------->
+
+# <-------  Data Intersection Of -----
+# need to come back to this
+# -------  Data Intersection Of ------->
+
+# <------- Object Qualified Exact Cardinality -----
+sio:hasComponentPart rdf:type owl:ObjectProperty ;
+    rdfs:label "has component part" .
+
+sio:PolygonEdge rdf:type owl:Class ;
+    rdfs:subClassOf sio:LineSegment ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:isPartOf ;
+            owl:someValuesFrom sio:Polygon ] ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasComponentPart ; 
+            owl:qualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onClass sio:PolygonVertex ] ;
+    dct:description "A polygon edge is a line segment joining two polygon vertices." ;
+    rdfs:label "polygon edge" .
+
+sets-kb:TripleVertexedPolyEdge rdf:type sio:PolygonEdge ;
+    rdfs:label "triple vertexed polygon edge" ;
+    sio:hasComponentPart sets-kb:VertexOne , sets-kb:VertexTwo , sets-kb:VertexThree .
+
+sets-kb:VertexOne rdf:type sio:PolygonVertex ;
+    rdfs:label "vertex one" .
+
+sets-kb:VertexTwo rdf:type sio:PolygonVertex ;
+    rdfs:label "vertex two" .
+
+sets-kb:VertexThree rdf:type sio:PolygonVertex ;
+    rdfs:label "vertex three" .
+# ------- Object Qualified Exact Cardinality ------->
+
+# <------- Object Qualified Max Cardinality -----
+sio:hasComponentPart rdf:type owl:ObjectProperty ;
+    rdfs:label "has component part" .
+
+sio:Triangle rdf:type owl:Class ;
+    rdfs:subClassOf sio:Polygon ;
+    dct:description "A triangle is a polygon composed of three points and three line segments, in which each point is fully connected to another point along through the line segment." ;
+    rdfs:label "triangle" .
+
+sio:LineSegment rdf:type owl:Class ;
+    rdfs:subClassOf sio:Line ;
+#    <rdfs:subClassOf rdf:nodeID="arc703eb252"/>
+    dct:description "A line segment is a line and a part of a curve that is (inclusively) bounded by two terminal points." ;
+    rdfs:label "line segment" .
+
+sio:DirectedLineSegment rdf:type owl:Class ;
+    rdfs:subClassOf sio:LineSegment ;
+#    <rdfs:subClassOf rdf:nodeID="arc703eb253"/>
+#    <rdfs:subClassOf rdf:nodeID="arc703eb254"/>
+    dct:description "A directed line segment is a line segment that is contained by an ordered pair of endpoints (a start point and an endpoint)." ;
+    rdfs:label "directed line segment" .
+
+sio:ArrowedLineSegment rdf:type owl:Class ;
+    rdfs:subClassOf sio:DirectedLineSegment ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasPart ;
+            owl:someValuesFrom sio:Triangle ] ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasComponentPart ; 
+            owl:maxQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onClass sio:Triangle ] ;
+    dct:description "An arrowed line is a directed line segment in which one or both endpoints is tangentially part of a triangle that bisects the line." ;
+    rdfs:label "arrowed line segment" .
+
+sets-kb:TripleArrowLineSegment rdf:type sio:ArrowedLineSegment ;
+    rdfs:label "triple arrow line segment" ;
+    sio:hasComponentPart
+        sets-kb:LineSegment ,
+        sets-kb:FirstArrow ,
+        sets-kb:SecondArrow ,
+        sets-kb:ThirdArrow .
+
+sets-kb:FirstArrow rdf:type sio:Triangle ;
+    rdfs:label "first arrow" .
+
+sets-kb:SecondArrow rdf:type sio:Triangle ;
+    rdfs:label "second arrow" .
+
+sets-kb:ThirdArrow rdf:type sio:Triangle ;
+    rdfs:label "third arrow" .
+
+sets-kb:LineSegment rdf:type sio:LineSegment ;
+    rdfs:label "line segment " .
+# ------- Object Qualified Max Cardinality ------->
+
+# <------- Object Qualified Min Cardinality -----
+sio:Polyline rdf:type owl:Class ;
+    rdfs:subClassOf sio:GeometricEntity ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty sio:hasComponentPart ; 
+            owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onClass sio:LineSegment ] ;
+    dct:description "A polyline is a connected sequence of line segments." ;
+    rdfs:label "polyline" .
+
+sets-kb:PolylineSegment rdf:type sio:Polyline ;
+    rdfs:label "polyline segment " ;
+    sio:hasComponentPart sets-kb:LineSegmentInstance .
+
+sets-kb:LineSegmentInstance rdf:type sio:LineSegment ;
+    rdfs:label "line segment instance" .
+# ------- Object Qualified Min Cardinality ------->
+
+# <------- Data Qualified Exact Cardinality -----
+sio:hasValue rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty;
+    rdfs:label "has value" ;
+    dct:description "A relation between a informational entity and its actual value (numeric, date, text, etc)." .
+
+sets:uniqueUsername rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "unique username" .
+
+sets-kb:UsernameRestriction rdf:type owl:Restriction ;
+    owl:onProperty sets:uniqueUsername ;
+    owl:qualifiedCardinality "1"^^xsd:integer ;
+    owl:onDataRange xsd:string .
+
+sets-kb:Steve rdf:type sio:Human ;
+    rdfs:label "Steve" ;
+    sets:uniqueUsername "SteveTheGamer"^^xsd:string .# , "ScubaSteve508"^^xsd:string .
+# ------- Data Qualified Exact Cardinality ------->
+
+# <------- Data Qualified Max Cardinality -----
+sio:InformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:Object ;
+#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
+    rdfs:label "information content entity" ;
+    dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
+
+sio:MathematicalEntity rdf:type owl:Class ;
+    rdfs:subClassOf sio:InformationContentEntity ;
+    rdfs:label "mathematical entity" ;
+    dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
+
+sets:hasPolynomialRoot rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has polynomial root" .
+
+sets-kb:QuadraticPolynomialRootRestriction rdf:type owl:Restriction ;
+    owl:onProperty sets:hasPolynomialRoot ;
+    owl:maxQualifiedCardinality "2"^^xsd:integer ;
+    owl:onDataRange xsd:decimal .
+
+sets-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
+    rdfs:label "quadratic polynomial instance" ;
+    sets:hasPolynomialRoot "1.23"^^xsd:decimal , "3.45"^^xsd:decimal .# , "5.67"^^xsd:decimal .
+# ------- Data Qualified Max Cardinality ------->
+
+# <------- Data Qualified Min Cardinality -----
+sets:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf sio:hasValue ;
+    rdfs:label "has name" .
+
+sets-kb:NameRestriction rdf:type owl:Restriction ;
+    owl:onProperty sets:hasName ;
+    owl:minQualifiedCardinality "2"^^xsd:integer ;
+    owl:onDataRange xsd:string .
+
+sets-kb:Jackson rdf:type sio:Human ;
+    rdfs:label "Jackson" ;
+    sets:hasName "Jackson"^^xsd:string .
+# ------- Data Qualified Min Cardinality ------->
+

@@ -9,20 +9,20 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = "square",
+    name = "twc_square",
     version = "0.1.1",
     author = "Sabbir Rashid",
     author_email = "rashidsabbir@gmail.com",
-    description = ("The square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine"),
+    description = ("The twc_square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine"),
     license = "Apache License 2.0",
     keywords = "rdf semantic inference reasoning engine",
-    url = "http://packages.python.org/square",
-    packages=['square'],
-    long_description='''The square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine.''',
+    url = "http://packages.python.org/twc_square",
+    packages=['twc_square'],
+    long_description='''The twc_square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine.''',
     include_package_data = False,
     install_requires = [],
     entry_points = {
-        'console_scripts': ['square=square:main'],
+        'console_scripts': ['twc_square=twc_square:main'],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",

@@ -1,1 +1,1 @@
-# A validation ontology for evaluating reasoning engines
+# A test set for evaluating reasoning engines

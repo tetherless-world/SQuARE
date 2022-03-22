@@ -10,14 +10,14 @@ def read(fname):
 
 setup(
     name = "twc_square",
-    version = "0.1.1",
+    version = "0.1.8",
     author = "Sabbir Rashid",
     author_email = "rashidsabbir@gmail.com",
     description = ("The twc_square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine"),
     license = "Apache License 2.0",
     keywords = "rdf semantic inference reasoning engine",
     url = "http://packages.python.org/twc_square",
-    packages=['twc_square'],
+    packages=find_packages(),
     long_description='''The twc_square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine.''',
     include_package_data = False,
     install_requires = [],

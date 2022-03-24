@@ -103,6 +103,7 @@ In order to support potential applications involving hybrid, distributed, or cus
       - [Deductor Agent](#deductor-agent)
       - [Backtracer Agent](#backtracer-agent)
     + [Support or Contact](#support-or-contact)
+    + [Evaluation](#evaluation)
 
 ## Resources
 
@@ -3630,5 +3631,99 @@ class BackTracer(GlobalChangeService):
                         print("BackTracer Adding ", s, p, o)
                         npub.assertion.add((s, p, o))
 ```
-### Support or Contact
+## Evaluation 
+
+A
+* <p>Same Individual</p>
+* <p>Different Individuals</p>
+* <p>Class Assertion</p>
+* <p>Property Assertion</p>
+* <p>Class Equivalence</p>
+* <p>Property Equivalence</p>
+⊤
+* <p>Class Inclusion</p>
+* <p>Individual Inclusion</p>
+⊥
+* <p>Class Disjointness</p>
+𝒞 = ¬C
+* <p>Object Complement Of</p>
+𝒰 = C ∪ D
+* <p>Object Union Of</p>
+* <p>Disjoint Union</p>
+C ∩ D
+* <p>Object Intersection Of</p>
+ℰ = ∃R.C
+* <p>Object Some Values From</p>
+* <p>Property Domain</p>
+∀R.C
+* <p>Object All Values From</p>
+* <p>Property Range</p>
+ℱ
+* <p>Functional Object Property</p>
+𝒩
+* <p>Object Max Cardinality</p>
+* <p>Object Min Cardinality</p>
+* <p>Object Exact Cardinality</p>
+𝒬
+* <p>Object Max Qualified Cardinality</p>
+* <p>Object Min Qualified Cardinality</p>
+* <p>Object Exact Qualified Cardinality</p>
+𝒪
+* <p>Object One Of Membership</p>
+* <p>Object One Of Inconsistency</p>
+* <p>Object Has Value</p>
+ℐ
+* <p>Object Property Inversion</p>
+(o)
+* <p>Object Property Chain Inclusion</p>
+(id)
+* <p>Keys</p>
+(¬)
+* <p>Object Property Complement Of</p>
+ℱℐ
+* <p>Inverse Functional Object Property</p>
+𝒮
+* <p>Object Property Transitivity</p>
+ℋ
+* <p>Object Property Inclusion</p>
+ℛ
+* <p>Object Property Chain Inclusion</p>
+* <p>Negative Object Property Assertion</p>
+* <p>Property Disjointness</p>
+* <p>Symmetry</p>
+* <p>Assymetry</p>
+* <p>Object Has Self</p>
+* <p>Object Property Reflexivity</p>
+* <p>Object Property Irreflexivity</p>
+𝒞(𝒟)
+* <p>Data Complement Of</p>
+𝒰(𝒟)
+* <p>Data Union Of</p>
+ℱ(𝒟)
+* <p>Functional Data Property</p>
+ℰ(𝒟)
+* <p>Data Some Values From</p>
+∀R.C(𝒟)
+* <p>Data All Values From</p>
+𝒩(𝒟)
+* <p>Data Max Cardinality</p>
+* <p>Data Min Cardinality</p>
+* <p>Data Exact Cardinality</p>
+𝒬(𝒟)
+* <p>Data Max Qualified Cardinality</p>
+* <p>Data Min Qualified Cardinality</p>
+* <p>Data Exact Qualified Cardinality</p>
+𝒪(𝒟)
+* <p>Data One Of</p>
+* <p>Data Has Value</p>
+(¬)(𝒟)
+* <p>Data Property Complement Of</p>
+ℛ(𝒟)
+* <p>Data One Of</p>
+* <p>Data Has Value</p>
+* <p>Data Property Inclusion</p>
+* <p>Negative Data Property Assertion</p>
+
+
+## Support or Contact
 Contact us at rashis2@rpi.edu.

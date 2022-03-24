@@ -1275,7 +1275,7 @@ def get_owl_el_list():
         "Object Has Value",
         "Data Has Value",
         "Object Has Self",
-        "Object One Of Membership"
+        "Object One Of Membership",
         "Object One Of Inconsistency",
         "Data One Of",
         "Object Intersection Of",
@@ -1316,7 +1316,7 @@ def get_owl_rl_list():
         "Object Has Self",
         "Object Has Value",
         "Data Has Value",
-        "Object One Of Membership"
+        "Object One Of Membership",
         "Object One Of Inconsistency",
         "Data One Of",
         "Object All Values From",
@@ -1333,8 +1333,8 @@ def get_owl_rl_list():
         "Data Qualified Max Cardinality",
         "Data Qualified Min Cardinality",
         "Data Qualified Exact Cardinality",
-        "Datatype Restriction"
-        "Object Union Of"
+        "Datatype Restriction",
+        "Object Union Of",
         "Data Union Of"
     ]
     return OWL_RL

@@ -110,9 +110,9 @@ In order to support potential applications involving hybrid, distributed, or cus
 ### Square Evaluation Test Set
 The documentation for the test set is available [here](documentation.html).
 
-The consistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo.ttl).
+The consistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/sets.ttl).
 
-The inconsistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/valo_inconsistent.ttl).
+The inconsistent version of the test set is available [here](https://raw.githubusercontent.com/tetherless-world/validation/main/sets_inconsistent.ttl).
 
 ### SPARQL CONSTRUCT Axioms
 ### Inclusion 

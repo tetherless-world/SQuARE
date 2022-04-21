@@ -11,11 +11,13 @@ triplestore_endpoint = "http://192.168.1.11:9999/blazegraph/sparql"
 
 prefixes = ""
 active_list = DL_list 
-max_iterations = 10
+max_iterations = 3
 output = "inferences.nt"
 output_file_name = ""
 output_extension = ""
 mime_type = ""
+temp_file_name = "temp"
+save_output = True
 
 if "." in output :
     output_string=output.split(".")
@@ -57,10 +59,13 @@ while i < max_iterations :
         if entry is not None :
             for prefix in entry.get("prefixes") :
                 prefixes+= "PREFIX " + prefix + ": <" + entry.get("prefixes")[prefix] + "> "
-        
-            os.system("curl -X POST " + triplestore_endpoint +" --data-urlencode 'query=" + prefixes + "CONSTRUCT { " + entry.get("consequent") + "} WHERE { "+ entry.get("antecedent") +" FILTER NOT EXISTS { " + entry.get("consequent") + "} }' -H 'Accept:" + mime_type +"' >> " + output_file_name + output_extension)
+            if save_output == True :
+                os.system("curl -X POST " + triplestore_endpoint +" --data-urlencode 'query=" + prefixes + "CONSTRUCT { " + entry.get("consequent") + "} WHERE { "+ entry.get("antecedent") +" FILTER NOT EXISTS { " + entry.get("consequent") + "} }' -H 'Accept:" + mime_type +"' | tee " + temp_file_name + output_extension + " >> " + output_file_name + output_extension)
+            else :
+                os.system("curl -X POST " + triplestore_endpoint +" --data-urlencode 'query=" + prefixes + "CONSTRUCT { " + entry.get("consequent") + "} WHERE { "+ entry.get("antecedent") +" FILTER NOT EXISTS { " + entry.get("consequent") + "} }' -H 'Accept:" + mime_type +"' > " + temp_file_name + output_extension)
+            os.system("curl -X POST -H 'Content-Type:" + mime_type + "' --data-binary '@" + temp_file_name + output_extension + "' " + triplestore_endpoint)
         else :
             active_list.remove(axiom)
         prefixes = ""
     i += 1
-os.system("curl -X POST -H 'Content-Type:" + mime_type + "' --data-binary '@" + output_file_name + output_extension +"' " + triplestore_endpoint)
+

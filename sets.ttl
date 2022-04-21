@@ -1265,7 +1265,7 @@ sets:Lobe rdf:type owl:Class ;
     owl:equivalentClass sets:LobeDisjointUnionClass .
 
 sets:LobeDisjointUnionClass rdf:type owl:Class ;
-    owl:disjointUnionOf ( ex:FrontalLobe ex:ParietalLobe ex:TemporalLobe ex:OccipitalLobe ex:LimbicLobe ) .
+    owl:disjointUnionOf ( sets:FrontalLobe sets:ParietalLobe sets:TemporalLobe sets:OccipitalLobe sets:LimbicLobe ) .
 # -------  Disjoint Union ------->
 
 # <-------  Object Intersection Of -----

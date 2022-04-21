@@ -35,20 +35,16 @@ sio:Entity rdf:type owl:Class ;
 sio:Attribute rdf:type owl:Class ;
     rdfs:subClassOf sio:Entity ;
     rdfs:label "attribute" ;
-    #<rdfs:subClassOf rdf:nodeID="arc0158b301"/>
     dct:description "An attribute is a characteristic of some entity." .
 
 sio:RealizableEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Attribute ;
-    #<rdfs:subClassOf rdf:nodeID="arc0158b179"/>
-    #<rdfs:subClassOf rdf:nodeID="arc0158b180"/>
     dct:description "A realizable entity is an attribute that is exhibited under some condition and is realized in some process." ;
     rdfs:label "realizable entity" .
 
 sio:Quality rdf:type owl:Class ;
     rdfs:subClassOf sio:Attribute ;
     owl:disjointWith sio:RealizableEntity ;
-    #<rdfs:subClassOf rdf:nodeID="arc0158b16"/>
     dct:description "A quality is an attribute that is intrinsically associated with its bearer (or its parts), but whose presence/absence and observed/measured value may vary." ;
     rdfs:label "quality" .
 
@@ -145,16 +141,14 @@ sets-kb:Hand rdf:type owl:Individual ;
 # <------- Object Property Reflexivity  -------
 sio:Process rdf:type owl:Class ;
     rdfs:subClassOf sio:Entity ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b17"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b18"/>
     dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
     rdfs:label "process" .
 
-sets-kb:Workflow rdf:type sio:Process ;
+sets-kb:Workflow rdf:type owl:Class ;#sio:Process ;
     rdfs:label "workflow" ;
     sio:hasPart sets-kb:Step .
 
-sets-kb:Step rdf:type sio:Process ;
+sets-kb:Step rdf:type owl:Class ;#sio:Process ;
     rdfs:label "step" .
 
 # Confirmed that "sets-kb:Workflow sio:hasPart sets-kb:Workflow ." is returned
@@ -190,7 +184,6 @@ sio:MathematicalEntity rdf:type owl:Class ;
 
 sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Object ;
-#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
@@ -258,7 +251,7 @@ sio:hasRole rdf:type owl:ObjectProperty ,
 
 sio:Human  rdf:type owl:Class ;
     rdfs:label "human" ;
-    rdfs:subClassOf sio:MulticellularOrganism ;
+#    rdfs:subClassOf sio:MulticellularOrganism ;
     dct:description "A human is a primates of the family Hominidae and are characterized by having a large brain relative to body size, with a well developed neocortex, prefrontal cortex and temporal lobes, making them capable of abstract reasoning, language, introspection, problem solving and culture through social learning." .
 
 sio:MulticellularOrganism  rdf:type owl:Class ;
@@ -300,8 +293,6 @@ sio:HeterogeneousSubstance  rdf:type owl:Class ;
 sio:MaterialEntity  rdf:type owl:Class ;
     rdfs:label "material entity" ;
     rdfs:subClassOf sio:Object ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b11"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b12"/>
     dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
 
 sio:ChemicalEntity  rdf:type owl:Class ;
@@ -358,25 +349,20 @@ sio:hasProperty rdf:type owl:ObjectProperty ,
 
 sio:Symbol rdf:type owl:Class ;
     rdfs:subClassOf sio:Representation ;
-#    <rdfs:subClassOf rdf:nodeID="arc703eb86"/>
-#    <rdfs:subClassOf rdf:nodeID="arc703eb87"/>
     dct:description "A symbol is a proposition about what an entity represents." ;
     rdfs:label "symbol" .
 
 sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Object ;
-#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
 sio:Representation rdf:type owl:Class ;
-#    <owl:equivalentClass rdf:nodeID="arc703eb296"/>
     rdfs:subClassOf sio:InformationContentEntity ;
-#    <rdfs:subClassOf rdf:nodeID="arc703eb300"/>
     dct:description "A representation is a entity that in some way represents another entity (or attribute thereof)." ;
     rdfs:label "representation" .
 
-sets:MolecularFormula rdfs:subClassOf sio:Symbol ;
+sets:MolecularFormula rdf:type owl:Class ; #rdfs:subClassOf sio:Symbol ;
     rdfs:label "molecular formula" .
 
 sets-kb:Water sio:hasAttribute sets-kb:H2O ;
@@ -412,7 +398,7 @@ sio:isUnitOf rdf:type owl:ObjectProperty ;
 
 sio:Height rdf:type owl:Class ;
     rdfs:label "height" ;
-    rdfs:subClassOf sio:1DExtentQuantity ;
+    #rdfs:subClassOf sio:1DExtentQuantity ;
     dct:description "Height is the one dimensional extent along the vertical projection of a 3D object from a base plane of reference." .
 
 sio:1DExtentQuantity rdf:type owl:Class ;
@@ -423,8 +409,6 @@ sio:1DExtentQuantity rdf:type owl:Class ;
 sio:SpatialQuantity rdf:type owl:Class ;
     rdfs:label "spatial quantity" ;
     rdfs:subClassOf sio:DimensionalQuantity ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b33"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b34"/>
 #    <sio:hasSynonym xml:lang="en">physical dimensional quantity</sio:hasSynonym>
     dct:description "A spatial quantity is a quantity obtained from measuring the spatial extent of an entity." .
 
@@ -440,8 +424,8 @@ sets-kb:Tom rdf:type sio:Human ;
     rdfs:label "Tom" ;
     sio:hasAttribute sets-kb:HeightOfTom .
 
-sets-kb:HeightOfTom rdf:type sio:Height ;
-    sio:hasUnit sets-kb:Meter .
+#sets-kb:HeightOfTom rdf:type sio:Height ;
+#    sio:hasUnit sets-kb:Meter . 
 
 sets-kb:Meter rdf:type owl:Individual ;
     rdfs:label "meter" .
@@ -476,10 +460,10 @@ sets:hasFather rdf:type owl:ObjectProperty ;
 sets-kb:Jordan rdf:type sio:Human ;
     rdfs:label "Jordan" .
 
-#sets-kb:Susan rdf:type sio:Human ;
-#    rdfs:label "Susan" ;
+sets-kb:Susan rdf:type sio:Human ;
+    rdfs:label "Susan" ;
 #    sets:hasFather sets-kb:Jordan ;
-#    sets:hasMother sets-kb:Jordan .
+    sets:hasMother sets-kb:Jordan .
 
 #Throws error as expected
 
@@ -526,7 +510,7 @@ sets-kb:Face rdf:type owl:Individual ;
 # <------- Object Property Inclusion -------
 sio:Age rdf:type owl:Class ;
     rdfs:label "age" ;
-    rdfs:subClassOf sio:DimensionalQuantity ;
+    #rdfs:subClassOf sio:DimensionalQuantity ;
     dct:description "Age is the length of time that a person has lived or a thing has existed." .
 
 sio:DimensionlessQuantity rdf:type owl:Class ;
@@ -545,14 +529,11 @@ sio:Quantity rdf:type owl:Class ;
         [ rdf:type owl:Class ; 
             owl:unionOf (sio:DimensionlessQuantity sio:DimensionalQuantity) ] ;
     rdfs:subClassOf sio:MeasurementValue ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b38"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b39"/>
     dct:description "A quantity is an informational entity that gives the magnitude of a property." .
 
 sio:MeasurementValue rdf:type owl:Class ;
     rdfs:label "measurement value" ;
     rdfs:subClassOf sio:Number ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b47"/>
     dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
 
 sio:Number rdf:type owl:Class ;
@@ -712,8 +693,6 @@ sio:BiomolecularStructureDescriptor rdf:type owl:Class ;
 
 sio:MolecularStructureDescriptor rdf:type owl:Class ;
     rdfs:subClassOf sio:ChemicalQuality ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b921"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b922"/>
     rdfs:label "molecular structure descriptor" ;
     dct:description "A molecular structure descriptor is data that describes some aspect of the molecular structure (composition) and is about some chemical entity." .
 
@@ -823,7 +802,7 @@ sets-kb:Sarah sets:hasTeenAge "13"^^xsd:integer .
 # -------------- Class Universal Quantification -------
 # <-------  Object All Values From -------
 sio:Namespace rdf:type owl:Class ;
-    rdfs:subClassOf sio:ComputationalEntity ,
+    rdfs:subClassOf #sio:ComputationalEntity ,
         [ rdf:type owl:Restriction ;
         owl:onProperty sio:hasMember ;
         owl:allValuesFrom sio:Identifier ] ;
@@ -843,7 +822,7 @@ sets-kb:NamespaceInstance rdf:type sio:Namespace ;
 
 # <-------  Data All Values From -------
 sets:Integer rdf:type owl:Class ;
-    rdfs:subClassOf sio:ComputationalEntity ,
+    rdfs:subClassOf #sio:ComputationalEntity ,
         [ rdf:type owl:Restriction ;
         owl:onProperty sio:hasValue ;
         owl:allValuesFrom xsd:integer ] ;
@@ -857,7 +836,7 @@ sets-kb:Ten rdf:type sets:Integer ;
 # -------------- Cardinality Restriction -------
 # <-------  Object Max Cardinality -------
 sets:DeadlySins rdf:type owl:Class ;
-    rdfs:subClassOf sio:Collection ;
+    #rdfs:subClassOf sio:Collection ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
@@ -891,7 +870,7 @@ sets-kb:DistinctSinsRestriction rdf:type owl:AllDifferent ;
 
 # <-------  Object Min Cardinality -------
 sets:StudyGroup rdf:type owl:Class ;
-    rdfs:subClassOf sio:Collection ,
+    rdfs:subClassOf #sio:Collection ,
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
             owl:minCardinality "3"^^xsd:integer ] ; 
@@ -960,7 +939,7 @@ sets-kb:Katie rdf:type sets:Person ;
 # <-------  Data Min Cardinality -------
 # Need to come back to this
 sets:hasDiameterValue rdf:type owl:DatatypeProperty ;
-    rdfs:subPropertyOf sio:hasValue ;
+    #rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "has diameter value" .
 
 sets:ConicalCylinder rdf:type owl:Class ;
@@ -1043,14 +1022,11 @@ sio:Quantity rdf:type owl:Class ;
         [ rdf:type owl:Class ; 
             owl:unionOf (sio:DimensionlessQuantity sio:DimensionalQuantity) ] ;
     rdfs:subClassOf sio:MeasurementValue ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b38"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b39"/>
     dct:description "A quantity is an informational entity that gives the magnitude of a property." .
 
 sio:MeasurementValue rdf:type owl:Class ;
     rdfs:label "measurement value" ;
     rdfs:subClassOf sio:Number ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b47"/>
     dct:description "A measurement value is a quantitative description that reflects the magnitude of some attribute." .
 
 sio:Number rdf:type owl:Class ;
@@ -1065,16 +1041,17 @@ sio:MathematicalEntity rdf:type owl:Class ;
 
 sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Object ;
-#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
-sets-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
-    sio:hasUnit [ rdf:type sets:Percentage ] ;
-    rdfs:label "efficiency" .
+#sets-kb:Efficiency rdf:type sio:DimensionlessQuantity  ;
+#    sio:hasUnit [ rdf:type sets:Percentage ] ;
+#    rdfs:label "efficiency" .
 
 sets:Percentage rdfs:subClassOf sio:UnitOfMeasurement ;
     rdfs:label "percentage" .
+
+# Leads to error as expected
 # -------  Object Property Complement Of ------->
 
 # <------- Data Complement Of -------
@@ -1093,7 +1070,7 @@ sio:ProbabilityMeasure rdf:type owl:Class ;
     rdfs:label "probability measure" .
 
 sio:ProbabilityValue rdf:type owl:Class ;
-    rdfs:subClassOf sio:ProbabilityMeasure ;
+    #rdfs:subClassOf sio:ProbabilityMeasure ;
     rdfs:subClassOf
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasValue ;
@@ -1104,7 +1081,6 @@ sio:ProbabilityValue rdf:type owl:Class ;
                 ]
         ] ;
     dct:description "A p-value or probability value is the probability of obtaining a test statistic at least as extreme as the one that was actually observed, assuming that the null hypothesis is true" ;
-    #<sio:hasSynonym xml:lang="en">p-value</sio:hasSynonym>
     rdfs:label "probability value" .
 
 sets-kb:EffortExerted rdf:type sio:ProbabilityValue ;
@@ -1120,8 +1096,6 @@ sio:Entity rdf:type owl:Class ;
 
 sio:Process rdf:type owl:Class ;
     rdfs:subClassOf sio:Entity ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b17"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b18"/>
     dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
     rdfs:label "process" .
 
@@ -1181,7 +1155,6 @@ sio:hasValue rdf:type owl:DatatypeProperty ,
 
 sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Object ;
-#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
@@ -1248,8 +1221,6 @@ sio:HeterogeneousSubstance  rdf:type owl:Class ;
 sio:MaterialEntity  rdf:type owl:Class ;
     rdfs:label "material entity" ;
     rdfs:subClassOf sio:Object ;
-#    <rdfs:subClassOf rdf:nodeID="arc0158b11"/>
-#    <rdfs:subClassOf rdf:nodeID="arc0158b12"/>
     dct:description "A material entity is a physical entity that is spatially extended, exists as a whole at any point in time and has mass." .
 
 sio:ChemicalEntity  rdf:type owl:Class ;
@@ -1259,7 +1230,7 @@ sio:ChemicalEntity  rdf:type owl:Class ;
     dct:description "A chemical entity is a material entity that pertains to chemistry." .
 
 sets:Lobe rdf:type owl:Class ;
-    rdfs:subClassOf sio:BiologicalEntity ;
+    #rdfs:subClassOf sio:BiologicalEntity ;
     rdfs:label "lobe" ;
     dct:description "A lobe that is part the brain." ;
     owl:equivalentClass sets:LobeDisjointUnionClass .
@@ -1287,8 +1258,8 @@ sets-kb:ProteinReceptor rdf:type sio:Molecule ;
     rdfs:label "protein receptor" ;
     sio:isTargetIn sets-kb:Therapy .
 
-sets-kb:Therapy rdf:type sio:Process ;
-    rdfs:label "therapy" .
+#sets-kb:Therapy rdf:type sio:Process ;
+#    rdfs:label "therapy" .
 
 # update following example. using it for testing for now
 sets-kb:Brian rdf:type sets:CanTalk , sets:Dog , sets:Friendly .
@@ -1348,14 +1319,11 @@ sio:Triangle rdf:type owl:Class ;
 
 sio:LineSegment rdf:type owl:Class ;
     rdfs:subClassOf sio:Line ;
-#    <rdfs:subClassOf rdf:nodeID="arc703eb252"/>
     dct:description "A line segment is a line and a part of a curve that is (inclusively) bounded by two terminal points." ;
     rdfs:label "line segment" .
 
 sio:DirectedLineSegment rdf:type owl:Class ;
     rdfs:subClassOf sio:LineSegment ;
-#    <rdfs:subClassOf rdf:nodeID="arc703eb253"/>
-#    <rdfs:subClassOf rdf:nodeID="arc703eb254"/>
     dct:description "A directed line segment is a line segment that is contained by an ordered pair of endpoints (a start point and an endpoint)." ;
     rdfs:label "directed line segment" .
 
@@ -1436,7 +1404,6 @@ sets-kb:Steve rdf:type sio:Human ;
 # <------- Data Qualified Max Cardinality -----
 sio:InformationContentEntity rdf:type owl:Class ;
     rdfs:subClassOf sio:Object ;
-#    rdfs:subClassOf rdf:nodeID="arc0158b21" ;
     rdfs:label "information content entity" ;
     dct:description "An information content entity is an object that requires some background knowledge or procedure to correctly interpret." .
 
@@ -1446,7 +1413,7 @@ sio:MathematicalEntity rdf:type owl:Class ;
     dct:description "A mathematical entity is an information content entity that are components of a mathematical system or can be defined in mathematical terms." .
 
 sets:hasPolynomialRoot rdf:type owl:DatatypeProperty ;
-    rdfs:subPropertyOf sio:hasValue ;
+    #rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "has polynomial root" .
 
 sets-kb:QuadraticPolynomialRootRestriction rdf:type owl:Restriction ;
@@ -1461,7 +1428,7 @@ sets-kb:QuadraticPolynomialInstance rdf:type sio:ConceptualEntity ;
 
 # <------- Data Qualified Min Cardinality -----
 sets:hasName rdf:type owl:DatatypeProperty ;
-    rdfs:subPropertyOf sio:hasValue ;
+    #rdfs:subPropertyOf sio:hasValue ;
     rdfs:label "has name" .
 
 sets-kb:NameRestriction rdf:type owl:Restriction ;

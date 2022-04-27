@@ -144,11 +144,11 @@ sio:Process rdf:type owl:Class ;
     dct:description "A process is an entity that is identifiable only through the unfolding of time, has temporal parts, and unless otherwise specified/predicted, cannot be identified from any instant of time in which it exists." ;
     rdfs:label "process" .
 
-sets-kb:Workflow rdf:type owl:Class ;#sio:Process ;
+sets-kb:Workflow rdf:type sio:Process ;
     rdfs:label "workflow" ;
     sio:hasPart sets-kb:Step .
 
-sets-kb:Step rdf:type owl:Class ;#sio:Process ;
+sets-kb:Step rdf:type sio:Process ;
     rdfs:label "step" .
 
 # Confirmed that "sets-kb:Workflow sio:hasPart sets-kb:Workflow ." is returned
@@ -251,7 +251,7 @@ sio:hasRole rdf:type owl:ObjectProperty ,
 
 sio:Human  rdf:type owl:Class ;
     rdfs:label "human" ;
-#    rdfs:subClassOf sio:MulticellularOrganism ;
+    rdfs:subClassOf sio:MulticellularOrganism ;
     dct:description "A human is a primates of the family Hominidae and are characterized by having a large brain relative to body size, with a well developed neocortex, prefrontal cortex and temporal lobes, making them capable of abstract reasoning, language, introspection, problem solving and culture through social learning." .
 
 sio:MulticellularOrganism  rdf:type owl:Class ;
@@ -362,7 +362,7 @@ sio:Representation rdf:type owl:Class ;
     dct:description "A representation is a entity that in some way represents another entity (or attribute thereof)." ;
     rdfs:label "representation" .
 
-sets:MolecularFormula rdf:type owl:Class ; #rdfs:subClassOf sio:Symbol ;
+sets:MolecularFormula rdf:type owl:Class ; rdfs:subClassOf sio:Symbol ;
     rdfs:label "molecular formula" .
 
 sets-kb:Water sio:hasAttribute sets-kb:H2O ;
@@ -398,7 +398,7 @@ sio:isUnitOf rdf:type owl:ObjectProperty ;
 
 sio:Height rdf:type owl:Class ;
     rdfs:label "height" ;
-    #rdfs:subClassOf sio:1DExtentQuantity ;
+    rdfs:subClassOf sio:1DExtentQuantity ;
     dct:description "Height is the one dimensional extent along the vertical projection of a 3D object from a base plane of reference." .
 
 sio:1DExtentQuantity rdf:type owl:Class ;
@@ -409,7 +409,6 @@ sio:1DExtentQuantity rdf:type owl:Class ;
 sio:SpatialQuantity rdf:type owl:Class ;
     rdfs:label "spatial quantity" ;
     rdfs:subClassOf sio:DimensionalQuantity ;
-#    <sio:hasSynonym xml:lang="en">physical dimensional quantity</sio:hasSynonym>
     dct:description "A spatial quantity is a quantity obtained from measuring the spatial extent of an entity." .
 
 sio:DimensionalQuantity rdf:type owl:Class ;
@@ -424,8 +423,8 @@ sets-kb:Tom rdf:type sio:Human ;
     rdfs:label "Tom" ;
     sio:hasAttribute sets-kb:HeightOfTom .
 
-#sets-kb:HeightOfTom rdf:type sio:Height ;
-#    sio:hasUnit sets-kb:Meter . 
+sets-kb:HeightOfTom rdf:type sio:Height ;
+    sio:hasUnit sets-kb:Meter . 
 
 sets-kb:Meter rdf:type owl:Individual ;
     rdfs:label "meter" .
@@ -510,7 +509,7 @@ sets-kb:Face rdf:type owl:Individual ;
 # <------- Object Property Inclusion -------
 sio:Age rdf:type owl:Class ;
     rdfs:label "age" ;
-    #rdfs:subClassOf sio:DimensionalQuantity ;
+    rdfs:subClassOf sio:DimensionalQuantity ;
     dct:description "Age is the length of time that a person has lived or a thing has existed." .
 
 sio:DimensionlessQuantity rdf:type owl:Class ;
@@ -555,7 +554,7 @@ sets:hasExactValue rdf:type owl:DatatypeProperty ;
     rdfs:label "has exact value" ;
     rdfs:subPropertyOf sio:hasValue .
 
-sets-kb:AgeOfSamantha sets:hasExactValue "25.82"^^xsd:decimal .
+sets-kb:AgeOfSamantha sets:hasExactValue "25.82"^^xsd:double .
 
 # Confirmed that "sets-kb:AgeOfSamantha sio:hasValue 25.82 ." is returned
 # Confirmed whyis adds "sets-kb:AgeOfSamantha http://semanticscience.org/resource/hasValue 25.82"
@@ -802,7 +801,7 @@ sets-kb:Sarah sets:hasTeenAge "13"^^xsd:integer .
 # -------------- Class Universal Quantification -------
 # <-------  Object All Values From -------
 sio:Namespace rdf:type owl:Class ;
-    rdfs:subClassOf #sio:ComputationalEntity ,
+    rdfs:subClassOf sio:ComputationalEntity ,
         [ rdf:type owl:Restriction ;
         owl:onProperty sio:hasMember ;
         owl:allValuesFrom sio:Identifier ] ;
@@ -822,7 +821,7 @@ sets-kb:NamespaceInstance rdf:type sio:Namespace ;
 
 # <-------  Data All Values From -------
 sets:Integer rdf:type owl:Class ;
-    rdfs:subClassOf #sio:ComputationalEntity ,
+    rdfs:subClassOf sio:ComputationalEntity ,
         [ rdf:type owl:Restriction ;
         owl:onProperty sio:hasValue ;
         owl:allValuesFrom xsd:integer ] ;
@@ -836,7 +835,7 @@ sets-kb:Ten rdf:type sets:Integer ;
 # -------------- Cardinality Restriction -------
 # <-------  Object Max Cardinality -------
 sets:DeadlySins rdf:type owl:Class ;
-    #rdfs:subClassOf sio:Collection ;
+    rdfs:subClassOf sio:Collection ;
     rdfs:subClassOf 
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
@@ -870,7 +869,7 @@ sets-kb:DistinctSinsRestriction rdf:type owl:AllDifferent ;
 
 # <-------  Object Min Cardinality -------
 sets:StudyGroup rdf:type owl:Class ;
-    rdfs:subClassOf #sio:Collection ,
+    rdfs:subClassOf sio:Collection ,
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasMember ;
             owl:minCardinality "3"^^xsd:integer ] ; 
@@ -976,21 +975,23 @@ sets-kb:Erik rdf:type sets:Person ;
 # minInclusive, maxInclusive, intersectionOf, union, complementOf, owl:AllDisjointClasses,
 ## Disjunction  (ObjectUnionOf, DisjointUnion, and DataUnionOf)
 # <-------  Object Complement Of ------- complement of comes from set theory.. are complements of lists supported in RDF? Do i need to encode this.
-sets:VitalStatus rdfs:subClassOf sio:Attribute ;
-    rdfs:label "vital status" .
 
-sets:Dead rdf:type owl:Class ;
-    rdfs:subClassOf sets:VitalStatus ;
-    rdfs:label "dead" .
+# <-- this example is leading to issues in other parts of the ontology
+#sets:VitalStatus rdfs:subClassOf sio:Attribute ;
+#    rdfs:label "vital status" .
 
-sets:Alive rdf:type owl:Class ;
-    rdfs:subClassOf sets:VitalStatus ;
-    rdfs:label "alive" ;
-    owl:complementOf sets:Dead .
+#sets:Dead rdf:type owl:Class ;
+#    rdfs:subClassOf sets:VitalStatus ;
+#    rdfs:label "dead" .
 
-sets-kb:VitalStatusOfPat rdf:type sets:Alive ;#, sets:Dead ;
-    rdfs:label "Pat's Vital Status" ;
-    sio:isAttributeOf sets-kb:Pat .
+#sets:Alive rdf:type owl:Class ;
+#    rdfs:subClassOf sets:VitalStatus ;
+#    rdfs:label "alive" ;
+#    owl:complementOf sets:Dead .
+
+#sets-kb:VitalStatusOfPat rdf:type sets:Alive ;#, sets:Dead ;
+#    rdfs:label "Pat's Vital Status" ;
+#    sio:isAttributeOf sets-kb:Pat .
 
 sets-kb:Pat rdf:type sio:Human ;
     rdfs:label "Pat" .
@@ -1070,7 +1071,7 @@ sio:ProbabilityMeasure rdf:type owl:Class ;
     rdfs:label "probability measure" .
 
 sio:ProbabilityValue rdf:type owl:Class ;
-    #rdfs:subClassOf sio:ProbabilityMeasure ;
+    rdfs:subClassOf sio:ProbabilityMeasure ;
     rdfs:subClassOf
         [ rdf:type owl:Restriction ;
             owl:onProperty sio:hasValue ;
@@ -1107,7 +1108,6 @@ sio:Attribute rdf:type owl:Class ;
 sio:Object rdf:type owl:Class ;
     rdfs:subClassOf sio:Entity ;
     rdfs:label "object" ;
-    #<rdfs:subClassOf rdf:nodeID="arc703eb381"/>
     dct:description "An object is an entity that is wholly identifiable at any instant of time during which it exists." .
 
 [ rdf:type owl:AllDisjointClasses ;
@@ -1230,7 +1230,7 @@ sio:ChemicalEntity  rdf:type owl:Class ;
     dct:description "A chemical entity is a material entity that pertains to chemistry." .
 
 sets:Lobe rdf:type owl:Class ;
-    #rdfs:subClassOf sio:BiologicalEntity ;
+    rdfs:subClassOf sio:BiologicalEntity ;
     rdfs:label "lobe" ;
     dct:description "A lobe that is part the brain." ;
     owl:equivalentClass sets:LobeDisjointUnionClass .
@@ -1258,8 +1258,8 @@ sets-kb:ProteinReceptor rdf:type sio:Molecule ;
     rdfs:label "protein receptor" ;
     sio:isTargetIn sets-kb:Therapy .
 
-#sets-kb:Therapy rdf:type sio:Process ;
-#    rdfs:label "therapy" .
+sets-kb:Therapy rdf:type sio:Process ;
+    rdfs:label "therapy" .
 
 # update following example. using it for testing for now
 sets-kb:Brian rdf:type sets:CanTalk , sets:Dog , sets:Friendly .

@@ -1,23 +1,40 @@
 import twc_square
 import os
+import configparser
+
+config = configparser.ConfigParser()
+config.read("config.ini")
 
 RulesDict = twc_square.get_rules()
-EL_list = twc_square.get_owl_el_list()
-RL_list = twc_square.get_owl_rl_list()
-QL_list = twc_square.get_owl_ql_list()
-DL_list = twc_square.get_owl_dl_list()
+EL = twc_square.get_owl_el_list()
+RL = twc_square.get_owl_rl_list()
+QL = twc_square.get_owl_ql_list()
+DL = twc_square.get_owl_dl_list()
 
-triplestore_endpoint = "http://192.168.1.11:9999/blazegraph/sparql"
+triplestore_endpoint = config['DEFAULT']['triplestore_endpoint']
 
 prefixes = ""
-active_list = DL_list 
-max_iterations = 3
-output = "inferences.nt"
+
+profile = config['DEFAULT']['profile']
+if profile == "DL" :
+    active_list = DL
+elif profile == "RL" :
+    active_list = RL
+elif profile == "QL" :
+    active_list = QL
+elif profile == "EL" :
+    active_list = EL
+else :
+    active_list = RL
+    
+max_iterations =  int(config['DEFAULT']['max_iterations'])
+output = config['DEFAULT']['output_file'] #"inferences.nt"
+
 output_file_name = ""
 output_extension = ""
 mime_type = ""
 temp_file_name = "temp"
-save_output = True
+save_output = config.getboolean('DEFAULT','save_output')
 
 if "." in output :
     output_string=output.split(".")
@@ -68,4 +85,4 @@ while i < max_iterations :
             active_list.remove(axiom)
         prefixes = ""
     i += 1
-
+os.system("rm " + temp_file_name + output_extension)

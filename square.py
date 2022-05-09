@@ -10,7 +10,7 @@ EL = twc_square.get_owl_el_list()
 RL = twc_square.get_owl_rl_list()
 QL = twc_square.get_owl_ql_list()
 DL = twc_square.get_owl_dl_list()
-
+print(DL)
 triplestore_endpoint = config['DEFAULT']['triplestore_endpoint']
 
 prefixes = ""

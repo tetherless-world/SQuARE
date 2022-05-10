@@ -1,3 +1,7 @@
+# References
+# w3.org/TR/owl2-syntax
+# w3.org/TR/owl2-profiles
+
 def get_rules() :
     InferenceRules = dict(
         Triple_Reference = { # eq-ref
@@ -10,7 +14,7 @@ def get_rules() :
             "consequent" : "?s owl:sameAs ?s . ?p owl:sameAs ?p . ?o owl:sameAs ?o .",
             "explanation" : "All resources are the same as themselves."
         },
-        Class_Disjointness = { # cax-dw
+        Class_Disjointness = { # cax-dw  -- aligns with 9.1.3 Disjoint Classes
             "reference" : "Class Disjointness",
             "rule" : "sets:ClassDisjointnessRule",
             "resource" : "?x", 
@@ -23,32 +27,48 @@ def get_rules() :
             "consequent" : "?x rdf:type owl:Nothing .",
             "explanation" : "Since {{c1}} is a disjoint with {{c2}}, any resource that is an instance of {{c1}} can't be an instance of {{c2}}. Therefore, since {{x}} is an instance of both {c1}} and {{c2}}, an inconsistency occurs."
         },
-        Object_Property_Transitivity = { # prp-trp
+        Object_Property_Transitivity = { # addapted from prp-trp (to reference owl:ObjectProperty)-- aligns with 9.2.13
             "reference" : "Object Property Transitivity",
             "rule" : "sets:ObjectPropertyTransitivityRule",
             "resource" : "?x", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
+        
         ?x ?p ?y .
         ?y  ?p ?z .
-        ?p rdf:type owl:TransitiveProperty .''',
+        ?p rdf:type owl:ObjectProperty , owl:TransitiveProperty .''',
             "consequent" : "?x ?p ?z .",
             "explanation" : "Since {{p}} is a transitive object property, and the relationships {{x}} {{p}} {{y}} and {{y}} {{p}} {{z}} exist, then we can infer that {{x}} {{p}} {{z}}."
         },
-        Object_Property_Reflexivity = { # not supported by OWL-RL
+        Object_Property_Reflexivity_One = { # not supported by OWL-RL --- aligns with 9.2.9 Reflexive Object Properties -- but the example in the doc doesn't discuss domains -- should look into this further
             "reference" : "Object Property Reflexivity",
-            "rule" : "sets:ObjectPropertyReflexivityRule",
-            "resource" : "?resource", 
+            "rule" : "sets:ObjectPropertyReflexivityTwoRule",
+            "resource" : "?p", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
-        ?resource rdf:type ?type ;
-            ?reflexiveProperty ?o .
-        ?o rdf:type ?type .
-        ?reflexiveProperty rdf:type owl:ReflexiveProperty .''',
-            "consequent" : "?resource ?reflexiveProperty ?resource .",
-            "explanation" : "Since {{resource}} has a {{reflexiveProperty}} assertion to {{o}}, {{resource}} and {{o}} are both of type {{type}}, and {{reflexiveProperty}} is a reflexive property, we can infer that {{resource}} {{reflexiveProperty}} {{resource}}."
+        {
+            ?x rdf:type owl:Individual .
+        } UNION {
+            ?x rdf:type/rdf:type owl:Class .
+        }
+        ?p rdf:type owl:ReflexiveProperty .
+        FILTER NOT EXISTS (?p rdfs:domain ?c .)''',
+            "consequent" : "?x ?p ?x .",
+            "explanation" : "Since {{p}} is a reflexive property without a domain specified, for all individuals {{x}} in the ontology, we can infer that {{x}} {{p}} {{x}}."
         },
-        Property_Domain_One = { # prp-dom
+        Object_Property_Reflexivity_Two = { # not supported by OWL-RL
+            "reference" : "Object Property Reflexivity Two",
+            "rule" : "sets:ObjectPropertyReflexivityTwoRule",
+            "resource" : "?p", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+        ?x rdf:type ?c .
+        ?p rdf:type owl:ReflexiveProperty ;
+            rdfs:domain ?c .''',
+            "consequent" : "?x ?p ?x .",
+            "explanation" : "Since {{p}} is a reflexive property with a domain specified, for all individuals {{x}} in that domain, we can infer that {{x}} {{p}} {{x}}."
+        },
+        Property_Domain_One = { # prp-dom  # note -- data and object property domains are both encoded with these sets of rules.. may want to separate out
             "reference" : "Property Domain One",
             "rule" : "sets:PropertyDomainOneRule",
             "resource" : "?x", 
@@ -81,7 +101,7 @@ def get_rules() :
             "consequent" : "?p1 rdfs:domain ?c .",
             "explanation" : "Since the domain of {{p2}} is {{c}}, and {{p1}} is a subproperty of {{p2}}, this implies that the domain of {{p1}} is also {{c}}."
         },
-        Property_Range_One = { # prp-rng
+        Property_Range_One = { # prp-rng  # note -- data and object property ranges are both encoded with these sets of rules.. may want to separate out
             "reference" : "Property Range One",
             "rule" : "sets:PropertyRangeOneRule",
             "resource" : "?resource",
@@ -114,7 +134,7 @@ def get_rules() :
             "consequent" : "?p1 rdfs:range ?c .",
             "explanation" : "Since the range of {{p2}} is {{c}}, and {{p1}} is a subproperty of {{p2}}, this implies that the range of {{p1}} is also {{c}}."
         },
-        Functional_Data_Property = {
+        Functional_Data_Property = { # in line with 9.3.6 Function Data Properties
             "reference" : "Functional Data Property",
             "rule" : "sets:FunctionalDataPropertyRule",
             "resource" : "?x", 
@@ -127,7 +147,7 @@ def get_rules() :
             "consequent" : "?x rdf:type owl:Nothing .",
             "explanation" : "Since {{p}} is a functional data property, {{x}} can only have one value for {{p}}. Since {{x}} {{p}} both {{y1}} and {{y2}}, and {{y1}} is different from {{y2}}, an inconsistency occurs."
         },
-        Functional_Object_Property = { # prp-fp
+        Functional_Object_Property = { # prp-fp --- aligns with 9.2.7 Functional Object Properties
             "reference" : "Functional Object Property",
             "rule" : "sets:FunctionalObjectPropertyRule",
             "resource" : "?x", 
@@ -140,21 +160,39 @@ def get_rules() :
             "consequent" : "?y1 owl:sameAs ?y2 .",
             "explanation" : "Since {{p}} is a functional object property, {{x}} can only have one value for {{p}}. Since {{x}} {{p}} both {{y1}} and {{y2}}, we can infer that {{y1}} and {{y2}} must be the same individual."
         },
-        Property_Disjointness = { # prp-pdw
-            "reference" : "Property Disjointness",
-            "rule" : "sets:PropertyDisjointnessRule",
+        Object_Property_Disjointness = { # adapted from prp-pdw (to include reference to ObjectProperty) .. also in line with 9.2.3 Disjoint Object Properties -- however, 9.2.3 alludes to the ability to define a list of properties that are all disjoint with eachother . Nevertheless, this is supported with the AllDisjointProperties rule
+            "reference" : "Object Property Disjointness",
+            "rule" : "sets:ObjectPropertyDisjointnessRule",
             "resource" : "?x", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
         ?x ?p1 ?y .
         ?x ?p2 ?y .
+        ?p1 rdf:type owl:ObjectProperty .
+        ?p2 rdf:type owl:ObjectProperty .
         {?p1 owl:propertyDisjointWith ?p2 .}
             UNION
         {?p2 owl:propertyDisjointWith ?p1 .}''',
             "consequent" : "?x rdf:type owl:Nothing .",
             "explanation" : "Since properties {p1} and {p2} are disjoint, {{x}} having both {{p2}} {{y}} as well as {{p1}} {{y}} leads to an inconsistency. "
         },
-        Object_Property_Asymmetry = { # prp-asyp
+        Data_Property_Disjointness = { # adapted from prp-pdw (to include reference to DataProperty) -- also in line with 9.3.3 Disjoint Data Properties
+            "reference" : "Data Property Disjointness",
+            "rule" : "sets:DataPropertyDisjointnessRule",
+            "resource" : "?x", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+        ?x ?p1 ?y .
+        ?x ?p2 ?y .
+        ?p1 rdf:type owl:DatatypeProperty .
+        ?p2 rdf:type owl:DatatypeProperty .
+        {?p1 owl:propertyDisjointWith ?p2 .}
+            UNION
+        {?p2 owl:propertyDisjointWith ?p1 .}''',
+            "consequent" : "?x rdf:type owl:Nothing .",
+            "explanation" : "Since properties {p1} and {p2} are disjoint, {{x}} having both {{p2}} {{y}} as well as {{p1}} {{y}} leads to an inconsistency. "
+        },
+        Object_Property_Asymmetry = { # prp-asyp -- aligned with 9.2.12 Assymetric Object Properties
             "reference" : "Object Property Asymmetry",
             "rule" : "sets:ObjectPropertyAsymmetryRule",
             "resource" : "?resource", 
@@ -166,7 +204,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{asymmetricProperty}} is an asymmetric property, and {{resource}} {{asymmetricProperty}} {{o}}, then the assertion {{o}} {{asymmetricProperty}} {{resource}} results in an inconsistency."
         },
-        Object_Property_Symmetry = { # prp-symp
+        Object_Property_Symmetry = { # prp-symp -- aligns with 9.2.11 Symmetric object property
             "reference" : "Object Property Symmetry",
             "rule" : "sets:ObjectPropertySymmetryRule",
             "resource" : "?resource", 
@@ -177,7 +215,7 @@ def get_rules() :
             "consequent" : "?o ?symmetricProperty ?resource .",
             "explanation" : "Since {{symmetricProperty}} is a symmetric property, and {{resource}} {{symmetricProperty}} {{o}}, we can infer that {{o}} {{symmetricProperty}} {{resource}}."
         },
-        Object_Property_Irreflexivity = { # prp-irp
+        Object_Property_Irreflexivity = { # prp-irp -- aligns with 9.2.10 Irreflexive Object Properties
             "reference" : "Object Property Irreflexivity",
             "rule" : "sets:ObjectPropertyIrreflexivityRule",
             "resource" : "?resource", 
@@ -199,7 +237,7 @@ def get_rules() :
             "consequent" : "?c rdfs:subClassOf ?c , owl:Thing ; owl:equivalentClass ?c . owl:Nothing rdfs:subClassOf ?c .",
             "explanation" : "Since {{c}} is a class, it is a subclass of itself and owl:Thing and is equivalent to itself. Furthermore, owl:Nothing is a subclass of {{c}}."
         },
-        Class_Inclusion = { # scm-sco
+        Class_Inclusion = { # scm-sco   -- aligns with 9.1.1 SubClass Axioms
             "reference" : "Class Inclusion",
             "rule" : "sets:ClassInclusionRule",
             "resource" : "?c1", 
@@ -221,7 +259,7 @@ def get_rules() :
             "consequent" : "?x rdf:type ?c2 .",
             "explanation" : "Since {{c1}} is a subclass of {{c2}}, any individual that is an instance of {{c1}} is also an instance of {{c2}}. Therefore, {{x}} is an instance of {{c2}}."
         },
-        Object_Property_Inclusion_One = { # prp-spo1
+        Object_Property_Inclusion_One = { # prp-spo1 -- aligns with 9.2.1 Object Subproperties
             "reference" : "Object Property Inclusion One",
             "rule" : "sets:ObjectPropertyInclusionOneRule",
             "resource" : "?resource", 
@@ -247,7 +285,7 @@ def get_rules() :
             "consequent" : "?p1 rdfs:subPropertyOf ?p3 .",
             "explanation" : "Since {{p2}} is a subproperty of {{p3}}, any class that is a subproperty of {{p2}} is also a subproperty of {{p3}}. Therefore, {{p1}} is a subproperty of {{p3}}."
         },
-        Data_Property_Inclusion_One = { # prp-spo1
+        Data_Property_Inclusion_One = { # prp-spo1  -- also in line with 9.3.1 Data Subproperties
             "reference" : "Data Property Inclusion One",
             "rule" : "sets:DataPropertyInclusionOneRule",
             "resource" : "?resource",
@@ -273,7 +311,7 @@ def get_rules() :
             "consequent" : "?p1 rdfs:subPropertyOf ?p3 .",
             "explanation" : "Since {{p2}} is a subproperty of {{p3}}, any class that is a subproperty of {{p2}} is also a subproperty of {{p3}}. Therefore, {{p1}} is a subproperty of {{p3}}."
         },
-        Class_Equivalence_One = { # cax-eqc1
+        Class_Equivalence_One = { # cax-eqc1  -- somewhat aligns with 9.1.2 Equivalent Classes -- in those examples they use value restrictions
             "reference" : "Class Equivalence One",
             "rule" : "sets:ClassEquivalenceOneRule",
             "resource" : "?x", 
@@ -286,7 +324,7 @@ def get_rules() :
             "consequent" : "?x rdf:type ?c2 .",
             "explanation" : "{{c1}} is equivalent to {{c2}}, so since {{x}} is a {{c1}}, it is also a {{c2}}."
         },
-        Class_Equivalence_Two = { # cax-eqc2
+        Class_Equivalence_Two = { # cax-eqc2  -- this rule may be redundant -- should check
             "reference" : "Class Equivalence Two",
             "rule" : "sets:ClassEquivalenceTwoRule",
             "resource" : "?x", 
@@ -299,7 +337,7 @@ def get_rules() :
             "consequent" : "?x rdf:type ?c1 .",
             "explanation" : "{{c1}} is equivalent to {{c2}}, so since {{x}} is a {{c2}}, it is also a {{c1}}."
         },
-        Class_Equivalence_Three = { # cax-eqc1
+        Class_Equivalence_Three = { # cax-eqc1 -- aligns with 9.1.2 Equivalent Classes
             "reference" : "Class Equivalence Three",
             "rule" : "sets:ClassEquivalenceThreeRule",
             "resource" : "?c1", 
@@ -322,7 +360,7 @@ def get_rules() :
             "consequent" : "?c1 owl:equivalentClass ?c2 .",
             "explanation" : "Since {{c1}} and {{c2}} are both subclasses of eachother, they are equivalent classes."
         },
-        Object_Property_Equivalence_One = { # prp-eqp1
+        Object_Property_Equivalence_One = { # prp-eqp1 -- aligns with 9.2.2 Equivalent Object Properties
             "reference" : "Object Property Equivalence One",
             "rule" : "sets:ObjectPropertyEquivalenceOneRule",
             "resource" : "?x", 
@@ -352,7 +390,7 @@ def get_rules() :
             "consequent" : "?x ?p1 ?y .",
             "explanation" : "The properties {{p1}} and {{p2}} are equivalent. Therefore, since {{x} {{p2}} {{y}}, it is implied that {{x}} {{p1}} {{y}}."
         },
-        Object_Property_Equivalence_Three = { # scm-eqp1
+        Object_Property_Equivalence_Three = { # scm-eqp1  -- aligns with 9.2.2 Equivalent Object Properties
             "reference" : "Object Property Equivalence Three",
             "rule" : "sets:ObjectPropertyEquivalenceThreeRule",
             "resource" : "?p1", 
@@ -379,7 +417,7 @@ def get_rules() :
             "consequent" : "?p1 owl:equivalentProperty ?p2 .",
             "explanation" : "Since {{p1}} and {{p2}} are both subproperties of eachother, they are equivalent properties."
         },
-        Data_Property_Equivalence_One = { # prp-eqp1
+        Data_Property_Equivalence_One = { # prp-eqp1 -- also in line with 9.3.2 Equivalent Data Properties
             "reference" : "Data Property Equivalence One",
             "rule" : "sets:DataPropertyEquivalenceOneRule",
             "resource" : "?x", 
@@ -394,7 +432,7 @@ def get_rules() :
             "consequent" : "?x ?p2 ?y .",
             "explanation" : "The properties {{p1}} and {{p2}} are equivalent. Therefore, since {{x} {{p1}} {{y}}, it is implied that {{x}} {{p2}} {{y}}."
         },
-        Data_Property_Equivalence_Two = { # prp-eqp2
+        Data_Property_Equivalence_Two = { # prp-eqp2  -- This rule might be redundant. Should test to confirm
             "reference" : "Data Property Equivalence Two",
             "rule" : "sets:DataPropertyEquivalenceTwoRule",
             "resource" : "?x", 
@@ -436,7 +474,7 @@ def get_rules() :
             "consequent" : "?p1 owl:equivalentProperty ?p2 .",
             "explanation" : "Since {{p1}} and {{p2}} are both subproperties of eachother, they are equivalent properties."
         },
-        Object_Property_Inversion_One = { # prp-inv-1
+        Object_Property_Inversion_One = { # prp-inv-1 - in line with 6.1.1 Inverse Object Properties and 9.2.4 Inverse Object Properties
             "reference" : "Object Property Inversion One",
             "rule" : "sets:ObjectPropertyInversionOneRule",
             "resource" : "?x", 
@@ -451,7 +489,7 @@ def get_rules() :
             "consequent" : "?y ?p2 ?x .",
             "explanation" : "The object properties {{p1}} and {{p2}} are inversely related to eachother. Therefore, since {{x}} {{p1}} {{y}}, it is implied that {{y}} {{p2}} {{x}}."
         },
-        Object_Property_Inversion_Two = { # prp-inv-2
+        Object_Property_Inversion_Two = { # prp-inv-2 # this rule may be redundant, should test
             "reference" : "Object Property Inversion One",
             "rule" : "sets:ObjectPropertyInversionOneRule",
             "resource" : "?x", 
@@ -486,9 +524,9 @@ def get_rules() :
             "consequent" : "?x owl:sameAs ?z .",
             "explanation" : "Since {{x}} is the same as {{y}} and {{y}} same as {{z}, {{x}} is the same as {{z}}."
         },
-        Same_Individual = { # same subject    eq-rep-s
-            "reference" : "Same Individual",
-            "rule" : "sets:SameIndividualRule",
+        Same_Subject = { # eq-rep-s
+            "reference" : "Same Subject",
+            "rule" : "sets:SameSubjectRule",
             "resource" : "?sp", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"},
             "antecedent" :  '''
@@ -558,7 +596,7 @@ def get_rules() :
             "consequent" : "?member owl:differentFrom ?item .",
             "explanation" : "Since {{restriction}} is an all different restriction with individuals listed in {{list}}, each member in {{list}} is different from each other member in the list."
         },
-        Positive_Object_Property_Assertion = {
+        Positive_Object_Property_Assertion = { # This is essentially just the ability to use object properties, so doesn't necessarily need a rule -- our implementation also assets the object of a triple that includes an object property is an individual
             "reference" : "Positive Object Property Assertion",
             "rule" : "sets:PositiveObjectPropertyAssertionRule",
             "resource" : "?o", 
@@ -569,7 +607,7 @@ def get_rules() :
             "consequent" : "?o rdf:type owl:Individual .",
             "explanation" : "Since {{p}} is defined to be an object property, {{o}} must be an individual ."
         },
-        Positive_Data_Property_Assertion = {
+        Positive_Data_Property_Assertion = { # This is essentially just the ability to use datatype properties, so doesn't necessarily need a rule -- our implementation also assets the object of a triple that includes a datatype property is a literal
             "reference" : "Positive Data Property Assertion",
             "rule" : "sets:PositiveDataPropertyAssertionRule",
             "resource" : "?o", 
@@ -577,8 +615,8 @@ def get_rules() :
             "antecedent" :  '''
         ?p rdf:type owl:DatatypeProperty .
         ?s ?p ?o.''',
-            "consequent" : "?o rdf:type rdfs:Datatype .",
-            "explanation" : "Since {{p}} is defined to be a data property, {{o}} must be a datatype."
+            "consequent" : "?o rdf:type rdfs:Literal .",
+            "explanation" : "Since {{p}} is defined to be a data property, {{o}} must be a literal."
         },
         Object_Property_Definition = { # scm-op
             "reference" : "Object Property Definition",
@@ -630,9 +668,9 @@ def get_rules() :
             "consequent" : "?i rdf:type owl:Nothing .",
             "explanation" : "Since a negative datatype property assertion was made with source {{i}}, datatype property {{p}}, and target value {{lt}}, the existence of {{i}} {{p}} {{lt}} results in an inconsistency."
         },
-        Keys = { # prp-key -- this currently supports single keys. need to support a list of key as well
-            "reference" : "Keys",
-            "rule" : "sets:KeysRule",
+        Single_Key = { # prp-key -- note in 9.5 datatype key properties are discussed -- may need to encode some of those rules
+            "reference" : "Single Key",
+            "rule" : "sets:SingleKeyRule",
             "resource" : "?x", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
@@ -645,7 +683,22 @@ def get_rules() :
             "consequent" : "?x owl:sameAs ?y .",
             "explanation" : "Since {{c}} has key {{keyProperty}}, {{x}} and {{y}} are both of type {{c}}, and {{x}} and {{y}} both {{keyProperty}} {{keyValue}}, then {{x}} and {{y}} must be the same."
         },
-        Inverse_Functional_Object_Property = { # prp-ifp
+        Multiple_Keys = { # prp-key -- prob not correct
+            "reference" : "Multiple Keys",
+            "rule" : "sets:MultipleKeysRule",
+            "resource" : "?x", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+        ?c owl:hasKey ?u .
+        ?u rdf:rest*/rdf:first ?pi .
+        ?x rdf:type ?c .
+        ?x ?pi ?z .
+        ?y ?pi ?z .
+        ?y rdf:type ?c .''',
+            "consequent" : "?x owl:sameAs ?y .",
+            "explanation" : "Since {{c}} has key {{keyProperty}}, {{x}} and {{y}} are both of type {{c}}, and {{x}} and {{y}} both {{keyProperty}} {{keyValue}}, then {{x}} and {{y}} must be the same."
+        },
+        Inverse_Functional_Object_Property = { # prp-ifp --- aligns with 9.2.8 Inverse-Functional Object Properties
             "reference" : "Inverse Functional Object Property",
             "rule" : "sets:InverseFunctionalObjectPropertyRule",
             "resource" : "?x1", 
@@ -658,7 +711,7 @@ def get_rules() :
             "consequent" : "?x1 owl:sameAs ?x2",
             "explanation" : "Since {{p}} is an inverse functional property, and {{x1}} and {{x2}} both have the relationship {{p}} {{o}}, then we can infer that {{x1}} is the same as {{x2}}."
         },
-        Object_Some_Values_From_One = {# cls-svf1 , cls-svf2
+        Object_Some_Values_From_One = {# cls-svf1 , cls-svf2 -- in line with 8.2.1 Existential Quantification
             "reference" : "Object Some Values From One",
             "rule" : "sets:ObjectSomeValuesFromOneRule",
             "resource" : "?u", 
@@ -708,7 +761,7 @@ def get_rules() :
             "consequent" : "?c1 rdfs:subClassOf ?c2 .",
             "explanation" : ""
         },
-        Data_Some_Values_From = {
+        Data_Some_Values_From = { # Not quite in line with 8.4.1 Existential Quantification -- should revisit
             "reference" : "Data Some Values From",
             "rule" : "sets:DataSomeValuesFromRule",
             "resource" : "?resource", 
@@ -723,9 +776,9 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "{{resource}} {{datatypeProperty}} {{val}}, but {{val}} does not the same datatype {{value}} restricted for {{datatypeProperty}} in {{class}}. Since {{resource}} rdf:type {{class}}, an inconsistency occurs."
         },#Data some and all values from behave the same as each other..? May need to revisit
-        Object_Has_Self = { # not included in the document .. is this included in RL?
-            "reference" : "Object Has Self",
-            "rule" : "sets:ObjectHasSelfRule",
+        Object_Has_Self_One = { # not included in the document .. is this included in RL? included in profile but should confirm
+            "reference" : "Object Has Self One", 
+            "rule" : "sets:ObjectHasSelfOneRule",
             "resource" : "?resource", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
@@ -735,6 +788,19 @@ def get_rules() :
             (owl:equivalentClass*|rdfs:subClassOf*)/owl:hasSelf \"true\"^^xsd:boolean .''',
             "consequent" : "?resource ?objectProperty ?resource .",
             "explanation" : "{{resource}} is of type {{class}}, which has a self restriction on the property {{objectProperty}}, allowing us to infer {{resource}} {{objectProperty}} {{resource}}."
+        },
+        Object_Has_Self = { # aligns with 8.2.4 Self-Restriction
+            "reference" : "Object Has Self Two", 
+            "rule" : "sets:ObjectHasSelfTwoRule",
+            "resource" : "?resource", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+        ?resource ?objectProperty ?resource
+        ?objectProperty rdf:type owl:ObjectProperty .
+        ?class (owl:equivalentClass*|rdfs:subClassOf*)/owl:onProperty ?objectProperty ;
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:hasSelf \"true\"^^xsd:boolean .''',
+            "consequent" : "?resource rdf:type ?class .",
+            "explanation" : "{{resource}} {{objectProperty}} {{resource}} and {{class}} has a self restriction on the property {{objectProperty}}, allowing us to infer {{resource}} is of type {{class}}."
         },
         Object_Has_Value_One = { # cls-hv1
             "reference" : "Object Has Value One",
@@ -749,7 +815,7 @@ def get_rules() :
             "consequent" : "?u ?p ?y .",
             "explanation" : "Since {{u}} is of type {{x}}, which has a value restriction on {{p}} to have value {{y}}, we can infer that {{u}} {{p}} {{y}}."
         },
-        Object_Has_Value_Two = { # cls-hv2
+        Object_Has_Value_Two = { # cls-hv2 -- in line with 8.2.3 Individual value restriction
             "reference" : "Object Has Value Two",
             "rule" : "sets:ObjectHasValueTwoRule",
             "resource" : "?u",
@@ -776,7 +842,7 @@ def get_rules() :
             "consequent" : "?c1 rdfs:subClassOf ?c2 .",
             "explanation" : "Since {{c1}} has a value restriction of {{i}} on property {{p1}} and {{c2}} has a value restriction of {{i}} on property {{p2}}, and {{p1}} is a subproperty of {{p2}}, we can infer that {{c1}} is a subclass of {{c2}}."
         },
-        Data_Has_Value = {
+        Data_Has_Value = { #  aligns with 8.4.3 Literal Value Restriction but still should look into this further -- Note that only owl:equivalentClass results in inference, not rdfs:subClassOf -- need to understand why
             "reference" : "Data Has Value",
             "rule" : "sets:DataHasValueRule",
             "resource" : "?resource", 
@@ -784,14 +850,12 @@ def get_rules() :
             "antecedent" :  '''
         ?resource ?datatypeProperty ?value .
         ?datatypeProperty rdf:type owl:DatatypeProperty .
-        ?class owl:equivalentClass
-            [ rdf:type owl:Restriction ;
-                owl:onProperty ?datatypeProperty ;
-                owl:hasValue ?value ].''',
+        ?class owl:equivalentClass*/owl:onProperty ?datatypeProperty ;
+            owl:equivalentClass*/owl:hasValue ?value .''',
             "consequent" : "?resource rdf:type ?class .",
             "explanation" : "Since {{class}} is equivalent to the restriction on {{datatypeProperty}} to have value {{value}} and {{resource}} {{datatypeProperty}} {{value}}, we can infer that {{resource}} rdf:type {{class}}."
-        },#Note that only owl:equivalentClass results in inference, not rdfs:subClassOf
-        Object_One_Of_Membership = { # cls-oo
+        },
+        Object_One_Of_Membership = { # cls-oo -- note this is not quite the same as 8.1.4 Enumeration of Individuals
             "reference" : "Object One Of Membership",
             "rule" : "sets:ObjectOneOfMembershipRule",
             "resource" : "?c", 
@@ -803,7 +867,7 @@ def get_rules() :
             "consequent" : "?yi rdf:type ?c .",
             "explanation" : "Since {{c}} has a one of relationship with {{x}}, the member {{yi}} in {{x}} is of type {{c}}."
         },
-        Object_One_Of_Inconsistency = {
+        Object_One_Of_Inconsistency = { # is this encoded somewhere? is this necessary? some thinking to do
             "reference" : "Object One Of Inconsistency",
             "rule" : "sets:ObjectOneOfInconsistencyRule",
             "resource" : "?resource", 
@@ -828,7 +892,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{class}} has a one of relationship with {{list}}, and {{resource}} is not in {{list}}, the assertion {{resource}} is a {{class}} leads to an inconsistency."# may need to revisit.. do we also check owl:differentFrom?
         },
-        Data_One_Of = {
+        Data_One_Of = { # See 7.4 Enumeration of Literals -- still need to come back to this to test if it works
             "reference" : "Data One Of",
             "rule" : "sets:DataOneOfRule",
             "resource" : "?resource", 
@@ -855,7 +919,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{datatypeProperty}} is restricted to have a value from {{list}}, and {{resource}} {{datatypeProperty}} {{value}}, but {{value}} is not in {{list}}, an inconsistency occurs."
         }, #need to come back to this
-        Object_All_Values_From_One = { # cls-avf
+        Object_All_Values_From_One = { # cls-avf -- may be in line with 8.2.2 Universal quantification. may need to check closer
             "reference" : "Object All Values From One",
             "rule" : "sets:ObjectAllValuesFromOneRule",
             "resource" : "?v", 
@@ -897,7 +961,7 @@ def get_rules() :
             "consequent" : "?c2 rdfs:subClassOf ?c1 .",  # why is this reversed? this is from the documentation but should understand why
             "explanation" : ""
         },
-        Data_All_Values_From = {
+        Data_All_Values_From = { # might be correct and maybe aligns with 8.4.3 Literal Value Restriction -- should confirm though
             "reference" : "Data All Values From",
             "rule" : "sets:DataAllValuesFromRule",
             "resource" : "?resource", 
@@ -940,7 +1004,7 @@ def get_rules() :
             "consequent" : "?y1 owl:sameAs ?y2 .",
             "explanation" : "Since {{p}} is assigned a maximum cardinality of 1 for class {{x}}, {{u}} rdf:type {{x}}, and {{u}} {{p}} {{y1}} as well as {{u}} {{p}} {{y2}}, we can conclude that {{y1}} is the same as {{y2}}."
         },
-        Object_Max_Cardinality_Three = {
+        Object_Max_Cardinality_Three = { # See 8.3.2 to confirm encoding
             "reference" : "Object Max Cardinality Three",
             "rule" : "sets:ObjectMaxCardinalityThreeRule",
             "resource" : "?resource", 
@@ -972,7 +1036,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{objectProperty}} is assigned a maximum cardinality of {{cardinalityValue}} for class {{class}}, {{resource}} rdf:type {{class}}, and {{resource}} has {{objectCount}} distinct assignments of {{objectProperty}} which is greater than {{cardinalityValue}}, we can conclude that there is an inconsistency associated with {{resource}}."
         },# Still need to check distinctness of object
-        Object_Min_Cardinality = {#Works, but for lists of size greater than 1, additional (unnecessary) blank nodes are added. LIMIT 1 on the result would address this, but it is outside the where query
+        Object_Min_Cardinality = {#Works, but for lists of size greater than 1, additional (unnecessary) blank nodes are added. LIMIT 1 on the result would address this, but it is outside the where query --- See 8.3.1 to confirm encoding
             "reference" : "Object Min Cardinality",
             "rule" : "sets:ObjectMinCardinalityRule",
             "resource" : "?resource", 
@@ -1002,7 +1066,7 @@ def get_rules() :
             "consequent" : "?resource ?objectProperty [ rdf:type owl:Individual ] .",
             "explanation" : "Since {{objectProperty}} is assigned a minimum cardinality of {{cardinalityValue}} for class {{class}}, {{resource}} rdf:type {{class}}, and {{resource}} has {{objectCount}} distinct assignments of {{objectProperty}} which is less than {{cardinalityValue}}, we can conclude the existence of additional assignments of {{objectProperty}} for {{resource}}."
         },# Still need to check distinctness
-            Object_Exact_Cardinality = {
+            Object_Exact_Cardinality = { # See 8.3.3 to confirm encoding
                 "reference" : "Object Exact Cardinality",
                 "rule" : "sets:ObjectExactCardinalityRule",
                 "resource" : "?resource", 
@@ -1033,7 +1097,7 @@ def get_rules() :
                 "consequent" : "?resource rdf:type owl:Nothing .",
                 "explanation" : "Since {{objectProperty}} is assigned an exact cardinality of {{cardinalityValue}} for class {{class}}, {{resource}} rdf:type {{class}}, and {{resource}} has {{objectCount}} distinct assignments of {{objectProperty}} which is greater than {{cardinalityValue}}, we can conclude that there is an inconsistency associated with {{resource}}."
             },# Still need to check distinctness of object
-        Data_Max_Cardinality = {
+        Data_Max_Cardinality = { # See 8.5.2 to confirm encoding
             "reference" : "Data Max Cardinality",
             "rule" : "sets:DataMaxCardinalityRule",
             "resource" : "?resource", 
@@ -1063,7 +1127,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{dataProperty}} is assigned a maximum cardinality of {{cardinalityValue}} for class {{class}}, {{resource}} rdf:type {{class}}, and {{resource}} has {{dataCount}} distinct assignments of {{dataProperty}} which is greater than {{cardinalityValue}}, we can conclude that there is an inconsistency associated with {{resource}}."
         },
-        Data_Min_Cardinality = {
+        Data_Min_Cardinality = { # See 8.5.1 to confirm encoding
             "reference" : "Data Min Cardinality",
             "rule" : "sets:DataMinCardinalityRule",
             "resource" : "?resource", 
@@ -1095,7 +1159,7 @@ def get_rules() :
             "consequent" : "?resource ?dataProperty [ rdf:type rdfs:Datatype ] .",
             "explanation" : "Since {{dataProperty}} is assigned a minimum cardinality of {{cardinalityValue}} for class {{class}}, {{resource}} rdf:type {{class}}, and {{resource}} has {{dataCount}} distinct assignments of {{dataProperty}} which is less than {{cardinalityValue}}, we can conclude the existence of additional assignments of {{dataProperty}} for {{resource}}."
         },
-        Data_Exact_Cardinality = {
+        Data_Exact_Cardinality = { # See 8.5.3 to confirm encoding
             "reference" : "Data Exact Cardinality",
             "rule" : "sets:DataExactCardinalityRule",
             "resource" : "?resource", 
@@ -1127,7 +1191,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{dataProperty}} is assigned an exact cardinality of {{cardinalityValue}} for class {{class}}, {{resource}} rdf:type {{class}}, and {{resource}} has {{dataCount}} distinct assignments of {{dataProperty}} which is greater than {{cardinalityValue}}, we can conclude that there is an inconsistency associated with {{resource}}."
         }, # -- This is currently only accounting for max. Min accounted for in data min rule
-        Object_Union_Of_One = { # cls-uni
+        Object_Union_Of_One = { # cls-uni  -- in line with 8.1.2 Union of CLass Expressions
             "reference" : "Object Union Of One",
             "rule" : "sets:ObjectUnionOfOneRule",
             "resource" : "?y", 
@@ -1146,30 +1210,27 @@ def get_rules() :
             "resource" : "?c", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
-        ?c (owl:equivalentClass*|rdfs:subClassOf*)/owl:unionOf ?x .
+        ?c rdf:type owl:Class ;
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:unionOf ?x .
         ?x rdf:rest*/rdf:first ?ci .
         ''',
             "consequent" : "?ci rdfs:subClassOf ?c .",
             "explanation" : "Since {{c}} is the union of the the members in {{x}}, we can infer each of the members in the list is a subclass of {{c}}."
         },
-        Disjoint_Union = { # Not included in OWL-RL
+        Disjoint_Union = { # Not included in OWL-RL  aligns with 9.1.4 Disjoint Union of Class Expressions 
             "reference" : "Disjoint Union",
             "rule" : "sets:DisjointUnionRule",
             "resource" : "?resource", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
         ?resource rdf:type owl:Class ;
-            rdfs:subClassOf|owl:equivalentClass
-                [ rdf:type owl:Class ;
-                    owl:disjointUnionOf ?list ] .
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:disjointUnionOf ?list .
         ?list rdf:rest*/rdf:first ?member .
         {
             SELECT DISTINCT ?item ?class WHERE 
             {
                 ?class rdf:type owl:Class ;
-                    rdfs:subClassOf|owl:equivalentClass
-                        [ rdf:type owl:Class ;
-                            owl:disjointUnionOf ?list ] .
+                    (owl:equivalentClass*|rdfs:subClassOf*)/owl:disjointUnionOf ?list .
                 ?list rdf:rest*/rdf:first ?item .
             }
         }
@@ -1178,27 +1239,33 @@ def get_rules() :
             "consequent" : "?member rdfs:subClassOf ?resource ; owl:disjointWith ?item .",
             "explanation" : "Since the class {{resource}} has a subclass or equivalent class relation with a class that comprises the disjoint union of {{list}}, which contains member {{member}}, we can infer that {{member}} is a subclass of {{resource}} and disjoint with the other members of the list."
         },
-        Data_Union_Of = { # may be same as object union be with datatypes
-            "reference" : "Data Union Of",
-            "rule" : "sets:DataUnionOfRule",
-            "resource" : "?resource", 
+        Data_Union_Of_One = { # adapted from cls-uni .. also in line with 7.2 Union of Data Ranges
+            "reference" : "Data Union Of One",
+            "rule" : "sets:DataUnionOfOneRule",
+            "resource" : "?y", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
-        ?class rdf:type owl:Class ;
-            rdfs:subClassOf|owl:equivalentClass
-                [ rdf:type owl:Class ;
-                    owl:unionOf ?list ] .
-        ?list rdf:rest*/rdf:first ?member .
-        ?member rdf:type owl:Restriction ;
-            owl:onProperty ?dataProperty ;
-            owl:someValuesFrom ?datatype . 
-        ?dataProperty rdf:type owl:DatatypeProperty .
-        ?resource ?dataProperty ?data .
-        FILTER( DATATYPE( ?data ) = ?datatype )''', #need to come back and make sure logic is correct on this one
-            "consequent" : "?resource rdf:type ?class .",
-            "explanation" : ""#add explanation here
+        ?c rdf:type rdfs:Datatype ;
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:unionOf ?x .
+        ?x rdf:rest*/rdf:first ?ci .
+        ?y rdf:type ?ci.''',
+            "consequent" : "?y rdf:type ?c .",
+            "explanation" : "Since {{y}} is of type one of the members of list {{x}}, and {{c}} owl:unionOf {{x}}, we can infer that {{y}} is of type {{c}}."
         },
-        Object_Complement_Of = { # cls-com
+        Data_Union_Of_Two = { # adapted from scm-uni
+            "reference" : "Data Union Of Two",
+            "rule" : "sets:DataUnionOfTwoRule",
+            "resource" : "?c", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+        ?c rdf:type rdfs:Datatype ;
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:unionOf ?x .
+        ?x rdf:rest*/rdf:first ?ci .
+        ''',
+            "consequent" : "?ci rdfs:subClassOf ?c .",
+            "explanation" : "Since {{c}} is the union of the the members in {{x}}, we can infer each of the members in the list is a subclass of {{c}}."
+        },
+        Object_Complement_Of = { # cls-com -- note the example in 8.1.3 takes into account disjoint classes and if an instance is part of c1 that is disjoint with c2 and c3 owl:complementOf c2 , we can infer that the instance is in c3 -- also from 9.1.4 there is a relationship between complements and disjoint unions
             "reference" : "Object Complement Of",
             "rule" : "sets:ObjectComplementOfRule",
             "resource" : "?x", 
@@ -1207,13 +1274,13 @@ def get_rules() :
         ?x rdf:type ?c1 , ?c2 .
         ?c1 rdf:type owl:Class .
         ?c2 rdf:type owl:Class .
-        {?class owl:complementOf ?complementClass .} 
+        {?c1 owl:complementOf ?c2 .} 
             UNION 
-        {?complementClass owl:complementOf ?class .}''',
+        {?c2 owl:complementOf ?c1 .}''',
             "consequent" : "?x rdf:type owl:Nothing .",
             "explanation" : "Since {{c1}} and {{c2}} are complementary, {{x}} being of type both {{c1}} and {{c2}} leads to an inconsistency."
         },
-        Data_Complement_Of = {
+        Data_Complement_Of = { # not quite the extent of 7.3 Complement of Data Ranges, where we find the set of data ranges (this may be possible if we encode each of the datatypes), but results in the same inconsistency
             "reference" : "Data Complement Of",
             "rule" : "sets:DataComplementOfRule",
             "resource" : "?resource", 
@@ -1228,20 +1295,17 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{datatype}} is the complement of {{complement}}, {{dataProperty}} has range {{datatype}}, and {{resource}} {{dataProperty}} {{value}}, but {{value}} is of type {{complement}}, an inconsistency occurs."
         },
-        Object_Property_Complement_Of = {
+        Object_Property_Complement_Of = { # how is this supposed to differ from object complement of
             "reference" : "Object Property Complement Of",
             "rule" : "sets:ObjectPropertyComplementOfRule",
             "resource" : "?resource", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
         ?class rdf:type owl:Class ;
-            rdfs:subClassOf|owl:equivalentClass
-                [ rdf:type owl:Class ;
-                    owl:complementOf 
-                        [ rdf:type owl:Restriction ;
-                            owl:onProperty ?objectProperty ;
-                            owl:someValuesFrom ?restrictedClass ] 
-                ] .
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:complementOf 
+                [ rdf:type owl:Restriction ;
+                owl:onProperty ?objectProperty ;
+                owl:someValuesFrom ?restrictedClass ] .
         ?resource rdf:type ?class ;
             ?objectProperty [ rdf:type ?objectClass ] .
         ?objectProperty rdf:type owl:ObjectProperty .
@@ -1255,20 +1319,17 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{class}} is a subclass of or is equivalent to a class with a complement restriction on the use of {{objectProperty}} to have values from {{restrictedClass}}, and {{resource}} is of type {{class}}, but has the link {{objectProperty}} to have values from an instance of {{restrictedClass}}, an inconsistency occurs." # do we also consider lists or complementary properties here?
         },
-        Data_Property_Complement_Of = {
+        Data_Property_Complement_Of = { # how is this supposed to differ from data complement of
             "reference" : "Data Property Complement Of",
             "rule" : "sets:DataPropertyComplementOfRule",
             "resource" : "?resource", 
             "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
             "antecedent" :  '''
         ?class rdf:type owl:Class ;
-            rdfs:subClassOf|owl:equivalentClass
-                [ rdf:type owl:Class ;
-                    owl:complementOf 
-                        [ rdf:type owl:Restriction ;
-                            owl:onProperty ?dataProperty ;
-                            owl:someValuesFrom ?datatype ] 
-                ] .
+            (owl:equivalentClass*|rdfs:subClassOf*)/owl:complementOf 
+                [ rdf:type owl:Restriction ;
+                owl:onProperty ?dataProperty ;
+                owl:someValuesFrom ?datatype ] .
         ?resource rdf:type ?class ;
             ?dataProperty ?value .
         ?dataProperty rdf:type owl:DatatypeProperty .
@@ -1276,7 +1337,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{resource}} is a {{class}} which is equivalent to or a subclass of a class that has a complement of restriction on {{dataProperty}} to have some values from {{datatype}}, {{resource}} {{dataProperty}} {{value}}, but {{value}} has a datatype {{datatype}}, an inconsistency occurs."
         },
-        Object_Intersection_Of_One = { # cls-int1  -- not done correctly yet
+        Object_Intersection_Of_One = { # cls-int1  -- not done correctly yet -- when done correctly, will be in line with 8.1.1
             "reference" : "Object Intersection Of One",
             "rule" : "sets:ObjectIntersectionOfOneRule",
             "resource" : "?y", 
@@ -1329,18 +1390,19 @@ def get_rules() :
             "consequent" : "?c rdfs:subClassOf ?ci .",
             "explanation" : "Since {{c}} is the intersection of the the members in {{x}}, we can infer {{c}} is the subclass of each of the members in the list."
         },
-    #        Data_Intersection_Of = {
-    #            "reference" : "Data Intersection Of",
-    #            "rule" : "sets:DataIntersectionOf",
-    #            "resource" : "?resource", 
-    #            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
-    #            "antecedent" :  '''
-    #    ?datatype rdf:type rdfs:Datatype ;
-    #        owl:intersectionOf ?list .
-    #    ?list rdf:rest*/rdf:first ?member .''',
-    #            "consequent" : "?resource rdf:type owl:Nothing .",
-    #            "explanation" : ""
-    #        },
+        Data_Intersection_Of = { # 7.1 - Intersection of Data Ranges
+            "reference" : "Data Intersection Of",
+            "rule" : "sets:DataIntersectionOf",
+            "resource" : "?resource", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+        ?datatype rdf:type rdfs:Datatype ;
+            owl:intersectionOf ?list .
+        ?list rdf:rest*/rdf:first ?member .
+        ?resource rdf:type ?datatype''',
+            "consequent" : "?resource rdf:type ?member .",
+            "explanation" : "Since {{resource}} is of type {{?datatype}}, and {{datatype}} is the intersection of all of the elements in {{list}}, we can infer that {{resouurce}} is of type each element in {{list}}."
+        },
         Object_Max_Qualified_Cardinality_One = { # cls-maxqc1
             "reference" : "Object Max Qualified Cardinality One",
             "rule" : "sets:ObjectMaxQualifiedCardinalityOneRule",
@@ -1404,7 +1466,7 @@ def get_rules() :
             "consequent" : "?y1 owl:sameAs ?y2.",
             "explanation" : "Since {{p}} is assigned a maximum qualified cardinality of 1 for {{x}} on class owl:Thing, {{u}} rdf:type {{x}}, and {{u}} {{p}} {{y1}} as well as {{u}} {{p}} {{y2}}, we can conclude that {{y1}} is the same as {{y2}}."
         },
-        Object_Max_Qualified_Cardinality_Five = {
+        Object_Max_Qualified_Cardinality_Five = { # original max cardinality rule that accounts for more than just 0 and 1
             "reference" : "Object Max Qualified Cardinality Five",
             "rule" : "sets:ObjectMaxQualifiedCardinalityFiveRule",
             "resource" : "?resource", 
@@ -1598,7 +1660,7 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{datatypeProperty}} is constrained with a qualified cardinality restriction on datatype {{datatype}} to have {{cardinalityValue}} values, and {{resource}} has {{valueCount}} values of type {{datatype}} for property {{datatypeProperty}}, an inconsistency occurs."# currently the same as qualified max. need to incorporate min requirement
         },
-        Datatype_Restriction = { # didn't see datatype restriction in the doc
+        Datatype_Restriction = { # See 7.5 Datatype restrictions -- this implementation allows min and max, but there is surely more types of restrictions possible
             "reference" : "Datatype Restriction",
             "rule" : "sets:DatatypeRestrictionRule",
             "resource" : "?resource", 
@@ -1693,6 +1755,8 @@ def get_rules() :
     )
     return InferenceRules
 
+
+Same_Individual = [ "Triple Reference" , "Same As Symmetry" , "Same As Transitivity" ,  "Same Subject" , "Same Property" , "Same Object"]
 Property_Domain = [ "Property Domain One" , "Property Domain Two" , "Property Domain Three" ]
 Property_Range = [ "Property Range One" , "Property Range Two" , "Property Range Three" ]
 Object_Property_Inclusion = [ "Object Property Inclusion One" , "Object Property Inclusion Two" ] 
@@ -1709,16 +1773,21 @@ Object_Max_Cardinality = [ "Object Max Cardinality One" , "Object Max Cardinalit
 Object_Max_Qualified_Cardinality = [ "Object Max Qualified Cardinality One" , "Object Max Qualified Cardinality Two" , "Object Max Qualified Cardinality Three" , "Object Max Qualified Cardinality Four" , "Object Max Qualified Cardinality Five" ]
 Object_Union_Of = [ "Object Union Of One" , "Object Union Of Two" ]
 Object_Intersection_Of = [ "Object Intersection Of One" , "Object Intersection Of Two" , "Object Intersection Of Three" ]
+Object_Property_Reflexivity = [ "Object Property Reflexivity One", "Object Property Reflexivity Two" ]
+Data_Union_Of = [ "Data Union Of One", "Data Union Of Two"]
+Object_Has_Self = [ "Object Has Self One", "Object Has Self Two"]
 
 def get_owl_el_list():
     OWL_EL = [
         "Class Inclusion",
+        "Individual Inclusion",
         "Class Disjointness",
+        "Object Property Definition",
+        "Data Property Definition",
         "Object Property Transitivity",
-        "Object Property Reflexivity",
         "Functional Data Property",
-        "Same Individual",
         "Different Individuals",
+        "All Different Individuals",
         "Class Assertion",
         "Positive Object Property Assertion",
         "Positive Data Property Assertion",
@@ -1727,11 +1796,10 @@ def get_owl_el_list():
         "Keys",
         "Data Some Values From",
         "Data Has Value",
-        "Object Has Self",
         "Data One Of",
         "Data Intersection Of",
         "Object Property Chain Inclusion",
-    ] + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value
+    ] + Same_Individual + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value + Object_Property_Reflexivity + Object_Has_Self
 
     return OWL_EL
 
@@ -1742,13 +1810,17 @@ def get_owl_rl_list():
         "Functional Data Property",
         "Functional Object Property",
         "Object Property Irreflexivity",
+        "Object Property Definition",
+        "Data Property Definition",
         "Inverse Functional Object Property",
-        "Property Disjointness",
+        "Object Property Disjointness",
+        "Data Property Disjointness",
         "Object Property Symmetry",
         "Object Property Asymmetry",
         "Class Inclusion",
-        "Same Individual",
+        "Individual Inclusion",
         "Different Individuals",
+        "All Different Individuals",
         "Class Assertion",
         #"Positive Object Property Assertion",
         #"Positive Data Property Assertion",
@@ -1756,7 +1828,6 @@ def get_owl_rl_list():
         "Negative Data Property Assertion",
         "Keys",
         "Data Some Values From",
-        "Object Has Self",
         "Data Has Value",
         "Data One Of",
         "Data All Values From",
@@ -1771,25 +1842,28 @@ def get_owl_rl_list():
         "Data Min Qualified Cardinality",
         "Data Exact Qualified Cardinality",
         "Datatype Restriction",
-        "Data Union Of",
         "Object Property Complement Of"
-    ] + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value + Object_Property_Inversion + Object_All_Values_From + Object_Max_Cardinality + Object_Max_Qualified_Cardinality + Object_Union_Of
+    ] + Same_Individual + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value + Object_Property_Inversion + Object_All_Values_From + Object_Max_Cardinality + Object_Max_Qualified_Cardinality + Object_Union_Of + Data_Union_Of + Object_Has_Self
     return OWL_RL
 
 def get_owl_ql_list():
     OWL_QL = [
         "Class Inclusion",
+        "Individual Inclusion",
         "Class Disjointness",
+        "Object Property Definition",
+        "Data Property Definition",
         "Object Property Inversion",
         "Object Property Inclusion",
         "Object Property Equivalence",
         "Data Property Equivalence",
-        "Property Disjointness",
+        "Object Property Disjointness",
+        "Data Property Disjointness",
         "Object Property Symmetry",
-        "Object Property Reflexivity",
         "Object Property Irreflexivity",
         "Object Property Asymmetry",
         "Different Individuals",
+        "All Different Individuals",
         "Class Assertion",
         #"Positive Object Property Assertion",
         #"Positive Data Property Assertion"
@@ -1799,25 +1873,26 @@ def get_owl_ql_list():
         "Object Some Values From",
         "Data Some Values From",
         "Object Intersection Of",
-    ] + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_Some_Values_From + Object_Intersection_Of + Object_Property_Inversion
+    ] + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_Some_Values_From + Object_Intersection_Of + Object_Property_Inversion + Object_Property_Reflexivity
     return OWL_QL
 
 def get_owl_dl_list():
     OWL_DL =[
         "Class Disjointness",
+        "Object Property Definition",
+        "Data Property Definition",
         "Object Property Transitivity",
         "Functional Data Property",
         "Functional Object Property",
         "Object Property Irreflexivity",
         "Inverse Functional Object Property",
-        "Property Disjointness",
+        "Object Property Disjointness",
+        "Data Property Disjointness",
         "Object Property Symmetry",
         "Object Property Asymmetry",
-        "Object Property Reflexivity",
         "Class Inclusion",
         "Individual Inclusion",
         "Object Complement Of",
-        "Same Individual",
         "All Different Individuals",
         "All Disjoint Classes",
         "All Disjoint Properties",
@@ -1831,7 +1906,6 @@ def get_owl_dl_list():
         "Negative Data Property Assertion",
         "Keys",
         "Data Some Values From",
-        "Object Has Self",
         "Data Has Value",
         "Object Property Complement Of",
         "Data One Of",
@@ -1847,9 +1921,8 @@ def get_owl_dl_list():
         "Data Min Qualified Cardinality",
         "Data Exact Qualified Cardinality",
         "Datatype Restriction",
-        "Data Union Of",
         "Disjoint Union",
         "Object Property Chain Inclusion",
         "Data Intersection Of"
-    ] + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value + Object_Property_Inversion + Object_All_Values_From + Object_Max_Cardinality + Object_Max_Qualified_Cardinality + Object_Union_Of # Also need minInclusive, maxInclusive <-- included in Datatype restriction but is this enough?
+    ] + Same_Individual + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value + Object_Property_Inversion + Object_All_Values_From + Object_Max_Cardinality + Object_Max_Qualified_Cardinality + Object_Union_Of + Object_Property_Reflexivity + Object_Has_Self + Data_Union_Of# Also need minInclusive, maxInclusive <-- included in Datatype restriction but is this enough?
     return OWL_DL

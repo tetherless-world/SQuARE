@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name = "twc_square",
-    version = "0.2.7",
+    version = "0.2.8",
     author = "Sabbir Rashid",
     author_email = "rashidsabbir@gmail.com",
     description = ("The twc_square package contains configuration entries for SQuARE, the SPARQL Query Agent-based Reasoning Engine"),

@@ -72,6 +72,7 @@ else :
 i = 0 
 while i < max_iterations :
     for axiom in active_list :
+        print(axiom)
         entry = RulesDict.get(axiom.replace(" ","_"))
         if entry is not None :
             for prefix in entry.get("prefixes") :

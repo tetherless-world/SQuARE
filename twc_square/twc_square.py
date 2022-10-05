@@ -25,7 +25,7 @@ def get_rules() :
             UNION
         { ?c2 owl:disjointWith ?c1 . }''',
             "consequent" : "?x rdf:type owl:Nothing .",
-            "explanation" : "Since {{c1}} is a disjoint with {{c2}}, any resource that is an instance of {{c1}} can't be an instance of {{c2}}. Therefore, since {{x}} is an instance of both {c1}} and {{c2}}, an inconsistency occurs."
+            "explanation" : "Since {{c1}} is a disjoint with {{c2}}, any resource that is an instance of {{c1}} can't be an instance of {{c2}}. Therefore, since {{x}} is an instance of both {{c1}} and {{c2}}, an inconsistency occurs."
         },
         Object_Property_Transitivity = { # adapted from prp-trp (to reference owl:ObjectProperty)-- aligns with 9.2.13
             "reference" : "Object Property Transitivity",
@@ -243,7 +243,7 @@ def get_rules() :
             UNION
         {?p2 owl:propertyDisjointWith ?p1 .}''',
             "consequent" : "?x rdf:type owl:Nothing .",
-            "explanation" : "Since properties {p1} and {p2} are disjoint, {{x}} having both {{p2}} {{y}} as well as {{p1}} {{y}} leads to an inconsistency. "
+            "explanation" : "Since properties {{p1}} and {{p2}} are disjoint, {{x}} having both {{p2}} {{y}} as well as {{p1}} {{y}} leads to an inconsistency. "
         },
         Data_Property_Disjointness = { # adapted from prp-pdw (to include reference to DataProperty) -- also in line with 9.3.3 Disjoint Data Properties
             "reference" : "Data Property Disjointness",
@@ -259,7 +259,7 @@ def get_rules() :
             UNION
         {?p2 owl:propertyDisjointWith ?p1 .}''',
             "consequent" : "?x rdf:type owl:Nothing .",
-            "explanation" : "Since properties {p1} and {p2} are disjoint, {{x}} having both {{p2}} {{y}} as well as {{p1}} {{y}} leads to an inconsistency. "
+            "explanation" : "Since properties {{p1}} and {{p2}} are disjoint, {{x}} having both {{p2}} {{y}} as well as {{p1}} {{y}} leads to an inconsistency. "
         },
         Object_Property_Asymmetry = { # prp-asyp -- aligned with 9.2.12 Assymetric Object Properties
             "reference" : "Object Property Asymmetry",
@@ -1426,7 +1426,7 @@ def get_rules() :
         ?list rdf:rest*/rdf:first ?member .
         ?resource rdf:type ?datatype''',
             "consequent" : "?resource rdf:type ?member .",
-            "explanation" : "Since {{resource}} is of type {{?datatype}}, and {{datatype}} is the intersection of all of the elements in {{list}}, we can infer that {{resouurce}} is of type each element in {{list}}."
+            "explanation" : "Since {{resource}} is of type {{datatype}}, and {{datatype}} is the intersection of all of the elements in {{list}}, we can infer that {{resouurce}} is of type each element in {{list}}."
         },
         Object_Max_Qualified_Cardinality_One = { # cls-maxqc1
             "reference" : "Object Max Qualified Cardinality One",
@@ -1685,6 +1685,62 @@ def get_rules() :
             "consequent" : "?resource rdf:type owl:Nothing .",
             "explanation" : "Since {{datatypeProperty}} is constrained with a qualified cardinality restriction on datatype {{datatype}} to have {{cardinalityValue}} values, and {{resource}} has {{valueCount}} values of type {{datatype}} for property {{datatypeProperty}}, an inconsistency occurs."# currently the same as qualified max. need to incorporate min requirement
         },
+        Datatype_Data_Range_Restriction = { # See 7.5 Datatype restrictions -- this implementation allows min and max, but there is surely more types of restrictions possible
+            "reference" : "Datatype Data Range Restriction",
+            "rule" : "sets:DatatypeDataRangeRestrictionRule",
+            "resource" : "?x", 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "antecedent" :  '''
+      {
+        ?x rdf:type ?c2 ;
+              ?dataProperty ?value .
+          #?value rdf:type ?datatype .
+          ?c1 rdf:type owl:Class ;
+              owl:intersectionOf
+                  ( ?c2
+                [ rdf:type owl:Restriction ;
+                  owl:onProperty ?dataProperty ;
+                  owl:allValuesFrom ?range ] ) .
+          ?range rdf:type owl:DataRange ;
+              owl:onDataRange ?datatype ;
+              owl:minInclusive ?minValue ;
+              owl:maxInclusive ?maxValue .
+          FILTER( ?value > ?minValue && ?value < ?maxValue )
+      } UNION
+      {
+          ?x rdf:type ?c2 ;
+              ?dataProperty ?value .
+          #?value rdf:type ?datatype .
+          ?c1 rdf:type owl:Class ;
+              owl:intersectionOf
+                  ( ?c2
+                [ rdf:type owl:Restriction ;
+                  owl:onProperty ?dataProperty ;
+                  owl:allValuesFrom ?range ] ) .
+          ?range rdf:type owl:DataRange ;
+              owl:onDataRange ?datatype ;
+              owl:minInclusive ?minValue .
+          FILTER( ?value > ?minValue )
+          FILTER NOT EXISTS{?range owl:maxInclusive ?maxValue .}
+       } UNION {
+          ?x rdf:type ?c2 ;
+              ?dataProperty ?value .
+          #?value rdf:type ?datatype .
+          ?c1 rdf:type owl:Class ;
+              owl:intersectionOf
+                  ( ?c2
+                [ rdf:type owl:Restriction ;
+                  owl:onProperty ?dataProperty ;
+                  owl:allValuesFrom ?range ] ) .
+          ?range rdf:type owl:DataRange ;
+              owl:onDataRange ?datatype ;
+              owl:maxInclusive ?maxValue .
+          FILTER( ?value < ?maxValue )
+          FILTER NOT EXISTS{?range owl:minInclusive ?minValue .}
+       }''',
+            "consequent" : "?x rdf:type ?c1 .",
+            "explanation" : "Since {{x}} is a {{c2}} and has property {{dataProperty}} with value {{value}} within range {{range}}, and {{c1}} is the intersection of {{c2}} and a restriction on {{dataProperty}} to be within the range {{range}}, we can infer {{x}} is a {{c1}}." # may or may not (probably not) need to add check that min and max values are not the same
+        },
         Datatype_Restriction = { # See 7.5 Datatype restrictions -- this implementation allows min and max, but there is surely more types of restrictions possible
             "reference" : "Datatype Restriction",
             "rule" : "sets:DatatypeRestrictionRule",
@@ -1865,6 +1921,7 @@ def get_owl_rl_list():
         "Data Max Qualified Cardinality",
         "Data Min Qualified Cardinality",
         "Data Exact Qualified Cardinality",
+        "Datatype Data Range Restriction",
         "Datatype Restriction",
         "Object Property Complement Of"
     ] + Property_Domain + Property_Range + Class_Equivalence + Object_Property_Inclusion + Data_Property_Inclusion + Object_Property_Equivalence + Data_Property_Equivalence + Object_One_Of + Object_Some_Values_From + Object_Intersection_Of + Object_Has_Value + Object_All_Values_From + Object_Max_Cardinality + Object_Max_Qualified_Cardinality + Object_Union_Of + Data_Union_Of + Object_Has_Self + Keys + Data_All_Values_From # + Same_Individual 
@@ -1944,6 +2001,7 @@ def get_owl_dl_list():
         "Data Max Qualified Cardinality",
         "Data Min Qualified Cardinality",
         "Data Exact Qualified Cardinality",
+        "Datatype Data Range Restriction",
         "Datatype Restriction",
         "Object Property Inversion",
         "Disjoint Union",

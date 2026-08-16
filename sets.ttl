@@ -368,12 +368,12 @@ sets:MolecularFormula rdf:type owl:Class ; rdfs:subClassOf sio:Symbol ;
 sets-kb:Water sio:hasAttribute sets-kb:H2O ;
     rdfs:label "water" .
 
-sets-kb:HyrdogenDioxide sio:hasAttribute sets-kb:H2O ;
+sets-kb:HydrogenDioxide sio:hasAttribute sets-kb:H2O ;
     rdfs:label "hydrogen dioxide" .
 
 sets-kb:H2O rdf:type sets:MolecularFormula ;
     rdfs:label "H2O" .
-# Should return sets-kb:Water owl:sameAs sets-kb:HyrdogenDioxide .
+# Should return sets-kb:Water owl:sameAs sets-kb:HydrogenDioxide .
 # ------- Inverse Functional Object Property ------->
 
 # <-------Range Restriction -------

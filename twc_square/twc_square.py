@@ -791,7 +791,7 @@ def get_rules() :
             "reference" : "Object Has Self Reflexivity", 
             "rule" : "sets:ObjectHasSelfReflexivityRule",
             "resource" : "?x", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x rdf:type ?c .
         ?p rdf:type owl:ObjectProperty .
@@ -804,7 +804,7 @@ def get_rules() :
             "reference" : "Object Has Self Assertion", 
             "rule" : "sets:ObjectHasSelfAssertionRule",
             "resource" : "?x", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x ?p ?x .
         ?p rdf:type owl:ObjectProperty .
@@ -1005,7 +1005,7 @@ def get_rules() :
             "reference" : "Object Max Cardinality One",
             "rule" : "sets:ObjectMaxCardinalityOneRule",
             "resource" : "?u", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x owl:maxCardinality "0"^^xsd:nonNegativeInteger ;
             owl:onProperty ?p .
@@ -1019,7 +1019,7 @@ def get_rules() :
             "reference" : "Object Max Cardinality Two",
             "rule" : "sets:ObjectMaxCardinalityTwoRule",
             "resource" : "?y1", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onProperty ?p .
@@ -1432,7 +1432,7 @@ def get_rules() :
             "reference" : "Object Max Qualified Cardinality One",
             "rule" : "sets:ObjectMaxQualifiedCardinalityOneRule",
             "resource" : "?u", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x owl:maxQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
             owl:onProperty ?p ;
@@ -1448,7 +1448,7 @@ def get_rules() :
             "reference" : "Object Max Qualified Cardinality Two",
             "rule" : "sets:ObjectMaxQualifiedCardinalityTwoRule",
             "resource" : "?u", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x owl:maxQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
             owl:onProperty ?p ;
@@ -1463,7 +1463,7 @@ def get_rules() :
             "reference" : "Object Max Qualified Cardinality Three",
             "rule" : "sets:ObjectMaxQualifiedCardinalityThreeRule",
             "resource" : "?y1", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onProperty ?p ;
@@ -1480,7 +1480,7 @@ def get_rules() :
             "reference" : "Object Max Qualified Cardinality Four",
             "rule" : "sets:ObjectMaxQualifiedCardinalityFourRule",
             "resource" : "?y1", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?x owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onProperty ?p ;
@@ -1745,7 +1745,7 @@ def get_rules() :
             "reference" : "Datatype Restriction",
             "rule" : "sets:DatatypeRestrictionRule",
             "resource" : "?resource", 
-            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#"}, 
+            "prefixes" : {"owl": "http://www.w3.org/2002/07/owl#","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","sets":"http://purl.org/ontology/sets/ont#","xsd":"http://www.w3.org/2001/XMLSchema#"}, 
             "antecedent" :  '''
         ?resource rdf:type ?class ;
             ?dataProperty ?value .
